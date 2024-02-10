@@ -4,7 +4,7 @@ export const Bio = {
     description:
         "I am an enthusiastic and adaptable individual, constantly seeking fresh opportunities. Driven by a love for acquiring knowledge, I am committed to delivering exceptional outcomes. Possessing an optimistic outlook and a mindset focused on personal growth, I am prepared to make a substantial impact and accomplish remarkable feats.",
     github: "https://github.com/yusup-rd",
-    resume: "https://drive.google.com/file/d/14yDGuuuDoq8LtqaBeixT7qsJLPc129r0/view?usp=sharing",
+    resume: "https://drive.google.com/file/d/18gAs-RMJi0HtS41ScEKgrTP3XrwXQD_9/view?usp=sharing",
     image: "https://i.imgur.com/e8Eriau.jpg",
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
