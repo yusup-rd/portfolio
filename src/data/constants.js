@@ -231,8 +231,8 @@ export const education = [
         img: "https://vectorise.net/logo/wp-content/uploads/2019/08/Logo-Universiti-Tenaga-Nasional-UNITEN.png",
         school: "Universiti Tenaga Nasional",
         date: "Sep 2021 - Present",
-        grade: "3.48 CGPA",
-        desc: "I am currently pursuing a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 6 semesters and have a CGPA of 3.48. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
+        grade: "3.54 CGPA",
+        desc: "I am currently pursuing a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 7 semesters and have a CGPA of 3.54. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
     },
     {
