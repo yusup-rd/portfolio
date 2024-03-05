@@ -9,7 +9,7 @@ export const Bio = {
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
     instagram: "https://www.instagram.com/yusup_rejepov/",
-    facebook: "https://www.facebook.com/profile.php?id=100081679688622",
+    facebook: "https://www.facebook.com/profile.php?id=61556950264588&mibextid=uzlsIk",
 };
 
 export const skills = [

@@ -51,6 +51,17 @@ const Desc = styled.div`
         padding: 0 15px;
     }
 `;
+const Sort = styled.div`
+    font-size: 16px;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 15px;
+    color: ${({ theme }) => theme.text_primary};
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 0 15px;
+    }
+`;
 const ToggleGroup = styled.div`
     display: flex;
     border: 1.5px solid ${({ theme }) => theme.primary};
@@ -58,7 +69,7 @@ const ToggleGroup = styled.div`
     font-size: 16px;
     border-radius: 12px;
     font-weight: 500;
-    margin: 22px 0;
+    margin: 5px 0;
     @media (max-width: 768px) {
         font-size: 12px;
     }
@@ -185,6 +196,7 @@ const Projects = ({ openModal, setOpenModal }) => {
                     Here you can explore some of my projects. Click on a project
                     to see the details.
                 </Desc>
+                <Sort>Category</Sort>
                 <ToggleGroup>
                     <ToggleButton
                         onClick={() => setCategory("all")}
@@ -216,6 +228,7 @@ const Projects = ({ openModal, setOpenModal }) => {
                         MACHINE LEARNING
                     </ToggleButton>
                 </ToggleGroup>
+                <Sort>Sort by</Sort>
                 <ToggleGroup>
                     <ToggleButton
                         onClick={() => handleSortBy("title")}
