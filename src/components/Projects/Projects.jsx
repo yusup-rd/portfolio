@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ProjectCard from "../Cards/ProjectCard";
 import { projects } from "../../data/constants";
-import "aos/dist/aos.css";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
 
 const Section = styled.div`
@@ -17,19 +16,20 @@ const Section = styled.div`
     align-items: center;
     position: relative;
     z-index: 1;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 98%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 `;
+
 const Wrapper = styled.div`
     max-width: 1350px;
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     gap: 12px;
-    padding: 10px 0 100px 0;
+    padding: 10px 0 100px;
 `;
+
 const Title = styled.div`
     font-size: 42px;
     font-weight: 600;
@@ -41,6 +41,7 @@ const Title = styled.div`
         font-size: 32px;
     }
 `;
+
 const Desc = styled.div`
     font-size: 18px;
     max-width: 600px;
@@ -51,6 +52,7 @@ const Desc = styled.div`
         padding: 0 15px;
     }
 `;
+
 const Sort = styled.div`
     font-size: 16px;
     max-width: 600px;
@@ -62,6 +64,7 @@ const Sort = styled.div`
         padding: 0 15px;
     }
 `;
+
 const ToggleGroup = styled.div`
     display: flex;
     border: 1.5px solid ${({ theme }) => theme.primary};
@@ -74,6 +77,7 @@ const ToggleGroup = styled.div`
         font-size: 12px;
     }
 `;
+
 const ToggleButton = styled.div`
     padding: 8px 18px;
     cursor: pointer;
@@ -82,7 +86,6 @@ const ToggleButton = styled.div`
         if (isLast) return "0 12px 12px 0";
         return "0";
     }};
-
     transition: all 0.2s ease-in-out;
     ${({ active, theme }) =>
         active &&
@@ -97,13 +100,12 @@ const ToggleButton = styled.div`
         border-radius: 4px;
     }
 `;
+
 const Divider = styled.div`
     width: 1.5px;
     background-color: ${({ theme }) => theme.primary};
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
 `;
+
 const CardContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -111,6 +113,7 @@ const CardContainer = styled.div`
     flex-wrap: wrap;
     gap: 28px;
 `;
+
 const EmptyCategory = styled.div`
     font-size: 18px;
     max-width: 600px;
@@ -120,6 +123,7 @@ const EmptyCategory = styled.div`
         font-size: 16px;
     }
 `;
+
 const IconWrapper = styled.span`
     display: inline-flex;
     align-items: center;
@@ -154,10 +158,8 @@ const Projects = ({ openModal, setOpenModal }) => {
 
     const sortIcon = (sortByType) => {
         if (sortBy === sortByType) {
-            if (sortOrder === "asc")
-                return <FaChevronUp style={{ paddingLeft: "4px" }} />;
-            if (sortOrder === "desc")
-                return <FaChevronDown style={{ paddingLeft: "4px" }} />;
+            if (sortOrder === "asc") return <FaChevronUp style={{ paddingLeft: "4px" }} />;
+            if (sortOrder === "desc") return <FaChevronDown style={{ paddingLeft: "4px" }} />;
         }
         return null;
     };
@@ -165,26 +167,17 @@ const Projects = ({ openModal, setOpenModal }) => {
     const sortProjects = (projectsArray) => {
         if (sortBy === "title") {
             return projectsArray.sort((a, b) =>
-                sortOrder === "asc"
-                    ? a.title.localeCompare(b.title)
-                    : b.title.localeCompare(a.title)
+                sortOrder === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
             );
         } else if (sortBy === "tags") {
             return projectsArray.sort((a, b) =>
-                sortOrder === "asc"
-                    ? a.tags.length - b.tags.length
-                    : b.tags.length - a.tags.length
+                sortOrder === "asc" ? a.tags.length - b.tags.length : b.tags.length - a.tags.length
             );
         } else if (sortBy === "date") {
-            return projectsArray.sort((a, b) => {
-                if (sortOrder === "asc") {
-                    return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
-                } else {
-                    return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
-                }
-            });
+            return projectsArray.sort((a, b) =>
+                sortOrder === "asc" ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date)
+            );
         }
-
         return projectsArray.sort((a, b) => a.id - b.id);
     };
 
@@ -193,73 +186,45 @@ const Projects = ({ openModal, setOpenModal }) => {
             <Wrapper>
                 <Title>Projects</Title>
                 <Desc>
-                    Here you can explore some of my projects. Click on a project
-                    to see the details.
+                    Here you can explore some of my projects. Click on a project to see the details.
                 </Desc>
                 <Sort>Category</Sort>
                 <ToggleGroup>
-                    <ToggleButton
-                        onClick={() => setCategory("all")}
-                        active={category === "all"}
-                        isFirst={true}
-                    >
-                        ALL
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => setCategory("web app")}
-                        active={category === "web app"}
-                    >
-                        WEB APP
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => setCategory("programming")}
-                        active={category === "programming"}
-                    >
-                        PROGRAMMING
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => setCategory("machine learning")}
-                        active={category === "machine learning"}
-                        isLast={true}
-                    >
-                        MACHINE LEARNING
-                    </ToggleButton>
+                    {["all", "web app", "programming", "mobile app"].map((cat, index, arr) => (
+                        <React.Fragment key={cat}>
+                            <ToggleButton
+                                onClick={() => setCategory(cat)}
+                                active={category === cat}
+                                isFirst={index === 0}
+                                isLast={index === arr.length - 1}
+                            >
+                                {cat.toUpperCase()}
+                            </ToggleButton>
+                            {index < arr.length - 1 && <Divider />}
+                        </React.Fragment>
+                    ))}
                 </ToggleGroup>
                 <Sort>Sort by</Sort>
                 <ToggleGroup>
-                    <ToggleButton
-                        onClick={() => handleSortBy("title")}
-                        active={sortBy === "title"}
-                        isFirst={true}
-                    >
-                        <IconWrapper>Title {sortIcon("title")}</IconWrapper>
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => handleSortBy("date")}
-                        active={sortBy === "date"}
-                    >
-                        <IconWrapper>Date {sortIcon("date")}</IconWrapper>
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => handleSortBy("tags")}
-                        active={sortBy === "tags"}
-                        isLast={true}
-                    >
-                        <IconWrapper>Tags {sortIcon("tags")}</IconWrapper>
-                    </ToggleButton>
+                    {["title", "date", "tags"].map((sortByType, index, arr) => (
+                        <React.Fragment key={sortByType}>
+                            <ToggleButton
+                                onClick={() => handleSortBy(sortByType)}
+                                active={sortBy === sortByType}
+                                isFirst={index === 0}
+                                isLast={index === arr.length - 1}
+                            >
+                                <IconWrapper>
+                                    {sortByType.charAt(0).toUpperCase() + sortByType.slice(1)} {sortIcon(sortByType)}
+                                </IconWrapper>
+                            </ToggleButton>
+                            {index < arr.length - 1 && <Divider />}
+                        </React.Fragment>
+                    ))}
                 </ToggleGroup>
                 <CardContainer>
                     {sortProjects(
-                        category === "all"
-                            ? projects
-                            : projects.filter(
-                                  (project) => project.category === category
-                              )
+                        category === "all" ? projects : projects.filter((project) => project.category === category)
                     ).map((project, index) => (
                         <ProjectCard
                             key={index}
@@ -269,11 +234,8 @@ const Projects = ({ openModal, setOpenModal }) => {
                         />
                     ))}
                     {category !== "all" &&
-                        projects.filter((item) => item.category === category)
-                            .length === 0 && (
-                            <EmptyCategory>
-                                Nothing in here yet, but coming soon!
-                            </EmptyCategory>
+                        projects.filter((item) => item.category === category).length === 0 && (
+                            <EmptyCategory>Nothing in here yet, but coming soon!</EmptyCategory>
                         )}
                 </CardContainer>
             </Wrapper>

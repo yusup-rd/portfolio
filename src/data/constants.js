@@ -9,7 +9,7 @@ export const Bio = {
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
     instagram: "https://www.instagram.com/yusup_rejepov/",
-    facebook: "https://www.facebook.com/profile.php?id=61556950264588&mibextid=uzlsIk",
+    facebook: "https://www.facebook.com/profile.php?id=61556950264588&mibextid=LQQJ4d",
 };
 
 export const skills = [
@@ -85,6 +85,10 @@ export const skills = [
                 name: "SQLite",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg",
             },
+            {
+                name: "Firebase",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
+            },
         ],
     },
     {
@@ -134,6 +138,15 @@ export const skills = [
         ],
     },
     {
+        title: "Mobile App",
+        skills: [
+            {
+                name: ".NET MAUI",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dot-net/dot-net-plain.svg",
+            },
+        ],
+    },
+    {
         title: "Others",
         skills: [
             {
@@ -159,6 +172,10 @@ export const skills = [
             {
                 name: "VS Code",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+            },
+            {
+                name: "Visual Studio",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualstudio/visualstudio-original.svg",
             },
             {
                 name: "Figma",
@@ -360,6 +377,22 @@ export const projects = [
         category: "web app",
         github: "https://github.com/yusup-rd/projectmanagement",
         webapp: "",
+    },
+    {
+        id: 7,
+        title: "Habit Master",
+        date: "May 2024",
+        description:
+            "Habit Master is a habit-tracking mobile application developed as part of my Mobile Application Development course at UNITEN. Built with .NET MAUI, it allows users to create, edit, and track their daily habits, offering features like custom habit entry, progress tracking, metric-based completion, and detailed statistics. This project showcases my first experience in mobile app development. By clicking View Live App, you will be able to download Android APK file.",
+        image: "https://i.imgur.com/BwZVPM3.png",
+        tags: [
+            ".NET MAUI",
+            "C#",
+            "Firebase",
+        ],
+        category: "mobile app",
+        github: "https://github.com/yusup-rd/habit-master",
+        webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
     },
 ];
 

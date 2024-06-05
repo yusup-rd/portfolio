@@ -172,7 +172,7 @@ function Footer({ changeTheme, selectedThemeIndex, setSelectedThemeIndex}) {
                     </SocialMediaIcon>
                 </SocialMediaIcons>
                 <Copyright>
-                    &copy; 2023 Yusup Rejebov. All rights reserved.
+                    &copy; 2024 Yusup Rejebov. All rights reserved.
                 </Copyright>
             </FooterWrapper>
         </FooterContainer>
