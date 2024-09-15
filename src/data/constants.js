@@ -30,6 +30,10 @@ export const skills = [
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg",
             },
             {
+                name: "TypeScript",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+            },
+            {
                 name: "Sass",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg",
             },
@@ -77,6 +81,10 @@ export const skills = [
             {
                 name: "PHP",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+            },
+            {
+                name: "NodeJS",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
             },
             {
                 name: "MySQL",
@@ -181,6 +189,10 @@ export const skills = [
             {
                 name: "VS Code",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+            },
+            {
+                name: "IntelliJ",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg",
             },
             {
                 name: "Visual Studio",
