@@ -65,7 +65,7 @@ const Experience = () => {
         <Section id="experience">
             <Wrapper>
                 <Title>Experience</Title>
-                <Desc>Currently a dedicated student, I'm eager to gain hands-on experience through internships and opportunities to apply my skills.</Desc>
+                <Desc>This is a journey of my continuous growth and development in the tech industry. Each step has been a valuable opportunity to refine my skills and expand my knowledge.</Desc>
                 <TimelineSection>
                     <Timeline>
                         {experiences.map((experience, index) => (

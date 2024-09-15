@@ -12,6 +12,7 @@ export const Bio = {
     facebook: "https://www.facebook.com/profile.php?id=61556950264588&mibextid=LQQJ4d",
 };
 
+// Overall skill constants
 export const skills = [
     {
         title: "Front-End",
@@ -62,6 +63,10 @@ export const skills = [
         title: "Back-End",
         skills: [
             {
+                name: "CakePHP",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cakephp/cakephp-original.svg",
+            },
+            {
                 name: "Laravel",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
             },
@@ -88,6 +93,10 @@ export const skills = [
             {
                 name: "Firebase",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
+            },
+            {
+                name: "Vagrant",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vagrant/vagrant-original.svg",
             },
         ],
     },
@@ -195,20 +204,20 @@ export const skills = [
 
 // Here I made example values to keep it dynamic. Skills and Document is inclusive by preference.
 export const experiences = [
-    // {
-    //     id: 0,
-    //     img: "https://upload.wikimedia.org/wikipedia/en/b/be/Petronas_2013_logo.svg",
-    //     role: "Software Engineer",
-    //     company: "Petronas",
-    //     date: "June 2023 - Present",
-    //     desc: "Description of what did I do",
-    //     skills: [
-    //         "React.js",
-    //         "Skill 2",
-    //         "Skill 3",
-    //     ],
-    //     doc: "https://cdn1.sportngin.com/attachments/photo/82c3-106596116/Screen_Shot_2018-07-14_at_3.08.11_PM_large.png",
-    // },
+    {
+        id: 0,
+        img: "https://media.licdn.com/dms/image/v2/C510BAQE8dmGb1V3LXA/company-logo_200_200/company-logo_200_200/0/1630593687468?e=1734566400&v=beta&t=XLNH7QPhKrr_o4tcB3TSHRSAPi1r0Wli1CTRz0lBjPE",
+        role: "Backend Developer Intern",
+        company: "Tyrell Systems Sdn. Bhd.",
+        date: "July 2024 - September 2024",
+        desc: "During my internship at Tyrell Systems Sdn. Bhd. as a Backend Developer Intern, I worked extensively with the CakePHP framework. I started with a tutorial project, progressed to a pilot project, and eventually contributed to an On-Job Training (OJT) real-world project. Over the course of 12 weeks, I used Vagrant as my virtual environment and developed skills in writing well-structured code, managing commits, and creating Pull Requests in a systematic manner. This experience significantly enhanced my backend development expertise.",
+        skills: [
+            "CakePHP",
+            "Vagrant",
+            "Git & GitHub",
+        ],
+        // doc: "",
+    },
     // {
     //     id: 1,
     //     img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
@@ -233,6 +242,7 @@ export const experiences = [
     // },
 ];
 
+// Education constants
 export const education = [
     {
         id: 0,
@@ -249,7 +259,7 @@ export const education = [
         school: "Universiti Tenaga Nasional",
         date: "Sep 2021 - Present",
         grade: "3.54 CGPA",
-        desc: "I am currently pursuing a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 7 semesters and have a CGPA of 3.54. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
+        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 7 semesters and have a CGPA of 3.54. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
     },
     {
