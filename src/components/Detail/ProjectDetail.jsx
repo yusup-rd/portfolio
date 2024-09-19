@@ -159,7 +159,7 @@ const Button = styled.a`
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
     pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
     opacity: ${({ disabled }) => (disabled ? '0.6' : '1')};
-    text-decoration: none;
+    text-decoration:  ${({ disabled }) => (disabled ? 'line-through' : 'none')};
     transition: all 0.5s ease;
     &:hover {
         ${({ disabled, theme }) =>
@@ -234,10 +234,10 @@ const ProjectDetail = ({ openModal, setOpenModal }) => {
                         </>
                     )}
                     <ButtonGroup>
-                        <Button dull href={project?.github} target="_blank">
+                        <Button href={project?.github} target="_blank">
                             View Code
                         </Button>
-                        <Button disabled={isWebAppLinkEmpty} href={project?.webapp} target="_blank">
+                        <Button dull disabled={isWebAppLinkEmpty} href={project?.webapp} target="_blank">
                             View Live App
                         </Button>
                     </ButtonGroup>

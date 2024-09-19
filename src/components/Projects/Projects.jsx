@@ -82,7 +82,6 @@ const ToggleButton = styled.div`
         if (isLast) return "0 12px 12px 0";
         return "0";
     }};
-
     transition: all 0.2s ease-in-out;
     ${({ active, theme }) =>
         active &&
@@ -111,15 +110,6 @@ const CardContainer = styled.div`
     flex-wrap: wrap;
     gap: 28px;
 `;
-const EmptyCategory = styled.div`
-    font-size: 18px;
-    max-width: 600px;
-    text-align: center;
-    color: ${({ theme }) => theme.text_secondary};
-    @media (max-width: 768px) {
-        font-size: 16px;
-    }
-`;
 const IconWrapper = styled.span`
     display: inline-flex;
     align-items: center;
@@ -131,6 +121,8 @@ const Projects = ({ openModal, setOpenModal }) => {
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState("asc");
     const [sortCount, setSortCount] = useState(0);
+
+    const categories = ["all", ...new Set(projects.map((p) => p.category))];
 
     const handleSortBy = (sortByType) => {
         if (sortByType === sortBy) {
@@ -160,11 +152,6 @@ const Projects = ({ openModal, setOpenModal }) => {
                 return <FaChevronDown style={{ paddingLeft: "4px" }} />;
         }
         return null;
-    };
-
-    const parseDate = (dateString) => {
-        const [day, month, year] = dateString.split("-");
-        return new Date(`${year}-${month}-${day}`);
     };
 
     const sortProjects = (projectsArray) => {
@@ -198,7 +185,6 @@ const Projects = ({ openModal, setOpenModal }) => {
                 }
             });
         }
-
         return projectsArray.sort((a, b) => a.id - b.id);
     };
 
@@ -212,35 +198,19 @@ const Projects = ({ openModal, setOpenModal }) => {
                 </Desc>
                 <Sort>Category</Sort>
                 <ToggleGroup>
-                    <ToggleButton
-                        onClick={() => setCategory("all")}
-                        active={category === "all"}
-                        isFirst={true}
-                    >
-                        ALL
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => setCategory("web app")}
-                        active={category === "web app"}
-                    >
-                        WEB APP
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => setCategory("programming")}
-                        active={category === "programming"}
-                    >
-                        PROGRAMMING
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
-                        onClick={() => setCategory("mobile app")}
-                        active={category === "mobile app"}
-                        isLast={true}
-                    >
-                        MOBILE APP
-                    </ToggleButton>
+                    {categories.map((cat, index) => (
+                        <React.Fragment key={cat}>
+                            <ToggleButton
+                                onClick={() => setCategory(cat)}
+                                active={category === cat}
+                                isFirst={index === 0}
+                                isLast={index === categories.length - 1}
+                            >
+                                {cat.toUpperCase()}
+                            </ToggleButton>
+                            {index < categories.length - 1 && <Divider />}
+                        </React.Fragment>
+                    ))}
                 </ToggleGroup>
                 <Sort>Sort by</Sort>
                 <ToggleGroup>
@@ -282,13 +252,6 @@ const Projects = ({ openModal, setOpenModal }) => {
                             setOpenModal={setOpenModal}
                         />
                     ))}
-                    {category !== "all" &&
-                        projects.filter((item) => item.category === category)
-                            .length === 0 && (
-                            <EmptyCategory>
-                                Nothing in here yet, but coming soon!
-                            </EmptyCategory>
-                        )}
                 </CardContainer>
             </Wrapper>
         </Section>

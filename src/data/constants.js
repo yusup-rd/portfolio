@@ -12,7 +12,7 @@ export const Bio = {
     facebook: "https://www.facebook.com/profile.php?id=61556950264588&mibextid=LQQJ4d",
 };
 
-// Overall skill constants
+// Skills related to web development
 export const skills = [
     {
         title: "Front-End",
@@ -125,44 +125,44 @@ export const skills = [
             },
         ],
     },
-    {
-        title: "Data Science",
-        skills: [
-            {
-                name: "Pandas",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
-            },
-            {
-                name: "NumPy",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
-            },
-            {
-                name: "Matplotlib",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg",
-            },
-            {
-                name: "Seaborn",
-                image: "https://cdn.worldvectorlogo.com/logos/seaborn-1.svg",
-            },
-            {
-                name: "Anaconda",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/anaconda/anaconda-original.svg",
-            },
-            {
-                name: "Tableau",
-                image: "https://cdn.worldvectorlogo.com/logos/tableau-software.svg",
-            },
-        ],
-    },
-    {
-        title: "Mobile App",
-        skills: [
-            {
-                name: ".NET MAUI",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dot-net/dot-net-plain.svg",
-            },
-        ],
-    },
+    // {
+    //     title: "Data Science",
+    //     skills: [
+    //         {
+    //             name: "Pandas",
+    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
+    //         },
+    //         {
+    //             name: "NumPy",
+    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
+    //         },
+    //         {
+    //             name: "Matplotlib",
+    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg",
+    //         },
+    //         {
+    //             name: "Seaborn",
+    //             image: "https://cdn.worldvectorlogo.com/logos/seaborn-1.svg",
+    //         },
+    //         {
+    //             name: "Anaconda",
+    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/anaconda/anaconda-original.svg",
+    //         },
+    //         {
+    //             name: "Tableau",
+    //             image: "https://cdn.worldvectorlogo.com/logos/tableau-software.svg",
+    //         },
+    //     ],
+    // },
+    // {
+    //     title: "Mobile App",
+    //     skills: [
+    //         {
+    //             name: ".NET MAUI",
+    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dot-net/dot-net-plain.svg",
+    //         },
+    //     ],
+    // },
     {
         title: "Others",
         skills: [
@@ -202,19 +202,19 @@ export const skills = [
                 name: "Figma",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
             },
-            {
-                name: "Kaggle",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kaggle/kaggle-original.svg",
-            },
-            {
-                name: "Canva",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg",
-            },
+            // {
+            //     name: "Kaggle",
+            //     image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kaggle/kaggle-original.svg",
+            // },
+            // {
+            //     name: "Canva",
+            //     image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg",
+            // },
         ],
     },
 ];
 
-// Here I made example values to keep it dynamic. Skills and Document is inclusive by preference.
+// Experience
 export const experiences = [
     {
         id: 0,
@@ -271,7 +271,7 @@ export const education = [
         school: "Universiti Tenaga Nasional",
         date: "Sep 2021 - Present",
         grade: "3.54 CGPA",
-        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 7 semesters and have a CGPA of 3.54. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
+        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 8 semesters and have a CGPA of 3.54. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
     },
     {
@@ -285,7 +285,7 @@ export const education = [
     },
 ];
 
-// According to my selected category there will be shown projects by toggle (currently only web apps, later can add 'programming' or 'machine learning' and so on)
+// Projects (web related)
 export const projects = [
     {
         id: 0,
@@ -295,7 +295,7 @@ export const projects = [
             "The Movie Browser Website is a React-based web application that allows users to search for movies, view movie details, and learn about the my experiences with React. It offers a user-friendly interface for movie enthusiasts to discover and explore films, complete with responsive design for seamless use on various devices.",
         image: "https://github-production-user-asset-6210df.s3.amazonaws.com/71926209/272371425-c3217c7c-5e9c-449c-95ff-722c3ba72b44.png",
         tags: ["React.js", "Bootstrap", "API"],
-        category: "web app",
+        category: "front-end",
         github: "https://github.com/yusup-rd/moviebrowser",
         webapp: "https://react-moviebrowser.netlify.app/",
     },
@@ -307,7 +307,7 @@ export const projects = [
             "Record Registry is a compact React application showcasing user data management. It offers an intuitive input form, data storage, dark/light mode toggling, and data deletion, providing a simple yet functional user experience.",
         image: "https://user-images.githubusercontent.com/71926209/272375527-b9b813f1-242c-4089-9de3-c247757d3640.png",
         tags: ["React.js", "Local Storage"],
-        category: "web app",
+        category: "front-end",
         github: "https://github.com/yusup-rd/react-record-registry",
         webapp: "https://record-registry.netlify.app/",
         // I will add this section for projects made in collaboration
@@ -334,7 +334,7 @@ export const projects = [
             '"Star Wars Random Character" is a web app with a responsive interface. It fetches random Star Wars character data from the API, displaying info like name, height, mass, homeworld, and species, along with an image. Ideal for Star Wars fans seeking character exploration.',
         image: "https://user-images.githubusercontent.com/71926209/272363936-6971410b-6f84-4952-b601-b05075d4b9e4.png",
         tags: ["JavaScript", "jQuery", "API"],
-        category: "web app",
+        category: "front-end",
         github: "https://github.com/yusup-rd/starwars-jquery",
         webapp: "https://codepen.io/yusup-rd/pen/OJrMWbp",
     },
@@ -346,40 +346,40 @@ export const projects = [
             "The Nike Tailwind CSS Project is a website showcasing a fictitious Nike store. It features various sections like a hero banner, popular products, services, special offers, customer reviews, and a subscription form. Explore and customize this stylish website.",
         image: "https://user-images.githubusercontent.com/71926209/272874500-4eac3aca-46db-416d-b0ac-5ac11dbafd1e.png",
         tags: ["React.js", "Tailwind CSS"],
-        category: "web app",
+        category: "front-end",
         github: "https://github.com/yusup-rd/nike-tailwind",
         webapp: "https://nike-react-tailwindcss.netlify.app/",
     },
-    {
-        id: 4,
-        title: "Banking System",
-        date: "Oct 2023",
-        description:
-            "This project implements a simple Python Banking System using object-oriented programming principles. Users can interact with the system to check their account balance, deposit money, and withdraw funds. All transactions are logged in a transactions.txt file. The program provides a user-friendly menu and ensures that input is valid. It serves as a basic framework for managing personal finances in a text-based format.",
-        image: "https://user-images.githubusercontent.com/71926209/273399214-59d580b5-98bf-4b32-a750-04ef6f370eef.png",
-        tags: ["Python", "OOP", "Text File", "Google Colab"],
-        category: "programming",
-        github: "https://github.com/yusup-rd/python-banking-system.git",
-        webapp: "https://colab.research.google.com/drive/16Ay-RMIagrjMXZQAYAq20kZrFnW1EOiI?usp=sharing",
-    },
-    {
-        id: 5,
-        title: "Youtube Video Downloader",
-        date: "Oct 2023",
-        description:
-            "This project is a YouTube Video Downloader built using Python and Google Colab. It allows users to search for YouTube videos, select one to download, and then saves the video to their Google Drive with progress indication. The script utilizes libraries such as Pytube and youtube-search-python, making it an interactive tool for downloading YouTube content to your Google Drive effortlessly.",
-        image: "https://user-images.githubusercontent.com/71926209/273400068-f834b52a-b714-4d1d-8e87-0dc67f43314e.png",
-        tags: [
-            "Python",
-            "Google Drive",
-            "Google Colab",
-            "Pytube",
-            "Youtube Downloader",
-        ],
-        category: "programming",
-        github: "https://github.com/yusup-rd/python-yt-downloader.git",
-        webapp: "https://colab.research.google.com/drive/1ZuzZMOBfCdcGQ5UAexIqOh_8xc07DfGM?usp=sharing",
-    },
+    // {
+    //     id: 4,
+    //     title: "Banking System",
+    //     date: "Oct 2023",
+    //     description:
+    //         "This project implements a simple Python Banking System using object-oriented programming principles. Users can interact with the system to check their account balance, deposit money, and withdraw funds. All transactions are logged in a transactions.txt file. The program provides a user-friendly menu and ensures that input is valid. It serves as a basic framework for managing personal finances in a text-based format.",
+    //     image: "https://user-images.githubusercontent.com/71926209/273399214-59d580b5-98bf-4b32-a750-04ef6f370eef.png",
+    //     tags: ["Python", "OOP", "Text File", "Google Colab"],
+    //     category: "programming",
+    //     github: "https://github.com/yusup-rd/python-banking-system.git",
+    //     webapp: "https://colab.research.google.com/drive/16Ay-RMIagrjMXZQAYAq20kZrFnW1EOiI?usp=sharing",
+    // },
+    // {
+    //     id: 5,
+    //     title: "Youtube Video Downloader",
+    //     date: "Oct 2023",
+    //     description:
+    //         "This project is a YouTube Video Downloader built using Python and Google Colab. It allows users to search for YouTube videos, select one to download, and then saves the video to their Google Drive with progress indication. The script utilizes libraries such as Pytube and youtube-search-python, making it an interactive tool for downloading YouTube content to your Google Drive effortlessly.",
+    //     image: "https://user-images.githubusercontent.com/71926209/273400068-f834b52a-b714-4d1d-8e87-0dc67f43314e.png",
+    //     tags: [
+    //         "Python",
+    //         "Google Drive",
+    //         "Google Colab",
+    //         "Pytube",
+    //         "Youtube Downloader",
+    //     ],
+    //     category: "programming",
+    //     github: "https://github.com/yusup-rd/python-yt-downloader.git",
+    //     webapp: "https://colab.research.google.com/drive/1ZuzZMOBfCdcGQ5UAexIqOh_8xc07DfGM?usp=sharing",
+    // },
     {
         id: 6,
         title: "Software Project Management System",
@@ -396,26 +396,47 @@ export const projects = [
             "Database",
             "Authentication",
         ],
-        category: "web app",
+        category: "full-stack",
         github: "https://github.com/yusup-rd/projectmanagement",
         webapp: "",
     },
     {
         id: 7,
-        title: "Habit Master",
-        date: "May 2024",
+        title: "Gourmet Gleam",
+        date: "Jun 2024",
         description:
-            "Habit Master is a habit-tracking mobile application developed as part of my Mobile Application Development course at UNITEN. Built with .NET MAUI, it allows users to create, edit, and track their daily habits, offering features like custom habit entry, progress tracking, metric-based completion, and detailed statistics. This project showcases my first experience in mobile app development. By clicking View Live App, you will be able to download Android APK file.",
-        image: "https://i.imgur.com/BwZVPM3.png",
+            "Gourmet Gleam is a project written on React Typescript and Node.js. Connecting to Spoonacular API to get recipes, suggest recipes on user preference. Role based authorization for users.",
+        image: "https://i.imgur.com/KkcROyg.png",
         tags: [
-            ".NET MAUI",
-            "C#",
-            "Firebase",
+            "TypeScript",
+            "React",
+            "Bootstrap",
+            "Node.js",
+            "MySQL",
+            "API",
+            "Database",
+            "Authorization",
         ],
-        category: "mobile app",
-        github: "https://github.com/yusup-rd/habit-master",
-        webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
+        category: "full-stack",
+        github: "https://github.com/yusup-rd/gourmet-gleam",
+        webapp: "",
     },
+    // {
+    //     id: 7,
+    //     title: "Habit Master",
+    //     date: "May 2024",
+    //     description:
+    //         "Habit Master is a habit-tracking mobile application developed as part of my Mobile Application Development course at UNITEN. Built with .NET MAUI, it allows users to create, edit, and track their daily habits, offering features like custom habit entry, progress tracking, metric-based completion, and detailed statistics. This project showcases my first experience in mobile app development. By clicking View Live App, you will be able to download Android APK file.",
+    //     image: "https://i.imgur.com/BwZVPM3.png",
+    //     tags: [
+    //         ".NET MAUI",
+    //         "C#",
+    //         "Firebase",
+    //     ],
+    //     category: "mobile app",
+    //     github: "https://github.com/yusup-rd/habit-master",
+    //     webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
+    // },
 ];
 
 // export const TimelineData = [
