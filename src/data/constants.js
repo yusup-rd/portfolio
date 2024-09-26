@@ -9,7 +9,8 @@ export const Bio = {
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
     instagram: "https://www.instagram.com/yusup_rejepov/",
-    facebook: "https://www.facebook.com/profile.php?id=61556950264588&mibextid=LQQJ4d",
+    facebook:
+        "https://www.facebook.com/profile.php?id=61556950264588&mibextid=LQQJ4d",
 };
 
 // Skills related to web development
@@ -105,6 +106,10 @@ export const skills = [
             {
                 name: "Vagrant",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vagrant/vagrant-original.svg",
+            },
+            {
+                name: "Docker",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
             },
         ],
     },
@@ -223,11 +228,7 @@ export const experiences = [
         company: "Tyrell Systems Sdn. Bhd.",
         date: "July 2024 - September 2024",
         desc: "During my internship at Tyrell Systems Sdn. Bhd. as a Backend Developer Intern, I worked extensively with the CakePHP framework. I started with a tutorial project, progressed to a pilot project, and eventually contributed to an On-Job Training (OJT) real-world project. Over the course of 12 weeks, I used Vagrant as my virtual environment and developed skills in writing well-structured code, managing commits, and creating Pull Requests in a systematic manner. This experience significantly enhanced my backend development expertise.",
-        skills: [
-            "CakePHP",
-            "Vagrant",
-            "Git & GitHub",
-        ],
+        skills: ["CakePHP", "Vagrant", "Git & GitHub"],
         // doc: "",
     },
     // {
@@ -422,7 +423,7 @@ export const projects = [
         webapp: "",
     },
     // {
-    //     id: 7,
+    //     id: 8,
     //     title: "Habit Master",
     //     date: "May 2024",
     //     description:
@@ -437,6 +438,25 @@ export const projects = [
     //     github: "https://github.com/yusup-rd/habit-master",
     //     webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
     // },
+    {
+        id: 9,
+        title: "Online Bookstore System",
+        date: "Sep 2024",
+        description:
+            "A web-based bookstore management system developed using CakePHP.",
+        image: "https://i.imgur.com/53DhiVl.png",
+        tags: [
+            "CakePHP",
+            "Docker",
+            "MySQL",
+            "Database",
+            "Authorization",
+            "Authentication",
+        ],
+        category: "back-end",
+        github: "https://github.com/yusup-rd/online-bookstore-system",
+        webapp: "",
+    },
 ];
 
 // export const TimelineData = [
