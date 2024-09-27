@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import EducationCard from "../Cards/EducationCard";
 import { Timeline } from "@mui/lab";

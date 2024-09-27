@@ -4,8 +4,8 @@ export const Bio = {
     description:
         "I am an enthusiastic and adaptable individual, constantly seeking fresh opportunities. Driven by a love for acquiring knowledge, I am committed to delivering exceptional outcomes. Possessing an optimistic outlook and a mindset focused on personal growth, I am prepared to make a substantial impact and accomplish remarkable feats.",
     github: "https://github.com/yusup-rd",
-    resume: "https://drive.google.com/file/d/18gAs-RMJi0HtS41ScEKgrTP3XrwXQD_9/view?usp=sharing",
-    image: "https://i.imgur.com/e8Eriau.jpg",
+    resume: "https://drive.google.com/file/d/1Iii1ILZh6fPvpGdkwAujciBuXP296j8M/view?usp=sharing",
+    image: "https://i.imgur.com/vErs4GR.jpg",
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
     instagram: "https://www.instagram.com/yusup_rejepov/",
@@ -422,22 +422,22 @@ export const projects = [
         github: "https://github.com/yusup-rd/gourmet-gleam",
         webapp: "",
     },
-    // {
-    //     id: 8,
-    //     title: "Habit Master",
-    //     date: "May 2024",
-    //     description:
-    //         "Habit Master is a habit-tracking mobile application developed as part of my Mobile Application Development course at UNITEN. Built with .NET MAUI, it allows users to create, edit, and track their daily habits, offering features like custom habit entry, progress tracking, metric-based completion, and detailed statistics. This project showcases my first experience in mobile app development. By clicking View Live App, you will be able to download Android APK file.",
-    //     image: "https://i.imgur.com/BwZVPM3.png",
-    //     tags: [
-    //         ".NET MAUI",
-    //         "C#",
-    //         "Firebase",
-    //     ],
-    //     category: "mobile app",
-    //     github: "https://github.com/yusup-rd/habit-master",
-    //     webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
-    // },
+    {
+        id: 8,
+        title: "Habit Master",
+        date: "May 2024",
+        description:
+            "Habit Master is a habit-tracking mobile application developed as part of my Mobile Application Development course at UNITEN. Built with .NET MAUI, it allows users to create, edit, and track their daily habits, offering features like custom habit entry, progress tracking, metric-based completion, and detailed statistics. This project showcases my first experience in mobile app development. By clicking View Live App, you will be able to download Android APK file.",
+        image: "https://i.imgur.com/BwZVPM3.png",
+        tags: [
+            ".NET MAUI",
+            "C#",
+            "Firebase",
+        ],
+        category: "mobile app",
+        github: "https://github.com/yusup-rd/habit-master",
+        webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
+    },
     {
         id: 9,
         title: "Online Bookstore System",
