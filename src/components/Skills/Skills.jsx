@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { skills } from "../../data/constants";
 
@@ -112,7 +111,7 @@ const Skills = () => {
             <Wrapper>
                 <Title>Skills</Title>
                 <Desc>
-                    In recent years, I've dedicated myself to mastering the
+                    In recent years, I&apos;ve dedicated myself to mastering the
                     following skills.
                 </Desc>
                 <SkillsContainer>

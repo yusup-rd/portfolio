@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { RiCodeBoxLine } from "react-icons/ri";
 import { FaPalette } from "react-icons/fa";

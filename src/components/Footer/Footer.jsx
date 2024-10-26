@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TelegramIcon from "@mui/icons-material/Telegram";

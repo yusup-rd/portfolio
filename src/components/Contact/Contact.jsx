@@ -124,13 +124,13 @@ const Contact = () => {
         e.preventDefault();
         emailjs
             .sendForm(
-                "service_9pefkba",
-                "template_wdps90j",
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
                 form.current,
-                "E2J5ojXjhcmBHq8dJ"
+                import.meta.env.VITE_EMAILJS_USER_ID
             )
             .then(
-                (result) => {
+                () => {
                     setOpen(true);
                     form.current.reset();
                 },
@@ -145,9 +145,9 @@ const Contact = () => {
             <Wrapper>
                 <Title>Contact</Title>
                 <Desc>
-                    Please don't hesitate to contact me if you have any
-                    inquiries or if there are any opportunities you'd like to
-                    discuss.
+                    Please don&apos;t hesitate to contact me if you have any
+                    inquiries or if there are any opportunities you&apos;d like
+                    to discuss.
                 </Desc>
                 <ContactForm ref={form} onSubmit={handleSubmit}>
                     <ContactTitle>Email Me 🚀</ContactTitle>
@@ -186,8 +186,8 @@ const Contact = () => {
                         horizontal: "center",
                     }}
                     style={{
-                        position: "absolute", 
-                        top: "85%", 
+                        position: "absolute",
+                        top: "85%",
                         left: "50%",
                         transform: "translateX(-50%)",
                     }}
