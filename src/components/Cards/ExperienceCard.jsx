@@ -142,7 +142,11 @@ const ExperienceCard = ({ experience }) => {
                 )}
             </Desc>
             {experience.doc && (
-                <a href={experience.doc}>
+                <a
+                    href={experience.doc}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     <Document src={experience.doc} />
                 </a>
             )}
