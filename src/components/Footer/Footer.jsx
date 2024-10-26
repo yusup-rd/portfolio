@@ -115,7 +115,7 @@ const ThemeOption = styled.p`
             : ""}
 `;
 
-function Footer({ changeTheme, selectedThemeIndex, setSelectedThemeIndex}) {
+function Footer({ changeTheme, selectedThemeIndex, setSelectedThemeIndex }) {
     const [showThemeOptions, setShowThemeOptions] = useState(false);
 
     const toggleThemeOptions = () => {

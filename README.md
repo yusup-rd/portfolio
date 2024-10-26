@@ -8,17 +8,17 @@ This website serves as a showcase for my creative works and technical projects. 
 
 ## Features
 
-- Browse through my creative portfolio.
-- Explore a variety of my web applications, programs, and technical projects.
-- Learn more about me and my background.
-- Contact me for collaborations or inquiries.
+-   Browse through my creative portfolio.
+-   Explore a variety of my web applications, programs, and technical projects.
+-   Learn more about me and my background.
+-   Contact me for collaborations or inquiries.
 
 ## Technologies Used
 
-- React.js
-- Styled Components
-- JavaScript
-- Git
+-   React.js
+-   Styled Components
+-   JavaScript
+-   Git
 
 ## Contributing
 
@@ -31,4 +31,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 For any questions or inquiries, please contact me via email at [yusuprd@icloud.com](mailto:yusuprd@icloud.com).
-

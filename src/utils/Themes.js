@@ -1,5 +1,5 @@
 export const themes = [
-    {   
+    {
         name: "• Dark Mystic 🌑 Dark",
         bg: "#1C1C27",
         bgLight: "#1C1E27",
