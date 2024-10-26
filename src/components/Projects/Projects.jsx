@@ -169,19 +169,33 @@ const Projects = ({ openModal, setOpenModal }) => {
             );
         } else if (sortBy === "date") {
             const monthOrder = [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
             ];
             return projectsArray.sort((a, b) => {
                 const [monthA, yearA] = a.date.split(" ");
                 const [monthB, yearB] = b.date.split(" ");
                 const yearComparison = parseInt(yearA) - parseInt(yearB);
                 if (yearComparison !== 0) {
-                    return sortOrder === "asc" ? yearComparison : -yearComparison;
+                    return sortOrder === "asc"
+                        ? yearComparison
+                        : -yearComparison;
                 } else {
                     const monthIndexA = monthOrder.indexOf(monthA);
                     const monthIndexB = monthOrder.indexOf(monthB);
-                    return sortOrder === "asc" ? monthIndexA - monthIndexB : monthIndexB - monthIndexA;
+                    return sortOrder === "asc"
+                        ? monthIndexA - monthIndexB
+                        : monthIndexB - monthIndexA;
                 }
             });
         }

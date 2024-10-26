@@ -4,7 +4,7 @@ export const Bio = {
     description:
         "I am an enthusiastic and adaptable individual, constantly seeking fresh opportunities. Driven by a love for acquiring knowledge, I am committed to delivering exceptional outcomes. Possessing an optimistic outlook and a mindset focused on personal growth, I am prepared to make a substantial impact and accomplish remarkable feats.",
     github: "https://github.com/yusup-rd",
-    resume: "https://drive.google.com/file/d/1Iii1ILZh6fPvpGdkwAujciBuXP296j8M/view?usp=sharing",
+    resume: "https://drive.google.com/file/d/1hJv2R4ivEcL5j-2hHKmHCQVu7e3fu4Wm/view?usp=sharing",
     image: "https://i.imgur.com/vErs4GR.jpg",
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
@@ -223,36 +223,34 @@ export const skills = [
 export const experiences = [
     {
         id: 0,
+        img: "https://media.licdn.com/dms/image/v2/C560BAQEbDgv5I6f29w/company-logo_200_200/company-logo_200_200/0/1630647395016?e=1738195200&v=beta&t=5eoMv54YMdtPWWAhqux_Wm9599hAXRZE4Hwg-7yHvKA",
+        role: "IT Infrastructure Intern",
+        company: "Vertex Consulting DMCC",
+        date: "January 2024 - March 2024",
+        desc: "During my internship at Vertex Consulting DMCC, I focused on implementing CI/CD processes using Jenkins. I was responsible for automating tests and deployment workflows on AWS, which enhanced the efficiency and reliability of the development cycle. This experience allowed me to gain hands-on knowledge of cloud services and automation tools.",
+        skills: ["AWS", "Jenkins"],
+        // doc: "",
+    },
+    {
+        id: 1,
+        img: "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=91,h=92,fit=crop/YZ9aJwnkrMFbe7Nw/layer-2-dJoBr98nNPhE1OQg.png",
+        role: "Web Developer Intern",
+        company: "AheadVision",
+        date: "April 2024 - June 2024",
+        desc: "As a Web Developer Intern at AheadVision, I started by mastering the fundamentals of web development, including HTML, CSS, and JavaScript, and designing with Figma. I then advanced my skills to include modern frameworks like React and design with Tailwind CSS. Throughout my internship, I also learned to effectively use Git & GitHub for version control, improving my collaborative coding skills.",
+        skills: ["React", "Tailwind", "Figma", "Git & GitHub"],
+        // doc: "",
+    },
+    {
+        id: 2,
         img: "https://media.licdn.com/dms/image/v2/C510BAQE8dmGb1V3LXA/company-logo_200_200/company-logo_200_200/0/1630593687468?e=1734566400&v=beta&t=XLNH7QPhKrr_o4tcB3TSHRSAPi1r0Wli1CTRz0lBjPE",
         role: "Backend Developer Intern",
         company: "Tyrell Systems Sdn. Bhd.",
         date: "July 2024 - September 2024",
-        desc: "During my internship at Tyrell Systems Sdn. Bhd. as a Backend Developer Intern, I worked extensively with the CakePHP framework. I started with a tutorial project, progressed to a pilot project, and eventually contributed to an On-Job Training (OJT) real-world project. Over the course of 12 weeks, I used Vagrant as my virtual environment and developed skills in writing well-structured code, managing commits, and creating Pull Requests in a systematic manner. This experience significantly enhanced my backend development expertise.",
-        skills: ["CakePHP", "Vagrant", "Git & GitHub"],
+        desc: "During my internship at Tyrell Systems Sdn. Bhd. as a Backend Developer Intern, I worked extensively with the CakePHP framework. I started with a tutorial project, progressed to a pilot project, and eventually contributed to an On-Job Training (OJT) real-world project. Over the course of 12 weeks, I developed skills in writing well-structured code, unit testing, managing commits, and creating Pull Requests in a systematic manner. This experience significantly enhanced my backend development expertise.",
+        skills: ["CakePHP", "Vagrant", "Docker", "PHPUnit"],
         // doc: "",
     },
-    // {
-    //     id: 1,
-    //     img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-    //     role: "Data Scientist",
-    //     company: "Google",
-    //     date: "June 2021 - June 2023",
-    //     desc: "Description of what did I do",
-    //     doc: "https://static.cambridge.org/content/id/urn%3Acambridge.org%3Aid%3Aarticle%3AS1431927602106441/resource/name/firstPage-S1431927602106441a.jpg",
-    // },
-    // {
-    //     id: 2,
-    //     img: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
-    //     role: "Web Developer Intern",
-    //     company: "Amazon",
-    //     date: "June 2020 - June 2021",
-    //     desc: "Description of what did I do",
-    //     skills: [
-    //         "Skill 1",
-    //         "Skill 2",
-    //         "Skill 3",
-    //     ],
-    // },
 ];
 
 // Education constants
@@ -271,8 +269,8 @@ export const education = [
         img: "https://vectorise.net/logo/wp-content/uploads/2019/08/Logo-Universiti-Tenaga-Nasional-UNITEN.png",
         school: "Universiti Tenaga Nasional",
         date: "Sep 2021 - Present",
-        grade: "3.54 CGPA",
-        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 8 semesters and have a CGPA of 3.54. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
+        grade: "3.59 CGPA",
+        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 8 semesters and have a CGPA of 3.59. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
     },
     {
@@ -286,8 +284,9 @@ export const education = [
     },
 ];
 
-// Projects (web related)
+// Projects
 export const projects = [
+    // Movie Browser
     {
         id: 0,
         title: "Movie Browser",
@@ -300,6 +299,7 @@ export const projects = [
         github: "https://github.com/yusup-rd/moviebrowser",
         webapp: "https://react-moviebrowser.netlify.app/",
     },
+    // Record Registry
     {
         id: 1,
         title: "Record Registry",
@@ -327,6 +327,7 @@ export const projects = [
         //     },
         // ],
     },
+    // Star Wars Random Character Generator
     {
         id: 2,
         title: "Star Wars Random Character",
@@ -339,6 +340,7 @@ export const projects = [
         github: "https://github.com/yusup-rd/starwars-jquery",
         webapp: "https://codepen.io/yusup-rd/pen/OJrMWbp",
     },
+    // Nike React Tailwind
     {
         id: 3,
         title: "Nike Store",
@@ -351,6 +353,7 @@ export const projects = [
         github: "https://github.com/yusup-rd/nike-tailwind",
         webapp: "https://nike-react-tailwindcss.netlify.app/",
     },
+    // Python Banking System
     // {
     //     id: 4,
     //     title: "Banking System",
@@ -363,6 +366,7 @@ export const projects = [
     //     github: "https://github.com/yusup-rd/python-banking-system.git",
     //     webapp: "https://colab.research.google.com/drive/16Ay-RMIagrjMXZQAYAq20kZrFnW1EOiI?usp=sharing",
     // },
+    // Python YT Video Downloader
     // {
     //     id: 5,
     //     title: "Youtube Video Downloader",
@@ -381,6 +385,7 @@ export const projects = [
     //     github: "https://github.com/yusup-rd/python-yt-downloader.git",
     //     webapp: "https://colab.research.google.com/drive/1ZuzZMOBfCdcGQ5UAexIqOh_8xc07DfGM?usp=sharing",
     // },
+    // SPM Laravel
     {
         id: 6,
         title: "Software Project Management System",
@@ -397,12 +402,32 @@ export const projects = [
             "Database",
             "Authentication",
         ],
-        category: "full-stack",
+        category: "back-end",
         github: "https://github.com/yusup-rd/projectmanagement",
         webapp: "",
     },
+    // Laravel React Tailwind SPM app
     {
         id: 7,
+        title: "Project Management App",
+        date: "Feb 2024",
+        description:
+            "A simple project management application using Laravel 11, React and Tailwind CSS.",
+        image: "https://i.imgur.com/RxST4uU.png",
+        tags: [
+            "Laravel",
+            "React.js",
+            "Tailwind CSS",
+            "SQLite",
+            "Authentication",
+        ],
+        category: "full-stack",
+        github: "https://github.com/yusup-rd/laravel-spm",
+        webapp: "",
+    },
+    // React TS Gourmet Gleam
+    {
+        id: 8,
         title: "Gourmet Gleam",
         date: "Jun 2024",
         description:
@@ -422,24 +447,22 @@ export const projects = [
         github: "https://github.com/yusup-rd/gourmet-gleam",
         webapp: "",
     },
+    // .NET MAUI C# Mobile App
     {
-        id: 8,
+        id: 9,
         title: "Habit Master",
         date: "May 2024",
         description:
             "Habit Master is a habit-tracking mobile application developed as part of my Mobile Application Development course at UNITEN. Built with .NET MAUI, it allows users to create, edit, and track their daily habits, offering features like custom habit entry, progress tracking, metric-based completion, and detailed statistics. This project showcases my first experience in mobile app development. By clicking View Live App, you will be able to download Android APK file.",
         image: "https://i.imgur.com/BwZVPM3.png",
-        tags: [
-            ".NET MAUI",
-            "C#",
-            "Firebase",
-        ],
-        category: "mobile app",
+        tags: [".NET MAUI", "C#", "Firebase"],
+        category: "mobile",
         github: "https://github.com/yusup-rd/habit-master",
         webapp: "https://drive.google.com/file/d/1M4v_1bQM9JQoF9AfIP18FlEAKwyjB2JG/view?usp=sharing",
     },
+    // Online Bookstore System
     {
-        id: 9,
+        id: 10,
         title: "Online Bookstore System",
         date: "Sep 2024",
         description:
@@ -457,9 +480,41 @@ export const projects = [
         github: "https://github.com/yusup-rd/online-bookstore-system",
         webapp: "",
     },
+    // Django Book Inventory API
+    {
+        id: 11,
+        title: "Book Inventory API",
+        date: "Oct 2024",
+        description:
+            "A Django REST framework-based API for managing books, allowing authors to create, update, and delete book entries while providing read-only access to all users. Includes custom permissions, pagination, and filtering features.",
+        image: "https://i.imgur.com/IdvTrbN.png",
+        tags: ["Django", "Django REST Framework", "REST API", "SQLite"],
+        category: "back-end",
+        github: "https://github.com/yusup-rd/books-api",
+        webapp: "",
+    },
+    // Tangle Social Media App
+    {
+        id: 12,
+        title: "Tangle",
+        date: "Oct 2024",
+        description:
+            "Tangle is a modern, full-featured social media platform built with Next.js and an array of powerful technologies. It provides a rich user experience, optimized performance, and real-time interactivity.",
+        image: "https://i.imgur.com/xfXBw2n.png",
+        tags: [
+            "Next.js",
+            "Tailwind CSS",
+            "Shadcn UI",
+            "Prisma ORM",
+            "Postgres",
+            "Stream Chat",
+            "Lucia Auth",
+            "OAuth2",
+            "Google Authentication",
+            "Vercel",
+        ],
+        category: "full-stack",
+        github: "https://github.com/yusup-rd/tangle",
+        webapp: "https://tangle-app.vercel.app/",
+    },
 ];
-
-// export const TimelineData = [
-//     { year: 2020, text: "Started my journey" },
-//     // { year: 2024, text: "Worked as an intern developer" },
-// ];
