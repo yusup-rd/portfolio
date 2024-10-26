@@ -1,5 +1,4 @@
-import React from "react";
-import styled, { useTheme }  from "styled-components";
+import styled from "styled-components";
 import { Timeline } from "@mui/lab";
 import { TimelineItem } from "@mui/lab";
 import { TimelineSeparator } from "@mui/lab";
@@ -65,7 +64,11 @@ const Experience = () => {
         <Section id="experience">
             <Wrapper>
                 <Title>Experience</Title>
-                <Desc>This is a journey of my continuous growth and development in the tech industry. Each step has been a valuable opportunity to refine my skills and expand my knowledge.</Desc>
+                <Desc>
+                    This is a journey of my continuous growth and development in
+                    the tech industry. Each step has been a valuable opportunity
+                    to refine my skills and expand my knowledge.
+                </Desc>
                 <TimelineSection>
                     <Timeline>
                         {experiences.map((experience, index) => (
@@ -76,10 +79,12 @@ const Experience = () => {
                                         color="secondary"
                                     />
                                     {index !== experiences.length - 1 && (
-                                        <TimelineConnector style={{background: "#854CE6"}} />
+                                        <TimelineConnector
+                                            style={{ background: "#854CE6" }}
+                                        />
                                     )}
                                 </TimelineSeparator>
-                                <TimelineContent sx={{py: "12px", px: 2 }}>
+                                <TimelineContent sx={{ py: "12px", px: 2 }}>
                                     <ExperienceCard experience={experience} />
                                 </TimelineContent>
                             </TimelineItem>

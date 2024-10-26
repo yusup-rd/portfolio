@@ -1,6 +1,5 @@
 import { CloseRounded, GitHub, LinkedIn } from "@mui/icons-material";
 import { Modal } from "@mui/material";
-import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -156,10 +155,10 @@ const Button = styled.a`
             background-color: ${({ theme }) => theme.bg + 99};
         }
     `}
-    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-    pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
-    opacity: ${({ disabled }) => (disabled ? '0.6' : '1')};
-    text-decoration:  ${({ disabled }) => (disabled ? 'line-through' : 'none')};
+    cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+    opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+    text-decoration: ${({ disabled }) => (disabled ? "line-through" : "none")};
     transition: all 0.5s ease;
     &:hover {
         ${({ disabled, theme }) =>
@@ -204,8 +203,8 @@ const ProjectDetail = ({ openModal, setOpenModal }) => {
                         <>
                             <Label>Members</Label>
                             <Members>
-                                {project?.members.map((member) => (
-                                    <Member>
+                                {project?.members.map((member, index) => (
+                                    <Member key={index}>
                                         <MemberImage src={member.img} />
                                         <MemberName>{member.name}</MemberName>
                                         <a
@@ -237,7 +236,12 @@ const ProjectDetail = ({ openModal, setOpenModal }) => {
                         <Button href={project?.github} target="_blank">
                             View Code
                         </Button>
-                        <Button dull disabled={isWebAppLinkEmpty} href={project?.webapp} target="_blank">
+                        <Button
+                            dull
+                            disabled={isWebAppLinkEmpty}
+                            href={project?.webapp}
+                            target="_blank"
+                        >
                             View Live App
                         </Button>
                     </ButtonGroup>

@@ -8,7 +8,6 @@ import { TimelineContent } from "@mui/lab";
 import { TimelineDot } from "@mui/lab";
 import { education } from "../../data/constants";
 
-
 const Section = styled.div`
     display: flex;
     flex-direction: column;
@@ -66,7 +65,9 @@ const Education = () => {
             <Wrapper>
                 <Title>Education</Title>
                 <Desc>
-                My educational experience has been a voyage of self-exploration and personal development. Here are the specifics of my educational background.
+                    My educational experience has been a voyage of
+                    self-exploration and personal development. Here are the
+                    specifics of my educational background.
                 </Desc>
                 <TimelineSection>
                     <Timeline>
@@ -81,7 +82,9 @@ const Education = () => {
                                         color="secondary"
                                     />
                                     {index !== education.length - 1 && (
-                                        <TimelineConnector style={{background: "#854CE6"}} />
+                                        <TimelineConnector
+                                            style={{ background: "#854CE6" }}
+                                        />
                                     )}
                                 </TimelineSeparator>
                             </TimelineItem>

@@ -263,15 +263,17 @@ export const education = [
         grade: "3.93 CGPA",
         desc: "I completed my Foundation in Information Technology at Universiti Tenaga Nasional from September 2020 to September 2021, achieving a CGPA of 3.93. During this time, I undertook coursework in various subjects, including Introduction to Web Development, Introduction to Problem Solving and Basic Computer, Introduction to Computing, Introduction to Business, Personal Productivity with Information Technology, Fundamentals of Data and Information.",
         degree: "Foundation in Information Technology",
+        // doc: "",
     },
     {
         id: 1,
         img: "https://vectorise.net/logo/wp-content/uploads/2019/08/Logo-Universiti-Tenaga-Nasional-UNITEN.png",
         school: "Universiti Tenaga Nasional",
-        date: "Sep 2021 - Present",
+        date: "Sep 2021 - Sep 2024",
         grade: "3.59 CGPA",
         desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 8 semesters and have a CGPA of 3.59. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
+        // doc: "",
     },
     {
         id: 2,
@@ -281,6 +283,7 @@ export const education = [
         grade: "100%",
         desc: "I completed online course at Udemy, where I learned React.js, Git & GitHub, Version Control, Bash Command Line, Django, Wagtail CMS",
         degree: "The Ultimate 2023 Fullstack Web Development Bootcamp",
+        // doc: "",
     },
 ];
 

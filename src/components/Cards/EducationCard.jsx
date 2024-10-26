@@ -1,6 +1,17 @@
-import React from "react";
 import styled from "styled-components";
 
+const Document = styled.img`
+    display: none;
+    height: 70px;
+    width: fit-content;
+    object-fit: contain;
+    background-color: #000;
+    border-radius: 10px;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
 const Span = styled.span`
     overflow: hidden;
     display: -webkit-box;
@@ -25,10 +36,12 @@ const Card = styled.div`
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         transform: translateY(-5px);
     }
-    &:hover ${Span}{
+    &:hover ${Span} {
         overflow: visible;
         -webkit-line-clamp: unset;
-
+    }
+    &:hover ${Document} {
+        display: flex;
     }
     @media (max-width: 768px) {
         gap: 8px;
@@ -115,10 +128,17 @@ const EducationCard = ({ education }) => {
             </Top>
             <Grade>Grade: {education.grade}</Grade>
             <Desc>
-                <Span>
-                    {education.desc}
-                </Span>
+                <Span>{education.desc}</Span>
             </Desc>
+            {education.doc && (
+                <a
+                    href={education.doc}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Document src={education.doc} />
+                </a>
+            )}
         </Card>
     );
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Document = styled.img`
@@ -128,25 +127,25 @@ const ExperienceCard = ({ experience }) => {
             </Top>
             <Desc>
                 {experience.desc}
-                {experience?.skills &&
-                <>
-                    <br/>
-                    <Skills>
-                        <b>Skills:</b>
-                        <ItemWrapper>
-                            {experience.skills.map((skill, index) => (
-                                <Skill key={index}>&#x2022; {skill}</Skill>
-                            ))}
-                        </ItemWrapper>
-                    </Skills>
-                </>
-                }
+                {experience?.skills && (
+                    <>
+                        <br />
+                        <Skills>
+                            <b>Skills:</b>
+                            <ItemWrapper>
+                                {experience.skills.map((skill, index) => (
+                                    <Skill key={index}>&#x2022; {skill}</Skill>
+                                ))}
+                            </ItemWrapper>
+                        </Skills>
+                    </>
+                )}
             </Desc>
-            {experience.doc &&
+            {experience.doc && (
                 <a href={experience.doc}>
                     <Document src={experience.doc} />
                 </a>
-            }
+            )}
         </Card>
     );
 };

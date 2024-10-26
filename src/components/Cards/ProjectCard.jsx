@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Card = styled.div`
@@ -99,7 +98,7 @@ const Avatar = styled.img`
 
 const ProjectCard = ({ project, setOpenModal }) => {
     return (
-        <Card onClick={() => setOpenModal({state: true, project: project})}>
+        <Card onClick={() => setOpenModal({ state: true, project: project })}>
             <Image src={project.image} />
             <Tags>
                 {project.tags?.map((tag) => (
