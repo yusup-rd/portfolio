@@ -273,7 +273,7 @@ export const education = [
         grade: "3.59 CGPA",
         desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 8 semesters and have a CGPA of 3.59. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
-        // doc: "",
+        doc: "https://i.imgur.com/m8LwD8H.png",
     },
     {
         id: 2,
