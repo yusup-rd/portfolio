@@ -69,7 +69,7 @@ export const skills = [
             },
             {
                 name: "Sass",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.sv",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg",
             },
             {
                 name: "Bootstrap",
