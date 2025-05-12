@@ -114,12 +114,41 @@ const Skills = () => {
                     In recent years, I&apos;ve dedicated myself to mastering the
                     following skills.
                 </Desc>
-                <SkillsContainer>
-                    {skills.map((item, index) => (
+
+                {/* Top Skills (alone in row) */}
+                {skills.length > 0 && (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "30px",
+                        }}
+                    >
                         <Skill
-                            key={index}
                             data-aos="fade-up"
-                            data-aos-delay={`${index * 50}`}
+                            data-aos-delay={`0`}
+                            data-aos-once="false"
+                        >
+                            <SkillTitle>{skills[0].title}</SkillTitle>
+                            <SkillList>
+                                {skills[0].skills.map((skill, index) => (
+                                    <SkillItem key={index}>
+                                        <SkillImage src={skill.image} />
+                                        {skill.name}
+                                    </SkillItem>
+                                ))}
+                            </SkillList>
+                        </Skill>
+                    </div>
+                )}
+
+                {/* Other skills in wrapped layout */}
+                <SkillsContainer>
+                    {skills.slice(1).map((item, index) => (
+                        <Skill
+                            key={index + 1}
+                            data-aos="fade-up"
+                            data-aos-delay={`${(index + 1) * 50}`}
                             data-aos-once="false"
                         >
                             <SkillTitle>{item.title}</SkillTitle>

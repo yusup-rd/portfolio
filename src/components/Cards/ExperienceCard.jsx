@@ -1,3 +1,4 @@
+import { FaRegImage } from "react-icons/fa6";
 import styled from "styled-components";
 
 const Document = styled.img`
@@ -113,12 +114,35 @@ const Skill = styled.div`
         font-size: 12px;
     }
 `;
+const PlaceholderIcon = styled.div`
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 4px;
+    font-size: 24px;
+    color: #999;
+    @media (max-width: 768px) {
+        height: 40px;
+        width: 40px;
+        font-size: 20px;
+    }
+`;
 
 const ExperienceCard = ({ experience }) => {
     return (
         <Card>
             <Top>
-                <Logo src={experience.img}></Logo>
+                {experience.img ? (
+                    <Logo src={experience.img} />
+                ) : (
+                    <PlaceholderIcon>
+                        <FaRegImage />
+                    </PlaceholderIcon>
+                )}
                 <Body>
                     <Role>{experience.role}</Role>
                     <Company>{experience.company}</Company>

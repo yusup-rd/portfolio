@@ -4,7 +4,7 @@ export const Bio = {
     description:
         "I am an enthusiastic and adaptable individual, constantly seeking fresh opportunities. Driven by a love for acquiring knowledge, I am committed to delivering exceptional outcomes. Possessing an optimistic outlook and a mindset focused on personal growth, I am prepared to make a substantial impact and accomplish remarkable feats.",
     github: "https://github.com/yusup-rd",
-    resume: "https://drive.google.com/file/d/1hJv2R4ivEcL5j-2hHKmHCQVu7e3fu4Wm/view?usp=sharing",
+    resume: "https://drive.google.com/file/d/1PpZTHrINTjgSDKmQI-8yPLdmJW8A6-ty/view?usp=sharing",
     image: "https://i.imgur.com/vErs4GR.jpg",
     linkedin: "https://www.linkedin.com/in/yusup-rejebov-57b860254/",
     telegram: "https://t.me/yusup_rejebov",
@@ -16,19 +16,52 @@ export const Bio = {
 // Skills related to web development
 export const skills = [
     {
+        title: "Top Skills",
+        skills: [
+            {
+                name: "Next.js",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
+            },
+            {
+                name: "React.js",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+            },
+            {
+                name: "TypeScript",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+            },
+            {
+                name: "Tailwind CSS",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+            },
+            {
+                name: "Nest.js",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg",
+            },
+            {
+                name: "Laravel",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
+            },
+            {
+                name: "PostgreSQL",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+            },
+        ],
+    },
+    {
         title: "Front-End",
         skills: [
             {
                 name: "HTML",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
             },
             {
                 name: "CSS",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg",
             },
             {
                 name: "JavaScript",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
             },
             {
                 name: "TypeScript",
@@ -36,7 +69,7 @@ export const skills = [
             },
             {
                 name: "Sass",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.sv",
             },
             {
                 name: "Bootstrap",
@@ -48,19 +81,15 @@ export const skills = [
             },
             {
                 name: "Material UI",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-plain.svg",
-            },
-            {
-                name: "Styled Components",
-                image: "https://cdn.worldvectorlogo.com/logos/styled-components-1.svg",
-            },
-            {
-                name: "jQuery",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/materialui/materialui-original.svg",
             },
             {
                 name: "React.js",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+            },
+            {
+                name: "Next.js",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
             },
         ],
     },
@@ -77,11 +106,11 @@ export const skills = [
             },
             {
                 name: "Django",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg",
             },
             {
                 name: "PHP",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",
             },
             {
                 name: "NodeJS",
@@ -89,15 +118,15 @@ export const skills = [
             },
             {
                 name: "MySQL",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",
             },
             {
                 name: "PostgreSQL",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
             },
             {
                 name: "SQLite",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg",
             },
             {
                 name: "Firebase",
@@ -111,6 +140,10 @@ export const skills = [
                 name: "Docker",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
             },
+            {
+                name: "Nest.js",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg",
+            },
         ],
     },
     {
@@ -118,82 +151,44 @@ export const skills = [
         skills: [
             {
                 name: "Python",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
             },
             {
                 name: "C++",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-plain.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
             },
             {
                 name: "Java",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg",
             },
         ],
     },
-    // {
-    //     title: "Data Science",
-    //     skills: [
-    //         {
-    //             name: "Pandas",
-    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
-    //         },
-    //         {
-    //             name: "NumPy",
-    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
-    //         },
-    //         {
-    //             name: "Matplotlib",
-    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg",
-    //         },
-    //         {
-    //             name: "Seaborn",
-    //             image: "https://cdn.worldvectorlogo.com/logos/seaborn-1.svg",
-    //         },
-    //         {
-    //             name: "Anaconda",
-    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/anaconda/anaconda-original.svg",
-    //         },
-    //         {
-    //             name: "Tableau",
-    //             image: "https://cdn.worldvectorlogo.com/logos/tableau-software.svg",
-    //         },
-    //     ],
-    // },
-    // {
-    //     title: "Mobile App",
-    //     skills: [
-    //         {
-    //             name: ".NET MAUI",
-    //             image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dot-net/dot-net-plain.svg",
-    //         },
-    //     ],
-    // },
     {
         title: "Others",
         skills: [
             {
                 name: "Git",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg",
             },
             {
                 name: "GitHub",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
             },
             {
                 name: "Bash",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg",
             },
-            // {
-            //     name: "Wagtail CMS",
-            //     image: "https://docs.wagtail.org/en/latest/_static/img/wagtail-logo-new.svg",
-            // },
+            {
+                name: "Vercel",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg",
+            },
             {
                 name: "Netlify",
-                image: "https://seeklogo.com/images/N/netlify-logo-BD8F8A77E2-seeklogo.com.png",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/netlify/netlify-original.svg",
             },
             {
                 name: "VS Code",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg",
             },
             {
                 name: "IntelliJ",
@@ -205,16 +200,8 @@ export const skills = [
             },
             {
                 name: "Figma",
-                image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg",
             },
-            // {
-            //     name: "Kaggle",
-            //     image: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kaggle/kaggle-original.svg",
-            // },
-            // {
-            //     name: "Canva",
-            //     image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg",
-            // },
         ],
     },
 ];
@@ -223,17 +210,17 @@ export const skills = [
 export const experiences = [
     {
         id: 0,
-        img: "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=91,h=92,fit=crop/YZ9aJwnkrMFbe7Nw/layer-2-dJoBr98nNPhE1OQg.png",
+        img: "/companies/aheadvision.avif",
         role: "Web Developer Intern",
         company: "AheadVision",
         date: "January 2024 - June 2024",
         desc: "As a Web Developer Intern at AheadVision, I started by mastering the fundamentals of web development, including HTML, CSS, and JavaScript, and designing with Figma. I then advanced my skills to include modern frameworks like React and design with Tailwind CSS. Throughout my internship, I also learned to effectively use Git & GitHub for version control, improving my collaborative coding skills.",
-        skills: ["React.js", "Tailwind", "Figma"],
+        skills: ["React.js", "Tailwind CSS", "Figma"],
         // doc: "",
     },
     {
         id: 1,
-        img: "https://media.licdn.com/dms/image/v2/C510BAQE8dmGb1V3LXA/company-logo_200_200/company-logo_200_200/0/1630593687468?e=1734566400&v=beta&t=XLNH7QPhKrr_o4tcB3TSHRSAPi1r0Wli1CTRz0lBjPE",
+        img: "/companies/tyrellsys.png",
         role: "Backend Developer Intern",
         company: "Tyrell Systems Sdn. Bhd.",
         date: "July 2024 - September 2024",
@@ -243,12 +230,22 @@ export const experiences = [
     },
     {
         id: 2,
-        img: "https://media.licdn.com/dms/image/v2/D560BAQGjXqTISPqEbA/company-logo_200_200/company-logo_200_200/0/1723087438233/yuzee_logo?e=1741219200&v=beta&t=SG4KiiHplC-TJL11JuzdZytgHtIFnY8Qn7Pg-5d6RgE",
+        img: "/companies/yuzee.jpeg",
         role: "Test Automation Engineer Intern",
         company: "Yuzee",
-        date: "October 2024 - Present",
+        date: "October 2024 - December 2024",
         desc: "As a Test Automation Engineer Intern at Yuzee, I contributed to both frontend and backend automation testing using tools like Postman and Cypress. I implemented CI/CD pipelines with GitHub Actions to automate test workflows, ensuring efficient and reliable testing processes. In addition to automation testing, I worked on data engineering tasks, including web scraping using Python, gaining hands-on experience through real-world projects and tutorials. This role allowed me to develop a versatile skill set in automation, CI/CD, and data engineering.",
         skills: ["Postman", "Cypress.io", "GitHub Actions", "AWS"],
+        // doc: "",
+    },
+    {
+        id: 3,
+        img: "",
+        role: "Full-Stack Developer",
+        company: "Ornate Oasis Sdn. Bhd.",
+        date: "January 2025 - Present",
+        desc: "As a Full-Stack Developer at Ornate Oasis Sdn. Bhd., I contribute to the development of an online gaming platform using technologies such as Next.js, Nest.js, Tailwind CSS, and PostgreSQL. I collaborate closely with cross-functional teams, including frontend, backend, and UI/UX designers, to deliver high-quality features. We utilize Jira for project management and Slack for daily communication.",
+        skills: ["Next.js", "Nest.js", "Tailwind CSS", "PostgreSQL"],
         // doc: "",
     },
 ];
@@ -271,7 +268,7 @@ export const education = [
         school: "Universiti Tenaga Nasional",
         date: "Sep 2021 - Sep 2024",
         grade: "3.59 CGPA",
-        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 8 semesters and have a CGPA of 3.59. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
+        desc: "I have graduated a Bachelor's degree in Computer Science at Universiti Tenaga Nasional. I have completed 9 semesters and have a CGPA of 3.59. I have taken courses in Data Structures and Algorithms, Object-Oriented Programming, Statistics for Computing, Algorithmic Problem Solving, Data Communication and Computer Networks, Discrete Structures, Web Programming, Operating Systems Concepts among others.",
         degree: "Bachelor of Computer Science - Software Engineering",
         doc: "https://i.imgur.com/m8LwD8H.png",
     },
