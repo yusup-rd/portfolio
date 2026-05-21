@@ -10,23 +10,68 @@ const Container = styled.div`
     left: 0;
     background-color: #000000a7;
     display: flex;
-    align-items: top;
+    align-items: center;
     justify-content: center;
-    overflow-y: scroll;
+    padding: 16px 12px;
+    overflow-y: auto;
+    outline: none;
     transition: all 0.5s ease;
 `;
 const Wrapper = styled.div`
     max-width: 800px;
     width: 100%;
+    max-height: 90dvh;
     border-radius: 16px;
-    margin: 50px 12px;
-    height: min-content;
+    margin: auto;
     background-color: ${({ theme }) => theme.card};
     color: ${({ theme }) => theme.text_primary};
     padding: 20px;
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+`;
+const ImageSection = styled.div`
+    flex: 0 0 auto;
+    width: 100%;
+    max-height: 42dvh;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: ${({ theme }) => theme.bgLight};
+`;
+const Content = styled.div`
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+
+    scrollbar-width: thin;
+    scrollbar-color: ${({ theme }) => theme.primary + 99}
+        ${({ theme }) => theme.bgLight};
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: ${({ theme }) => theme.bgLight};
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: ${({ theme }) => theme.primary + 99};
+        border-radius: 10px;
+        border: 2px solid ${({ theme }) => theme.bgLight};
+        background-clip: padding-box;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: ${({ theme }) => theme.primary};
+    }
 `;
 const Title = styled.div`
     font-size: 28px;
@@ -58,11 +103,14 @@ const Desc = styled.div`
     }
 `;
 const Image = styled.img`
-    width: 100%;
-    object-fit: cover;
+    display: block;
+    max-width: 100%;
+    max-height: 42dvh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     border-radius: 12px;
-    margin-top: 30px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
 const Label = styled.div`
@@ -190,61 +238,67 @@ const ProjectDetail = ({ openModal, setOpenModal }) => {
                             setOpenModal({ state: false, project: null })
                         }
                     />
-                    <Image src={project?.image} />
-                    <Title>{project?.title}</Title>
-                    <Date>{project.date}</Date>
-                    <Tags>
-                        {project?.tags.map((tag, index) => (
-                            <Tag key={index}>{tag}</Tag>
-                        ))}
-                    </Tags>
-                    <Desc>{project?.description}</Desc>
-                    {project.members && (
-                        <>
-                            <Label>Members</Label>
-                            <Members>
-                                {project?.members.map((member, index) => (
-                                    <Member key={index}>
-                                        <MemberImage src={member.img} />
-                                        <MemberName>{member.name}</MemberName>
-                                        <a
-                                            href={member.github}
-                                            target="new"
-                                            style={{
-                                                textDecoration: "none",
-                                                color: "inherit",
-                                            }}
-                                        >
-                                            <GitHub />
-                                        </a>
-                                        <a
-                                            href={member.linkedin}
-                                            target="new"
-                                            style={{
-                                                textDecoration: "none",
-                                                color: "inherit",
-                                            }}
-                                        >
-                                            <LinkedIn />
-                                        </a>
-                                    </Member>
-                                ))}
-                            </Members>
-                        </>
-                    )}
-                    <ButtonGroup>
-                        <Button href={project?.github} target="_blank">
-                            View Code
-                        </Button>
-                        <Button
-                            dull
-                            disabled={isWebAppLinkEmpty}
-                            href={project?.webapp}
-                            target="_blank"
-                        >
-                            View Live App
-                        </Button>
-                    </ButtonGroup>
+                    <ImageSection>
+                        <Image src={project?.image} alt={project?.title} />
+                    </ImageSection>
+                    <Content>
+                        <Title>{project?.title}</Title>
+                        <Date>{project.date}</Date>
+                        <Tags>
+                            {project?.tags.map((tag, index) => (
+                                <Tag key={index}>{tag}</Tag>
+                            ))}
+                        </Tags>
+                        <Desc>{project?.description}</Desc>
+                        {project.members && (
+                            <>
+                                <Label>Members</Label>
+                                <Members>
+                                    {project?.members.map((member, index) => (
+                                        <Member key={index}>
+                                            <MemberImage src={member.img} />
+                                            <MemberName>
+                                                {member.name}
+                                            </MemberName>
+                                            <a
+                                                href={member.github}
+                                                target="new"
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                <GitHub />
+                                            </a>
+                                            <a
+                                                href={member.linkedin}
+                                                target="new"
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                <LinkedIn />
+                                            </a>
+                                        </Member>
+                                    ))}
+                                </Members>
+                            </>
+                        )}
+                        <ButtonGroup>
+                            <Button href={project?.github} target="_blank">
+                                View Code
+                            </Button>
+                            <Button
+                                dull
+                                disabled={isWebAppLinkEmpty}
+                                href={project?.webapp}
+                                target="_blank"
+                            >
+                                View Live App
+                            </Button>
+                        </ButtonGroup>
+                    </Content>
                 </Wrapper>
             </Container>
         </Modal>
