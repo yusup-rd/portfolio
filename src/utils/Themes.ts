@@ -71,4 +71,22 @@ export const themes = [
         special_btn_shadow:
             "20px 20px 60px rgba(0, 0, 0, 0.2), -20px -20px 60px rgba(0, 0, 0, 0.2)",
     },
-];
+] as const satisfies readonly PortfolioTheme[];
+
+export type PortfolioTheme = {
+    name: string;
+    bg: string;
+    bgLight: string;
+    primary: string;
+    text_primary: string;
+    text_secondary: string;
+    card: string;
+    card_light: string;
+    border: string;
+    border2: string;
+    button: string;
+    white: string;
+    black: string;
+    special_btn: string;
+    special_btn_shadow: string;
+};
