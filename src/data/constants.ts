@@ -1,4 +1,6 @@
-export const Bio = {
+import type { Biography, SkillGroup, Experience, Education, Project } from "../types/portfolio";
+
+export const Bio: Biography = {
   name: "Yusup Rejebov",
   roles: ["Full Stack Web Developer", "Programmer", "UI/UX Designer"],
   description:
@@ -15,7 +17,7 @@ export const Bio = {
 };
 
 // Skills related to web development
-export const skills = [
+export const skills: SkillGroup[] = [
   {
     title: "Top Skills",
     skills: [
@@ -249,7 +251,7 @@ export const skills = [
 ];
 
 // Experience
-export const experiences = [
+export const experiences: Experience[] = [
   {
     id: 0,
     img: "/companies/aheadvision.avif",
@@ -293,7 +295,7 @@ export const experiences = [
 ];
 
 // Education constants
-export const education = [
+export const education: Education[] = [
   {
     id: 0,
     img: "https://vectorise.net/logo/wp-content/uploads/2019/08/Logo-Universiti-Tenaga-Nasional-UNITEN.png",
@@ -327,7 +329,7 @@ export const education = [
 ];
 
 // Projects
-export const projects = [
+export const projects: Project[] = [
   // Movie Browser
   {
     id: 0,

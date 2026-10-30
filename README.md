@@ -17,8 +17,39 @@ This website serves as a showcase for my creative works and technical projects. 
 
 -   React.js
 -   Styled Components
--   JavaScript
+-   TypeScript (strict mode)
+-   Vite
 -   Git
+
+## Local development
+
+Use Node.js 22.13+ (22.x) or Node.js 24+ and npm.
+
+```sh
+npm ci
+npm run dev
+```
+
+Copy `.env.example` to `.env` and supply your EmailJS service ID, template ID,
+and public key (`VITE_EMAILJS_PUBLIC_KEY`) to enable the contact form. Vite exposes
+`VITE_` values to the browser; only use the EmailJS public key, never a private key.
+
+```sh
+npm run typecheck
+npm run lint
+npm run build
+npm run preview
+```
+
+The production build runs TypeScript checks before bundling. Application code
+lives in `.ts` and `.tsx` files; shared portfolio models are in
+`src/types/portfolio.ts`, and styled-components uses the typed themes in
+`src/utils/Themes.ts`. ESLint uses `eslint.config.ts`.
+
+TypeScript is kept on 6.0.3 because the current `typescript-eslint` release
+supports TypeScript below 6.1. Upgrade these tools together when TypeScript 7
+support is available. AOS uses its latest stable release (2.3.4); MUI Lab uses
+the latest beta for the timeline components.
 
 ## Contributing
 

@@ -1,3 +1,4 @@
+import type { ProjectModalState } from "./types/portfolio";
 import "./App.css";
 import { useState, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
@@ -37,9 +38,9 @@ const Wrapper = styled.div`
 `;
 
 const App = () => {
-    const [openModal, setOpenModal] = useState({ state: false, project: null });
+    const [openModal, setOpenModal] = useState<ProjectModalState>({ state: false, project: null });
     const [selectedThemeIndex, setSelectedThemeIndex] = useState(0);
-    const changeTheme = (themeIndex) => {
+    const changeTheme = (themeIndex: number) => {
         setSelectedThemeIndex(themeIndex);
     };
     useEffect(() => {
@@ -50,7 +51,7 @@ const App = () => {
     }, [selectedThemeIndex]);
 
     return (
-        <ThemeProvider theme={themes[selectedThemeIndex]}>
+        <ThemeProvider theme={themes[selectedThemeIndex] ?? themes[0]}>
             <Router>
                 <Navbar
                     selectedThemeIndex={selectedThemeIndex}
@@ -62,10 +63,7 @@ const App = () => {
                         <Skills />
                         <Experience />
                     </Wrapper>
-                    <Projects
-                        openModal={openModal}
-                        setOpenModal={setOpenModal}
-                    />
+                    <Projects setOpenModal={setOpenModal} />
                     <Wrapper>
                         <Education />
                         <Contact />

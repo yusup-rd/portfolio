@@ -1,3 +1,4 @@
+import type { Project, ProjectModalControls } from "../../types/portfolio";
 import styled from "styled-components";
 
 const Card = styled.div`
@@ -96,7 +97,7 @@ const Avatar = styled.img`
     border: 3px solid ${({ theme }) => theme.card};
 `;
 
-const ProjectCard = ({ project, setOpenModal }) => {
+const ProjectCard = ({ project, setOpenModal }: ProjectModalControls & { project: Project }) => {
     return (
         <Card onClick={() => setOpenModal({ state: true, project: project })}>
             <Image src={project.image} />

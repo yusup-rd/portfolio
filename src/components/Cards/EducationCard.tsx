@@ -1,4 +1,4 @@
-import { FaRegImage } from "react-icons/fa6";
+import type { Education } from "../../types/portfolio";
 import styled from "styled-components";
 
 const Document = styled.img`
@@ -12,6 +12,14 @@ const Document = styled.img`
         cursor: pointer;
         opacity: 0.8;
     }
+`;
+const Span = styled.span`
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
+    text-overflow: ellipsis;
 `;
 const Card = styled.div`
     width: 650px;
@@ -28,6 +36,10 @@ const Card = styled.div`
     &:hover {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         transform: translateY(-5px);
+    }
+    &:hover ${Span} {
+        overflow: visible;
+        -webkit-line-clamp: unset;
     }
     &:hover ${Document} {
         display: flex;
@@ -61,7 +73,7 @@ const Body = styled.div`
     flex-direction: column;
     width: 100%;
 `;
-const Role = styled.div`
+const Name = styled.div`
     font-size: 18px;
     font-weight: 600;
     color: ${({ theme }) => theme.text_primary + 99};
@@ -69,7 +81,7 @@ const Role = styled.div`
         font-size: 14px;
     }
 `;
-const Company = styled.div`
+const Degree = styled.div`
     font-size: 14px;
     font-weight: 500;
     color: ${({ theme }) => theme.text_secondary + 99};
@@ -77,7 +89,7 @@ const Company = styled.div`
         font-size: 12px;
     }
 `;
-const Duration = styled.div`
+const Date = styled.div`
     font-size: 12px;
     font-weight: 400;
     color: ${({ theme }) => theme.text_secondary + 80};
@@ -95,87 +107,41 @@ const Desc = styled.div`
         font-size: 12px;
     }
 `;
-const Skills = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 12px;
-    margin-top: 10px;
-`;
-const ItemWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-`;
-const Skill = styled.div`
-    font-size: 15px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_primary + 99};
+const Grade = styled.div`
+    font-size: 14px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.text_secondary + 99};
     @media (max-width: 768px) {
         font-size: 12px;
     }
 `;
-const PlaceholderIcon = styled.div`
-    height: 50px;
-    width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 10px;
-    margin-top: 4px;
-    font-size: 24px;
-    color: #999;
-    @media (max-width: 768px) {
-        height: 40px;
-        width: 40px;
-        font-size: 20px;
-    }
-`;
 
-const ExperienceCard = ({ experience }) => {
+const EducationCard = ({ education }: { education: Education }) => {
     return (
         <Card>
             <Top>
-                {experience.img ? (
-                    <Logo src={experience.img} />
-                ) : (
-                    <PlaceholderIcon>
-                        <FaRegImage />
-                    </PlaceholderIcon>
-                )}
+                <Logo src={education.img}></Logo>
                 <Body>
-                    <Role>{experience.role}</Role>
-                    <Company>{experience.company}</Company>
-                    <Duration>{experience.date}</Duration>
+                    <Name>{education.school}</Name>
+                    <Degree>{education.degree}</Degree>
+                    <Date>{education.date}</Date>
                 </Body>
             </Top>
+            <Grade>Grade: {education.grade}</Grade>
             <Desc>
-                {experience.desc}
-                {experience?.skills && (
-                    <>
-                        <br />
-                        <Skills>
-                            <b>Skills:</b>
-                            <ItemWrapper>
-                                {experience.skills.map((skill, index) => (
-                                    <Skill key={index}>&#x2022; {skill}</Skill>
-                                ))}
-                            </ItemWrapper>
-                        </Skills>
-                    </>
-                )}
+                <Span>{education.desc}</Span>
             </Desc>
-            {experience.doc && (
+            {education.doc && (
                 <a
-                    href={experience.doc}
+                    href={education.doc}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <Document src={experience.doc} />
+                    <Document src={education.doc} />
                 </a>
             )}
         </Card>
     );
 };
 
-export default ExperienceCard;
+export default EducationCard;

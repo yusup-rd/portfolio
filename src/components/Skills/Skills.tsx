@@ -129,9 +129,9 @@ const Skills = () => {
                             data-aos-delay={`0`}
                             data-aos-once="false"
                         >
-                            <SkillTitle>{skills[0].title}</SkillTitle>
+                            <SkillTitle>{skills[0]?.title}</SkillTitle>
                             <SkillList>
-                                {skills[0].skills.map((skill, index) => (
+                                {skills[0]?.skills.map((skill, index) => (
                                     <SkillItem key={index}>
                                         <SkillImage src={skill.image} />
                                         {skill.name}

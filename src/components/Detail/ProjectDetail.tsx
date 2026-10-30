@@ -1,4 +1,7 @@
-import { CloseRounded, GitHub, LinkedIn } from "@mui/icons-material";
+import type { ProjectModalControls, ProjectModalState } from "../../types/portfolio";
+import CloseRounded from "@mui/icons-material/CloseRounded";
+import GitHub from "@mui/icons-material/GitHub";
+import LinkedIn from "@mui/icons-material/LinkedIn";
 import { Modal } from "@mui/material";
 import styled from "styled-components";
 
@@ -185,7 +188,7 @@ const ButtonGroup = styled.div`
     margin: 12px 0px;
     gap: 12px;
 `;
-const Button = styled.a`
+const Button = styled.a<{ $dull?: boolean; $disabled?: boolean }>`
     width: 100%;
     text-align: center;
     font-size: 16px;
@@ -194,30 +197,30 @@ const Button = styled.a`
     padding: 12px 16px;
     border-radius: 8px;
     background-color: ${({ theme }) => theme.primary};
-    ${({ dull, theme }) =>
-        dull &&
+    ${({ $dull, theme }) =>
+        $dull &&
         `
         background-color: ${theme.bgLight};
         color: ${theme.text_secondary};
         &:hover {
-            background-color: ${({ theme }) => theme.bg + 99};
+            background-color: ${theme.bg + 99};
         }
     `}
-    cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
-    opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
-    text-decoration: ${({ disabled }) => (disabled ? "line-through" : "none")};
+    cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
+    pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
+    opacity: ${({ $disabled }) => ($disabled ? "0.6" : "1")};
+    text-decoration: ${({ $disabled }) => ($disabled ? "line-through" : "none")};
     transition: all 0.5s ease;
     &:hover {
-        ${({ disabled, theme }) =>
-            !disabled && `background-color: ${theme.primary + 99};`}
+        ${({ $disabled, theme }) =>
+            !$disabled && `background-color: ${theme.primary + 99};`}
     }
     @media only screen and (max-width: 600px) {
         font-size: 12px;
     }
 `;
 
-const ProjectDetail = ({ openModal, setOpenModal }) => {
+const ProjectDetail = ({ openModal, setOpenModal }: ProjectModalControls & { openModal: Extract<ProjectModalState, { state: true }> }) => {
     const project = openModal?.project;
     const isWebAppLinkEmpty = !project?.webapp;
     return (
@@ -290,9 +293,11 @@ const ProjectDetail = ({ openModal, setOpenModal }) => {
                                 View Code
                             </Button>
                             <Button
-                                dull
-                                disabled={isWebAppLinkEmpty}
-                                href={project?.webapp}
+                                $dull
+                                $disabled={isWebAppLinkEmpty}
+                                aria-disabled={isWebAppLinkEmpty}
+                                tabIndex={isWebAppLinkEmpty ? -1 : undefined}
+                                href={project.webapp || undefined}
                                 target="_blank"
                             >
                                 View Live App

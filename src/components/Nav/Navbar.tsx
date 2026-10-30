@@ -1,3 +1,5 @@
+import type { MouseEvent } from "react";
+import type { ThemeControls } from "../../types/portfolio";
 import { useEffect, useState } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { RiCodeBoxLine } from "react-icons/ri";
@@ -109,7 +111,7 @@ const GithubButton = styled.a`
     text-align: center;
     height: 70%;
     transition: all 0.2s ease-in-out;
-    :hover {
+    &:hover {
         background-color: ${({ theme }) => theme.primary};
         color: ${({ theme }) => theme.white};
     }
@@ -129,7 +131,7 @@ const GithubButton = styled.a`
             color: white;
             margin: 5px auto;
             width: max-content;
-            :hover {
+            &:hover {
                 color: ${({ theme }) => theme.primary};
                 background-color: transparent;
                 border: 1.8px solid ${({ theme }) => theme.primary};
@@ -144,7 +146,7 @@ const Span = styled.span`
     color: ${({ theme }) => theme.text_primary};
 `;
 
-const MobileMenu = styled.div`
+const MobileMenu = styled.div<{ $isOpen: boolean }>`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -156,11 +158,11 @@ const MobileMenu = styled.div`
     padding: 12px 40px 24px 40px;
     background: ${({ theme }) => theme.card_light};
     transition: all 0.3s ease-in-out;
-    transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(0)")};
+    transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(0)")};
     border-radius: 0 0 20px 20px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
-    opacity: ${({ isOpen }) => (isOpen ? "1" : "0")};
-    z-index: ${({ isOpen }) => (isOpen ? "1" : "-1")};
+    opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
+    z-index: ${({ $isOpen }) => ($isOpen ? "1" : "-1")};
 `;
 
 const MobileLink = styled.a`
@@ -198,8 +200,8 @@ const ThemeDropdownButton = styled.button`
     }
 `;
 
-const ThemeDropdownMenu = styled.div`
-    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+const ThemeDropdownMenu = styled.div<{ $isOpen: boolean }>`
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -211,7 +213,7 @@ const ThemeDropdownMenu = styled.div`
     z-index: 2;
 `;
 
-const ThemeOption = styled.p`
+const ThemeOption = styled.p<{ $isSelected: boolean }>`
     font-size: 14px;
     padding: 8px;
     cursor: pointer;
@@ -220,8 +222,8 @@ const ThemeOption = styled.p`
     &:hover {
         color: ${({ theme }) => theme.primary};
     }
-    ${({ isSelected, theme }) =>
-        isSelected &&
+    ${({ $isSelected, theme }) =>
+        $isSelected &&
         css`
             color: ${theme.primary};
             background-color: ${({ theme }) => theme.bgLight};
@@ -229,8 +231,8 @@ const ThemeOption = styled.p`
         `}
 `;
 
-const ThemeDropdownMenuMobile = styled.div`
-    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+const ThemeDropdownMenuMobile = styled.div<{ $isOpen: boolean }>`
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
     flex-direction: column;
     position: absolute;
     left: 20px;
@@ -246,7 +248,7 @@ const ThemeDropdownMenuMobile = styled.div`
     }
 `;
 
-const Navbar = ({ changeTheme }) => {
+const Navbar = ({ changeTheme }: ThemeControls) => {
     const [isOpen, setIsOpen] = useState(false);
     const [showThemeOptions, setShowThemeOptions] = useState(false);
     const theme = useTheme();
@@ -261,7 +263,7 @@ const Navbar = ({ changeTheme }) => {
         setShowThemeOptions(!showThemeOptions);
     };
 
-    const handleLogoClick = (event) => {
+    const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
@@ -314,11 +316,11 @@ const Navbar = ({ changeTheme }) => {
                         <ThemeDropdownButton onClick={toggleThemeOptions}>
                             <FaPalette style={{ fontSize: "20px" }} />
                         </ThemeDropdownButton>
-                        <ThemeDropdownMenu isOpen={showThemeOptions}>
+                        <ThemeDropdownMenu $isOpen={showThemeOptions}>
                             {themes.map((themeOption, index) => (
                                 <ThemeOption
                                     key={index}
-                                    isSelected={
+                                    $isSelected={
                                         index ===
                                         themes.findIndex(
                                             (t) => t.name === theme.name
@@ -337,7 +339,7 @@ const Navbar = ({ changeTheme }) => {
                 </ButtonContainer>
             </NavContainer>
             {isOpen && (
-                <MobileMenu isOpen={isOpen}>
+                <MobileMenu $isOpen={isOpen}>
                     <MobileLink
                         href="#about"
                         onClick={() => {
@@ -399,11 +401,11 @@ const Navbar = ({ changeTheme }) => {
                         </div>
                     </MobileLink>
                     {showThemeOptions && (
-                        <ThemeDropdownMenuMobile isOpen={showThemeOptions}>
+                        <ThemeDropdownMenuMobile $isOpen={showThemeOptions}>
                             {themes.map((themeOption, index) => (
                                 <ThemeOption
                                     key={index}
-                                    isSelected={
+                                    $isSelected={
                                         index ===
                                         themes.findIndex(
                                             (t) => t.name === theme.name
