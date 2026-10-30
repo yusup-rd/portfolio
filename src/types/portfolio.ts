@@ -40,7 +40,8 @@ export interface Education {
     doc?: string;
 }
 
-export type ProjectCategory = "front-end" | "back-end" | "full-stack" | "mobile" | "programming";
+export type ProjectCategory =
+    "front-end" | "back-end" | "full-stack" | "mobile" | "programming";
 
 export interface Project {
     id: number;
@@ -56,8 +57,7 @@ export interface Project {
 }
 
 export type ProjectModalState =
-    | { state: false; project: null }
-    | { state: true; project: Project };
+    { state: false; project: null } | { state: true; project: Project };
 
 export interface ProjectModalControls {
     setOpenModal: Dispatch<SetStateAction<ProjectModalState>>;

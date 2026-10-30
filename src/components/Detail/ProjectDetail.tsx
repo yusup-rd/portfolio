@@ -1,226 +1,17 @@
-import type { ProjectModalControls, ProjectModalState } from "../../types/portfolio";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import GitHub from "@mui/icons-material/GitHub";
 import LinkedIn from "@mui/icons-material/LinkedIn";
 import { Modal } from "@mui/material";
-import styled from "styled-components";
+import type {
+    ProjectModalControls,
+    ProjectModalState,
+} from "../../types/portfolio";
 
-const Container = styled.div`
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #000000a7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 12px;
-    overflow-y: auto;
-    outline: none;
-    transition: all 0.5s ease;
-`;
-const Wrapper = styled.div`
-    max-width: 800px;
-    width: 100%;
-    max-height: 90dvh;
-    border-radius: 16px;
-    margin: auto;
-    background-color: ${({ theme }) => theme.card};
-    color: ${({ theme }) => theme.text_primary};
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-`;
-const ImageSection = styled.div`
-    flex: 0 0 auto;
-    width: 100%;
-    max-height: 42dvh;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 24px;
-    margin-bottom: 8px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: ${({ theme }) => theme.bgLight};
-`;
-const Content = styled.div`
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-    padding-right: 4px;
+interface ProjectDetailProps extends ProjectModalControls {
+    openModal: Extract<ProjectModalState, { state: true }>;
+}
 
-    scrollbar-width: thin;
-    scrollbar-color: ${({ theme }) => theme.primary + 99}
-        ${({ theme }) => theme.bgLight};
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
-    &::-webkit-scrollbar-track {
-        background: ${({ theme }) => theme.bgLight};
-        border-radius: 10px;
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: ${({ theme }) => theme.primary + 99};
-        border-radius: 10px;
-        border: 2px solid ${({ theme }) => theme.bgLight};
-        background-clip: padding-box;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-        background-color: ${({ theme }) => theme.primary};
-    }
-`;
-const Title = styled.div`
-    font-size: 28px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_primary};
-    margin: 8px 6px 0px 6px;
-    @media only screen and (max-width: 600px) {
-        font-size: 24px;
-        margin: 6px 6px 0px 6px;
-    }
-`;
-const Date = styled.div`
-    font-size: 16px;
-    margin: 2px 6px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_secondary};
-    @media only screen and (max-width: 768px) {
-        font-size: 12px;
-    }
-`;
-const Desc = styled.div`
-    font-size: 16px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_primary};
-    margin: 8px 6px;
-    @media only screen and (max-width: 600px) {
-        font-size: 14px;
-        margin: 6px 6px;
-    }
-`;
-const Image = styled.img`
-    display: block;
-    max-width: 100%;
-    max-height: 42dvh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    border-radius: 12px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-`;
-
-const Label = styled.div`
-    font-size: 20px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_primary};
-    margin: 8px 6px;
-    @media only screen and (max-width: 600px) {
-        font-size: 16px;
-        margin: 8px 6px;
-    }
-`;
-const Tags = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    margin: 8px 0px;
-    @media only screen and (max-width: 600px) {
-        margin: 4px 0px;
-    }
-`;
-const Tag = styled.div`
-    font-size: 14px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.primary};
-    margin: 4px;
-    padding: 4px 8px;
-    border-radius: 8px;
-    background-color: ${({ theme }) => theme.primary + 20};
-    @media only screen and (max-width: 600px) {
-        font-size: 12px;
-    }
-`;
-const Members = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin: 12px 6px;
-    @media only screen and (max-width: 600px) {
-        margin: 4px 6px;
-    }
-`;
-const Member = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 12px;
-`;
-const MemberImage = styled.img`
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 4px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
-    @media only screen and (max-width: 600px) {
-        width: 32px;
-        height: 32px;
-    }
-`;
-const MemberName = styled.div`
-    font-size: 16px;
-    font-weight: 500;
-    width: 200px;
-    color: ${({ theme }) => theme.text_primary};
-    @media only screen and (max-width: 600px) {
-        font-size: 14px;
-    }
-`;
-const ButtonGroup = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin: 12px 0px;
-    gap: 12px;
-`;
-const Button = styled.a<{ $dull?: boolean; $disabled?: boolean }>`
-    width: 100%;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_primary};
-    padding: 12px 16px;
-    border-radius: 8px;
-    background-color: ${({ theme }) => theme.primary};
-    ${({ $dull, theme }) =>
-        $dull &&
-        `
-        background-color: ${theme.bgLight};
-        color: ${theme.text_secondary};
-        &:hover {
-            background-color: ${theme.bg + 99};
-        }
-    `}
-    cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
-    pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
-    opacity: ${({ $disabled }) => ($disabled ? "0.6" : "1")};
-    text-decoration: ${({ $disabled }) => ($disabled ? "line-through" : "none")};
-    transition: all 0.5s ease;
-    &:hover {
-        ${({ $disabled, theme }) =>
-            !$disabled && `background-color: ${theme.primary + 99};`}
-    }
-    @media only screen and (max-width: 600px) {
-        font-size: 12px;
-    }
-`;
-
-const ProjectDetail = ({ openModal, setOpenModal }: ProjectModalControls & { openModal: Extract<ProjectModalState, { state: true }> }) => {
+const ProjectDetail = ({ openModal, setOpenModal }: ProjectDetailProps) => {
     const project = openModal?.project;
     const isWebAppLinkEmpty = !project?.webapp;
     return (
@@ -228,84 +19,100 @@ const ProjectDetail = ({ openModal, setOpenModal }: ProjectModalControls & { ope
             open={true}
             onClose={() => setOpenModal({ state: false, project: null })}
         >
-            <Container>
-                <Wrapper>
+            <div className="absolute top-0 left-0 flex size-full items-center justify-center overflow-y-auto bg-[#000000a7] px-3 py-4 transition-all duration-500 ease-[ease] outline-none">
+                <div className="relative m-auto flex max-h-[90dvh] w-full max-w-200 flex-col gap-2 overflow-hidden rounded-2xl bg-card px-5 pt-11 pb-5 text-text-primary shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
                     <CloseRounded
-                        style={{
-                            position: "absolute",
-                            top: "10px",
-                            right: "20px",
-                            cursor: "pointer",
-                        }}
+                        className="absolute! top-2.5! right-5! cursor-pointer"
                         onClick={() =>
                             setOpenModal({ state: false, project: null })
                         }
                     />
-                    <ImageSection>
-                        <Image src={project?.image} alt={project?.title} />
-                    </ImageSection>
-                    <Content>
-                        <Title>{project?.title}</Title>
-                        <Date>{project.date}</Date>
-                        <Tags>
+                    <div className="flex max-h-[42dvh] min-h-0 w-full flex-none items-center justify-center overflow-hidden rounded-xl bg-bg-light">
+                        <img
+                            className="block h-auto max-h-[42dvh] w-auto max-w-full rounded-xl object-contain shadow-[0_0_10px_rgba(0,0,0,0.2)]"
+                            src={project?.image}
+                            alt={project?.title}
+                        />
+                    </div>
+                    <div className="project-detail-scroll min-h-0 flex-auto overflow-y-auto pr-1">
+                        <div className="px-1.5 pt-2 text-3xl font-semibold text-text-primary max-sm:pt-1.5 max-sm:text-2xl">
+                            {project?.title}
+                        </div>
+                        <div className="px-1.5 py-0.5 text-base font-normal text-text-secondary max-md:text-xs">
+                            {project.date}
+                        </div>
+                        <div className="flex flex-wrap gap-2 px-1 py-3 max-sm:py-2">
                             {project?.tags.map((tag, index) => (
-                                <Tag key={index}>{tag}</Tag>
+                                <div
+                                    className="rounded-lg bg-primary/[12.55%] px-2 py-1 text-sm font-normal text-primary max-sm:text-xs"
+                                    key={index}
+                                >
+                                    {tag}
+                                </div>
                             ))}
-                        </Tags>
-                        <Desc>{project?.description}</Desc>
+                        </div>
+                        <div className="px-1.5 py-2 text-base font-normal text-text-primary max-sm:py-1.5 max-sm:text-sm">
+                            {project?.description}
+                        </div>
                         {project.members && (
                             <>
-                                <Label>Members</Label>
-                                <Members>
+                                <div className="px-1.5 py-2 text-xl font-semibold text-text-primary max-sm:text-base">
+                                    Members
+                                </div>
+                                <div className="flex flex-col flex-wrap gap-1.5 px-1.5 py-3 max-sm:py-1">
                                     {project?.members.map((member, index) => (
-                                        <Member key={index}>
-                                            <MemberImage src={member.img} />
-                                            <MemberName>
+                                        <div
+                                            className="flex items-center gap-3 pb-1"
+                                            key={index}
+                                        >
+                                            <img
+                                                className="size-12.5 rounded-full object-cover shadow-[0_0_10px_rgba(0,0,0,0.3)] max-sm:size-8"
+                                                src={member.img}
+                                            />
+                                            <div className="w-50 text-base font-medium text-text-primary max-sm:text-sm">
                                                 {member.name}
-                                            </MemberName>
+                                            </div>
                                             <a
                                                 href={member.github}
                                                 target="new"
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: "inherit",
-                                                }}
+                                                className="text-inherit no-underline"
                                             >
                                                 <GitHub />
                                             </a>
                                             <a
                                                 href={member.linkedin}
                                                 target="new"
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: "inherit",
-                                                }}
+                                                className="text-inherit no-underline"
                                             >
                                                 <LinkedIn />
                                             </a>
-                                        </Member>
+                                        </div>
                                     ))}
-                                </Members>
+                                </div>
                             </>
                         )}
-                        <ButtonGroup>
-                            <Button href={project?.github} target="_blank">
+                        <div className="flex justify-end gap-3 py-3">
+                            <a
+                                className="w-full cursor-pointer rounded-lg bg-primary px-4 py-3 text-center text-base font-semibold text-text-primary no-underline transition-all duration-500 ease-[ease] hover:bg-primary/60 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:line-through aria-disabled:opacity-60 data-[dull=true]:bg-bg-light data-[dull=true]:text-text-secondary data-[dull=true]:hover:bg-primary/60 max-sm:text-xs"
+                                href={project?.github}
+                                target="_blank"
+                            >
                                 View Code
-                            </Button>
-                            <Button
-                                $dull
-                                $disabled={isWebAppLinkEmpty}
+                            </a>
+                            <a
+                                className="w-full cursor-pointer rounded-lg bg-primary px-4 py-3 text-center text-base font-semibold text-text-primary no-underline transition-all duration-500 ease-[ease] hover:bg-primary/60 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:line-through aria-disabled:opacity-60 data-[dull=true]:bg-bg-light data-[dull=true]:text-text-secondary data-[dull=true]:hover:bg-primary/60 max-sm:text-xs"
+                                data-dull={true}
                                 aria-disabled={isWebAppLinkEmpty}
                                 tabIndex={isWebAppLinkEmpty ? -1 : undefined}
                                 href={project.webapp || undefined}
                                 target="_blank"
                             >
                                 View Live App
-                            </Button>
-                        </ButtonGroup>
-                    </Content>
-                </Wrapper>
-            </Container>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Modal>
     );
 };

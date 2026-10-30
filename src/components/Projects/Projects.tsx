@@ -1,130 +1,31 @@
-import type { Project, ProjectCategory, ProjectModalControls } from "../../types/portfolio";
-type SortBy = "title" | "tags" | "date";
 import React, { useState } from "react";
-import styled from "styled-components";
-import ProjectCard from "../Cards/ProjectCard";
-import { projects } from "../../data/constants";
+import type {
+    Project,
+    ProjectCategory,
+    ProjectModalControls,
+} from "../../types/portfolio";
+
 import "aos/dist/aos.css";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import { projects } from "../../data/constants";
+import ProjectCard from "../Cards/ProjectCard";
 
-const Section = styled.div`
-    background: linear-gradient(
-        343.07deg,
-        rgba(132, 59, 206, 0.06) 5.71%,
-        rgba(132, 59, 206, 0) 64.83%
-    );
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 98%, 0 100%);
-`;
-const Wrapper = styled.div`
-    max-width: 1350px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap: 12px;
-    padding: 10px 0 100px 0;
-`;
-const Title = styled.div`
-    font-size: 42px;
-    font-weight: 600;
-    text-align: center;
-    margin-top: 20px;
-    color: ${({ theme }) => theme.text_primary};
-    @media (max-width: 768px) {
-        margin-top: 12px;
-        font-size: 32px;
-    }
-`;
-const Desc = styled.div`
-    font-size: 18px;
-    max-width: 600px;
-    text-align: center;
-    color: ${({ theme }) => theme.text_secondary};
-    @media (max-width: 768px) {
-        font-size: 16px;
-        padding: 0 15px;
-    }
-`;
-const Sort = styled.div`
-    font-size: 16px;
-    max-width: 600px;
-    text-align: center;
-    margin-top: 15px;
-    color: ${({ theme }) => theme.text_primary};
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 0 15px;
-    }
-`;
-const ToggleGroup = styled.div`
-    display: flex;
-    border: 1.5px solid ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.primary};
-    font-size: 16px;
-    border-radius: 12px;
-    font-weight: 500;
-    margin: 5px 0;
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-`;
-const ToggleButton = styled.div<{ $active: boolean; $isFirst?: boolean; $isLast?: boolean }>`
-    padding: 8px 18px;
-    cursor: pointer;
-    border-radius: ${({ $isFirst, $isLast }) => {
-        if ($isFirst) return "12px 0 0 12px";
-        if ($isLast) return "0 12px 12px 0";
-        return "0";
-    }};
-    transition: all 0.2s ease-in-out;
-    ${({ $active, theme }) =>
-        $active &&
-        `
-            background-color: ${theme.primary + 20};
-        `}
-    &:hover {
-        background-color: ${({ theme }) => theme.primary + 15};
-    }
-    @media (max-width: 768px) {
-        padding: 6px 8px;
-        border-radius: 4px;
-    }
-`;
-const Divider = styled.div`
-    width: 1.5px;
-    background-color: ${({ theme }) => theme.primary};
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-`;
-const CardContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 28px;
-`;
-const IconWrapper = styled.span`
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-`;
+type SortBy = "title" | "tags" | "date";
 
-const Projects = ({ setOpenModal }: ProjectModalControls) => {
+interface ProjectsProps {
+    setOpenModal: ProjectModalControls["setOpenModal"];
+}
+
+const Projects = ({ setOpenModal }: ProjectsProps) => {
     const [category, setCategory] = useState<ProjectCategory | "all">("all");
     const [sortBy, setSortBy] = useState<SortBy | null>(null);
     const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>("asc");
     const [sortCount, setSortCount] = useState(0);
 
-    const categories: (ProjectCategory | "all")[] = ["all", ...new Set(projects.map((p) => p.category))];
+    const categories: (ProjectCategory | "all")[] = [
+        "all",
+        ...new Set(projects.map((p) => p.category)),
+    ];
 
     const handleSortBy = (sortByType: SortBy) => {
         if (sortByType === sortBy) {
@@ -148,10 +49,8 @@ const Projects = ({ setOpenModal }: ProjectModalControls) => {
 
     const sortIcon = (sortByType: SortBy) => {
         if (sortBy === sortByType) {
-            if (sortOrder === "asc")
-                return <FaChevronUp style={{ paddingLeft: "4px" }} />;
-            if (sortOrder === "desc")
-                return <FaChevronDown style={{ paddingLeft: "4px" }} />;
+            if (sortOrder === "asc") return <FaChevronUp className="pl-1" />;
+            if (sortOrder === "desc") return <FaChevronDown className="pl-1" />;
         }
         return null;
     };
@@ -162,13 +61,13 @@ const Projects = ({ setOpenModal }: ProjectModalControls) => {
             return projectsArray.sort((a, b) =>
                 sortOrder === "asc"
                     ? a.title.localeCompare(b.title)
-                    : b.title.localeCompare(a.title)
+                    : b.title.localeCompare(a.title),
             );
         } else if (sortBy === "tags") {
             return projectsArray.sort((a, b) =>
                 sortOrder === "asc"
                     ? a.tags.length - b.tags.length
-                    : b.tags.length - a.tags.length
+                    : b.tags.length - a.tags.length,
             );
         } else if (sortBy === "date") {
             const monthOrder = [
@@ -206,70 +105,90 @@ const Projects = ({ setOpenModal }: ProjectModalControls) => {
     };
 
     return (
-        <Section id="projects">
-            <Wrapper>
-                <Title>Projects</Title>
-                <Desc>
-                    Here you can explore some of my projects. Click on a project
-                    to see the details.
-                </Desc>
-                <Sort>Category</Sort>
-                <ToggleGroup>
+        <div
+            className="projects-gradient relative z-1 flex flex-col items-center justify-center [clip-path:polygon(0_0,100%_0,100%_100%,100%_98%,0_100%)]"
+            id="projects"
+        >
+            <div className="relative flex w-full max-w-337.5 flex-col items-center justify-center gap-4.25 pt-7.5 pb-25 max-md:pt-5.5">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="text-center text-4xl font-semibold text-text-primary max-md:text-3xl">
+                        Projects
+                    </div>
+                    <div className="max-w-150 text-center text-lg text-text-secondary max-md:px-3.75 max-md:text-base">
+                        Here you can explore some of my projects. Click on a
+                        project to see the details.
+                    </div>
+                    <div className="max-w-150 pt-3.75 text-center text-base text-text-primary max-md:px-3.75 max-md:text-sm">
+                        Category
+                    </div>
+                </div>
+                <div className="flex rounded-xl border-[1.5px] border-primary text-base font-medium text-primary max-md:text-xs">
                     {categories.map((cat, index) => (
                         <React.Fragment key={cat}>
-                            <ToggleButton
+                            <div
+                                className="cursor-pointer px-4.5 py-2 transition-all duration-200 ease-in-out first:rounded-l-xl last:rounded-r-xl hover:bg-primary/[8.24%] data-[active=true]:bg-primary/[12.55%] data-[active=true]:hover:bg-primary/[8.24%] max-md:rounded-sm max-md:px-2 max-md:py-1.5"
                                 onClick={() => setCategory(cat)}
-                                $active={category === cat}
-                                $isFirst={index === 0}
-                                $isLast={index === categories.length - 1}
+                                data-active={category === cat}
                             >
                                 {cat.toUpperCase()}
-                            </ToggleButton>
-                            {index < categories.length - 1 && <Divider />}
+                            </div>
+                            {index < categories.length - 1 && (
+                                <div className="w-0.375 bg-primary" />
+                            )}
                         </React.Fragment>
                     ))}
-                </ToggleGroup>
-                <Sort>Sort by</Sort>
-                <ToggleGroup>
-                    <ToggleButton
+                </div>
+                <div className="max-w-150 pt-3.75 text-center text-base text-text-primary max-md:px-3.75 max-md:text-sm">
+                    Sort by
+                </div>
+                <div className="flex rounded-xl border-[1.5px] border-primary text-base font-medium text-primary max-md:text-xs">
+                    <div
+                        className="cursor-pointer px-4.5 py-2 transition-all duration-200 ease-in-out first:rounded-l-xl last:rounded-r-xl hover:bg-primary/[8.24%] data-[active=true]:bg-primary/[12.55%] data-[active=true]:hover:bg-primary/[8.24%] max-md:rounded-sm max-md:px-2 max-md:py-1.5"
                         onClick={() => handleSortBy("title")}
-                        $active={sortBy === "title"}
-                        $isFirst={true}
+                        data-active={sortBy === "title"}
                     >
-                        <IconWrapper>Title {sortIcon("title")}</IconWrapper>
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
+                        <span className="inline-flex items-center align-middle">
+                            Title {sortIcon("title")}
+                        </span>
+                    </div>
+                    <div className="w-0.375 bg-primary" />
+                    <div
+                        className="cursor-pointer px-4.5 py-2 transition-all duration-200 ease-in-out first:rounded-l-xl last:rounded-r-xl hover:bg-primary/[8.24%] data-[active=true]:bg-primary/[12.55%] data-[active=true]:hover:bg-primary/[8.24%] max-md:rounded-sm max-md:px-2 max-md:py-1.5"
                         onClick={() => handleSortBy("date")}
-                        $active={sortBy === "date"}
+                        data-active={sortBy === "date"}
                     >
-                        <IconWrapper>Date {sortIcon("date")}</IconWrapper>
-                    </ToggleButton>
-                    <Divider />
-                    <ToggleButton
+                        <span className="inline-flex items-center align-middle">
+                            Date {sortIcon("date")}
+                        </span>
+                    </div>
+                    <div className="w-0.375 bg-primary" />
+                    <div
+                        className="cursor-pointer px-4.5 py-2 transition-all duration-200 ease-in-out first:rounded-l-xl last:rounded-r-xl hover:bg-primary/[8.24%] data-[active=true]:bg-primary/[12.55%] data-[active=true]:hover:bg-primary/[8.24%] max-md:rounded-sm max-md:px-2 max-md:py-1.5"
                         onClick={() => handleSortBy("tags")}
-                        $active={sortBy === "tags"}
-                        $isLast={true}
+                        data-active={sortBy === "tags"}
                     >
-                        <IconWrapper>Tags {sortIcon("tags")}</IconWrapper>
-                    </ToggleButton>
-                </ToggleGroup>
-                <CardContainer>
+                        <span className="inline-flex items-center align-middle">
+                            Tags {sortIcon("tags")}
+                        </span>
+                    </div>
+                </div>
+                <div className="flex w-full flex-wrap items-center justify-center gap-7">
                     {sortProjects(
                         category === "all"
                             ? projects
                             : projects.filter(
-                                  (project) => project.category === category
-                              )
+                                  (project) => project.category === category,
+                              ),
                     ).map((project, index) => (
                         <ProjectCard
                             key={index}
-                            project={project}                            setOpenModal={setOpenModal}
+                            project={project}
+                            setOpenModal={setOpenModal}
                         />
                     ))}
-                </CardContainer>
-            </Wrapper>
-        </Section>
+                </div>
+            </div>
+        </div>
     );
 };
 

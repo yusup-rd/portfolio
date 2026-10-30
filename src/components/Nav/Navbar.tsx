@@ -1,257 +1,21 @@
 import type { MouseEvent } from "react";
-import type { ThemeControls } from "../../types/portfolio";
 import { useEffect, useState } from "react";
-import styled, { css, useTheme } from "styled-components";
+import type { ThemeControls } from "../../types/portfolio";
+
+import { FaBars, FaPalette } from "react-icons/fa";
 import { RiCodeBoxLine } from "react-icons/ri";
-import { FaPalette } from "react-icons/fa";
-import { FaBars } from "react-icons/fa";
 import { Bio } from "../../data/constants";
 import { themes } from "../../utils/Themes";
 
-const Nav = styled.div`
-    background-color: ${({ theme }) => theme.card_light};
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    @media screen and (max-width: 960px) {
-        transition: 0.8s all ease;
-    }
-`;
+interface NavbarProps {
+    changeTheme: ThemeControls["changeTheme"];
+    selectedThemeIndex: ThemeControls["selectedThemeIndex"];
+}
 
-const NavContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    height: 60px;
-    z-index: 1;
-    width: 100%;
-    padding: 0 24px;
-    max-width: 1200px;
-`;
-
-const NavLogo = styled.a`
-    padding: 0 6px;
-    display: flex;
-    justify-self: flex-start;
-    align-items: center;
-    cursor: pointer;
-    text-decoration: none;
-    @media screen and (max-width: 640px) {
-        padding: 0 0px;
-    }
-`;
-
-const MobileIcon = styled.div`
-    display: none;
-    @media screen and (max-width: 860px) {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(-100%, 50%);
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: ${({ theme }) => theme.text_primary};
-    }
-`;
-
-const NavItems = styled.ul`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    list-style: none;
-    @media screen and (max-width: 860px) {
-        display: none;
-    }
-`;
-
-const NavLink = styled.a`
-    color: ${({ theme }) => theme.text_primary};
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-        color: ${({ theme }) => theme.primary};
-    }
-`;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 30%;
-    height: 100%;
-    padding: 0 6px;
-    @media screen and (max-width: 860px) {
-        display: none;
-    }
-`;
-
-const GithubButton = styled.a`
-    background-color: transparent;
-    color: ${({ theme }) => theme.primary};
-    border: 1.8px solid ${({ theme }) => theme.primary};
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    margin: 0 10px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    height: 70%;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-        background-color: ${({ theme }) => theme.primary};
-        color: ${({ theme }) => theme.white};
-    }
-    @media screen and (max-width: 640px) {
-        font-size: 0.8rem;
-    }
-    @media screen and (min-width: 860px) and (max-width: 1045px) {
-        font-size: 0.8rem;
-        padding: 0 5px;
-    }
-    ${({ className }) =>
-        className === "menuGithub" &&
-        css`
-            padding: 10px 16px;
-            background: ${({ theme }) => theme.primary};
-            border-radius: 50px;
-            color: white;
-            margin: 5px auto;
-            width: max-content;
-            &:hover {
-                color: ${({ theme }) => theme.primary};
-                background-color: transparent;
-                border: 1.8px solid ${({ theme }) => theme.primary};
-            }
-        `}
-`;
-
-const Span = styled.span`
-    padding: 0 4px;
-    font-weight: bold;
-    font-size: 18px;
-    color: ${({ theme }) => theme.text_primary};
-`;
-
-const MobileMenu = styled.div<{ $isOpen: boolean }>`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 16px;
-    position: absolute;
-    top: 80px;
-    right: 0;
-    width: 100%;
-    padding: 12px 40px 24px 40px;
-    background: ${({ theme }) => theme.card_light};
-    transition: all 0.3s ease-in-out;
-    transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(0)")};
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
-    opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
-    z-index: ${({ $isOpen }) => ($isOpen ? "1" : "-1")};
-`;
-
-const MobileLink = styled.a`
-    color: ${({ theme }) => theme.text_primary};
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-        color: ${({ theme }) => theme.primary};
-    }
-`;
-
-const ThemeDropdown = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    position: relative;
-    @media screen and (max-width: 860px) {
-        order: -1;
-    }
-`;
-
-const ThemeDropdownButton = styled.button`
-    background-color: transparent;
-    border: none;
-    color: ${({ theme }) => theme.text_primary};
-    cursor: pointer;
-    transition: color 0.2s ease-in-out;
-    &:hover {
-        color: ${({ theme }) => theme.primary};
-    }
-    @media screen and (max-width: 860px) {
-        position: relative;
-    }
-`;
-
-const ThemeDropdownMenu = styled.div<{ $isOpen: boolean }>`
-    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    min-width: 300px;
-    background: ${({ theme }) => theme.card_light};
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-`;
-
-const ThemeOption = styled.p<{ $isSelected: boolean }>`
-    font-size: 14px;
-    padding: 8px;
-    cursor: pointer;
-    transition: color 0.2s ease-in-out;
-    color: ${({ theme }) => theme.text_primary};
-    &:hover {
-        color: ${({ theme }) => theme.primary};
-    }
-    ${({ $isSelected, theme }) =>
-        $isSelected &&
-        css`
-            color: ${theme.primary};
-            background-color: ${({ theme }) => theme.bgLight};
-            border-radius: 4px;
-        `}
-`;
-
-const ThemeDropdownMenuMobile = styled.div<{ $isOpen: boolean }>`
-    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
-    flex-direction: column;
-    position: absolute;
-    left: 20px;
-    background: ${({ theme }) => theme.card_light};
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-
-    @media screen and (max-width: 860px) {
-        position: relative;
-        width: 100%;
-        left: 0;
-    }
-`;
-
-const Navbar = ({ changeTheme }: ThemeControls) => {
+const Navbar = ({ changeTheme, selectedThemeIndex }: NavbarProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [showThemeOptions, setShowThemeOptions] = useState(false);
-    const theme = useTheme();
+    const theme = themes[selectedThemeIndex] ?? themes[0];
 
     const closeMobileMenu = () => {
         if (window.innerWidth > 860) {
@@ -276,54 +40,85 @@ const Navbar = ({ changeTheme }: ThemeControls) => {
     }, []);
 
     return (
-        <Nav>
-            <NavContainer>
-                <NavLogo
+        <div className="sticky top-0 z-10 flex h-20 items-center justify-center bg-card-light text-base max-lg:transition-all max-lg:duration-800 max-lg:ease-[ease]">
+            <div className="z-1 flex h-15 w-full max-w-300 justify-between px-6">
+                <a
+                    className="flex cursor-pointer items-center justify-self-start px-1.5 no-underline max-sm:px-0"
                     href="/"
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        color: "white",
-                        cursor: "pointer",
-                    }}
+
                     onClick={handleLogoClick}
                 >
-                    <RiCodeBoxLine
-                        size="3rem"
-                        style={{ color: theme.text_primary }}
-                    />
-                    <Span>Yusup</Span>
-                </NavLogo>
-                <MobileIcon>
+                    <RiCodeBoxLine size="3rem" className="text-text-primary" />
+                    <span className="px-1 text-lg font-bold text-text-primary">
+                        Yusup
+                    </span>
+                </a>
+                <div className="hidden max-lg:absolute max-lg:top-0 max-lg:right-0 max-lg:block max-lg:-translate-x-full max-lg:translate-y-1/2 max-lg:cursor-pointer max-lg:text-2xl max-lg:text-text-primary">
                     <FaBars
                         onClick={() => {
                             setIsOpen(!isOpen);
                         }}
                     />
-                </MobileIcon>
-                <NavItems>
-                    <NavLink href="#about">About</NavLink>
-                    <NavLink href="#skills">Skills</NavLink>
-                    <NavLink href="#experience">Experience</NavLink>
-                    <NavLink href="#projects">Projects</NavLink>
-                    <NavLink href="#education">Education</NavLink>
-                </NavItems>
-                <ButtonContainer>
-                    <GithubButton href={Bio.github} target="_blank">
+                </div>
+                <ul className="flex w-full list-none items-center justify-center gap-8 max-lg:hidden">
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
+                        href="#about"
+                    >
+                        About
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
+                        href="#skills"
+                    >
+                        Skills
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
+                        href="#experience"
+                    >
+                        Experience
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
+                        href="#projects"
+                    >
+                        Projects
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
+                        href="#education"
+                    >
+                        Education
+                    </a>
+                </ul>
+                <div className="flex h-full w-[30%] items-center justify-between gap-2.5 px-1.5 max-lg:hidden">
+                    <a
+                        className="flex h-[70%] cursor-pointer items-center justify-center rounded-3xl border-[1.8px] border-primary bg-transparent px-5 text-center text-base font-medium text-primary no-underline transition-all duration-200 ease-in-out hover:bg-primary hover:text-white max-sm:text-xs lg:max-xl:px-1.25 lg:max-xl:text-xs"
+                        href={Bio.github}
+                        target="_blank"
+                    >
                         Github Profile
-                    </GithubButton>
-                    <ThemeDropdown>
-                        <ThemeDropdownButton onClick={toggleThemeOptions}>
-                            <FaPalette style={{ fontSize: "20px" }} />
-                        </ThemeDropdownButton>
-                        <ThemeDropdownMenu $isOpen={showThemeOptions}>
+                    </a>
+                    <div className="relative flex items-center max-lg:-order-1">
+                        <button
+                            className="cursor-pointer border-none bg-transparent text-text-primary transition-colors duration-200 ease-in-out hover:text-primary max-lg:relative"
+                            onClick={toggleThemeOptions}
+                        >
+                            <FaPalette className="text-xl" />
+                        </button>
+                        <div
+                            className="absolute top-full right-0 z-2 hidden min-w-75 flex-col rounded-lg bg-card-light shadow-[0_0_10px_rgba(0,0,0,0.1)] data-[open=true]:flex"
+                            data-open={showThemeOptions}
+                        >
                             {themes.map((themeOption, index) => (
-                                <ThemeOption
+                                <p
+                                    className="cursor-pointer p-2 text-sm text-text-primary transition-colors duration-200 ease-in-out hover:text-primary data-[selected=true]:rounded-sm data-[selected=true]:bg-bg-light data-[selected=true]:text-primary"
                                     key={index}
-                                    $isSelected={
+                                    data-selected={
                                         index ===
                                         themes.findIndex(
-                                            (t) => t.name === theme.name
+                                            (t) => t.name === theme.name,
                                         )
                                     }
                                     onClick={() => {
@@ -332,83 +127,90 @@ const Navbar = ({ changeTheme }: ThemeControls) => {
                                     }}
                                 >
                                     {themeOption.name}
-                                </ThemeOption>
+                                </p>
                             ))}
-                        </ThemeDropdownMenu>
-                    </ThemeDropdown>
-                </ButtonContainer>
-            </NavContainer>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {isOpen && (
-                <MobileMenu $isOpen={isOpen}>
-                    <MobileLink
+                <div
+                    className="absolute top-20 right-0 z-1 flex w-full flex-col justify-center gap-4 rounded-b-[20px] bg-card-light px-10 pt-3 pb-6 shadow-[0_10px_10px_rgba(0,0,0,0.3)] transition-all duration-300 ease-in-out"
+                    data-open={isOpen}
+                >
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
                         href="#about"
                         onClick={() => {
                             setIsOpen(!isOpen);
                         }}
                     >
                         About
-                    </MobileLink>
-                    <MobileLink
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
                         href="#skills"
                         onClick={() => {
                             setIsOpen(!isOpen);
                         }}
                     >
                         Skills
-                    </MobileLink>
-                    <MobileLink
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
                         href="#experience"
                         onClick={() => {
                             setIsOpen(!isOpen);
                         }}
                     >
                         Experience
-                    </MobileLink>
-                    <MobileLink
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
                         href="#projects"
                         onClick={() => {
                             setIsOpen(!isOpen);
                         }}
                     >
                         Projects
-                    </MobileLink>
-                    <MobileLink
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
                         href="#education"
                         onClick={() => {
                             setIsOpen(!isOpen);
                         }}
                     >
                         Education
-                    </MobileLink>
-                    <GithubButton
-                        className={"menuGithub"}
+                    </a>
+                    <a
+                        className="flex w-max cursor-pointer items-center justify-center self-center rounded-full border-[1.8px] border-primary bg-primary px-4 py-2.5 text-center text-base font-medium text-white no-underline transition-all duration-200 ease-in-out hover:bg-transparent hover:text-primary max-sm:text-xs"
                         href={Bio.github}
                         target="_blank"
                     >
                         Github Profile
-                    </GithubButton>
-                    <MobileLink
+                    </a>
+                    <a
+                        className="cursor-pointer font-medium text-text-primary no-underline transition-all duration-200 ease-in-out hover:text-primary"
                         onClick={toggleThemeOptions}
-                        style={{ cursor: "pointer" }}
                     >
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
+                        <div className="flex justify-center">
                             <FaPalette />
                         </div>
-                    </MobileLink>
+                    </a>
                     {showThemeOptions && (
-                        <ThemeDropdownMenuMobile $isOpen={showThemeOptions}>
+                        <div
+                            className="absolute left-5 z-2 hidden flex-col rounded-lg bg-card-light shadow-[0_0_10px_rgba(0,0,0,0.1)] data-[open=true]:flex max-lg:relative max-lg:left-0 max-lg:w-full"
+                            data-open={showThemeOptions}
+                        >
                             {themes.map((themeOption, index) => (
-                                <ThemeOption
+                                <p
+                                    className="cursor-pointer p-2 text-sm text-text-primary transition-colors duration-200 ease-in-out hover:text-primary data-[selected=true]:rounded-sm data-[selected=true]:bg-bg-light data-[selected=true]:text-primary"
                                     key={index}
-                                    $isSelected={
+                                    data-selected={
                                         index ===
                                         themes.findIndex(
-                                            (t) => t.name === theme.name
+                                            (t) => t.name === theme.name,
                                         )
                                     }
                                     onClick={() => {
@@ -417,13 +219,13 @@ const Navbar = ({ changeTheme }: ThemeControls) => {
                                     }}
                                 >
                                     {themeOption.name}
-                                </ThemeOption>
+                                </p>
                             ))}
-                        </ThemeDropdownMenuMobile>
+                        </div>
                     )}
-                </MobileMenu>
+                </div>
             )}
-        </Nav>
+        </div>
     );
 };
 

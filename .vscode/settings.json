@@ -1,0 +1,32 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit",
+        "source.removeUnusedImports": "explicit",
+        "source.fixAll.eslint": "explicit"
+    },
+    "cSpell.words": [
+        "aheadvision",
+        "Bootcamp",
+        "CGPA",
+        "Colab",
+        "homeworld",
+        "Laravel",
+        "Nasional",
+        "Pytube",
+        "Rejebov",
+        "Spoonacular",
+        "Tenaga",
+        "Tyrell",
+        "tyrellsys",
+        "Udemy",
+        "UNITEN",
+        "Universiti",
+        "Yusup",
+        "Yusup's",
+        "yuzee",
+        "Yuzee"
+    ],
+    "cSpell.ignorePaths": ["node_modules", "dist", "package-lock.json", ".git"]
+}

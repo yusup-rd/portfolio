@@ -1,32 +1,112 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
+@import "tailwindcss";
+
+@theme inline {
+    --color-bg: var(--portfolio-bg);
+    --color-bg-light: var(--portfolio-bg-light);
+    --color-primary: var(--portfolio-primary);
+    --color-text-primary: var(--portfolio-text-primary);
+    --color-text-secondary: var(--portfolio-text-secondary);
+    --color-card: var(--portfolio-card);
+    --color-card-light: var(--portfolio-card-light);
+    --color-border: var(--portfolio-border);
+    --color-border2: var(--portfolio-border2);
+    --color-button: var(--portfolio-button);
+    --color-white: var(--portfolio-white);
+    --color-black: var(--portfolio-black);
+    --font-sans: "Poppins", sans-serif;
 }
-html {
-    scroll-behavior: smooth;
-    cursor: default;
-    user-select: none;
-    scroll-padding-top: 80px;
+
+@layer base {
+    * {
+        font-family: "Poppins", sans-serif;
+    }
+    html {
+        scroll-behavior: smooth;
+        cursor: default;
+        user-select: none;
+        scroll-padding-top: 80px;
+        line-height: normal;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    button,
+    input,
+    textarea,
+    select {
+        line-height: normal;
+    }
+    ::placeholder {
+        color: #757575;
+        opacity: 1;
+    }
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 80px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #222a35;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #575c66;
+        border-radius: 6px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #626970;
+    }
 }
-body {
-    margin: 0px !important;
-    padding: 0;
-    font-family: "Montserrat", sans-serif;
-}
-::-webkit-scrollbar {
-    width: 4px;
-    height: 80px;
-}
-::-webkit-scrollbar-track {
-    background: #222a35;
-}
-::-webkit-scrollbar-thumb {
-    background: #575c66;
-    border-radius: 6px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #626970;
+
+/* Preserve the original decorative section gradients and clipped edges. */
+@layer components {
+    .section-gradient {
+        background:
+            linear-gradient(
+                38.37deg,
+                rgba(204, 0, 187, 0.15) 0%,
+                rgba(201, 32, 184, 0) 50%
+            ),
+            linear-gradient(
+                141.27deg,
+                rgba(0, 78, 255, 0) 50%,
+                rgba(0, 78, 255, 0.15) 100%
+            );
+    }
+    .projects-gradient {
+        background: linear-gradient(
+            343.07deg,
+            rgba(132, 59, 206, 0.06) 5.71%,
+            rgba(132, 59, 206, 0) 64.83%
+        );
+    }
+    .project-detail-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: color-mix(
+                in srgb,
+                var(--color-primary) 60%,
+                transparent
+            )
+            var(--color-bg-light);
+    }
+    .project-detail-scroll::-webkit-scrollbar {
+        width: 8px;
+    }
+    .project-detail-scroll::-webkit-scrollbar-track {
+        background: var(--color-bg-light);
+        border-radius: 10px;
+    }
+    .project-detail-scroll::-webkit-scrollbar-thumb {
+        background-color: color-mix(
+            in srgb,
+            var(--color-primary) 60%,
+            transparent
+        );
+        border-radius: 10px;
+        border: 2px solid var(--color-bg-light);
+        background-clip: padding-box;
+    }
+    .project-detail-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-primary);
+    }
 }

@@ -1,122 +1,50 @@
 import type { Project, ProjectModalControls } from "../../types/portfolio";
-import styled from "styled-components";
 
-const Card = styled.div`
-    width: 330px;
-    height: 490px;
-    background-color: ${({ theme }) => theme.card};
-    cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 3px 5px 15px 2px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    transition: all 0.5s ease-in-out;
-    padding: 26px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    &:hover {
-        transform: translateY(-10px);
-        box-shadow: 3px 5px 15px 2px rgba(0, 0, 0, 0.6);
-        filter: brightness(1.1);
-    }
-`;
-const Image = styled.img`
-    width: 100%;
-    height: 180px;
-    background-color: ${({ theme }) => theme.white};
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: 3px 5px 16px 2px rgba(0, 0, 0, 0.3);
-`;
-const Tags = styled.div`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
-    align-items: center;
-`;
-const Tag = styled.span`
-    font-size: 12px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.primary};
-    background-color: ${({ theme }) => theme.primary + 15};
-    padding: 2px 8px;
-    border-radius: 10px;
-`;
-const Details = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding: 0 2px;
-`;
-const Title = styled.div`
-    font-size: 20px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_secondary};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-`;
-const Date = styled.div`
-    font-size: 12px;
-    font-weight: 400;
-    margin-left: 2px;
-    color: ${({ theme }) => theme.text_secondary + 80};
-    @media (max-width: 768px) {
-        font-size: 10px;
-    }
-`;
-const Desc = styled.div`
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_secondary + 99};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    margin-top: 8px;
-    max-width: 100%;
-`;
-const Members = styled.div`
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-`;
-const Avatar = styled.img`
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-left: -10px;
-    background-color: ${({ theme }) => theme.white};
-    box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.2);
-    border: 3px solid ${({ theme }) => theme.card};
-`;
+interface ProjectCardProps extends ProjectModalControls {
+    project: Project;
+}
 
-const ProjectCard = ({ project, setOpenModal }: ProjectModalControls & { project: Project }) => {
+const ProjectCard = ({ project, setOpenModal }: ProjectCardProps) => {
     return (
-        <Card onClick={() => setOpenModal({ state: true, project: project })}>
-            <Image src={project.image} />
-            <Tags>
+        <div
+            className="flex h-122.5 w-82.5 max-w-full cursor-pointer flex-col gap-3.5 overflow-hidden rounded-xl bg-card px-5 py-6.5 shadow-[3px_5px_15px_2px_rgba(0,0,0,0.4)] transition-all duration-500 ease-in-out hover:-translate-y-2.5 hover:shadow-[3px_5px_15px_2px_rgba(0,0,0,0.6)] hover:brightness-110"
+            onClick={() => setOpenModal({ state: true, project: project })}
+        >
+            <img
+                className="h-45 w-full rounded-xl bg-white object-cover shadow-[3px_5px_16px_2px_rgba(0,0,0,0.3)]"
+                src={project.image}
+            />
+            <div className="flex w-full flex-wrap items-center gap-2 pt-1">
                 {project.tags?.map((tag) => (
-                    <Tag key={tag}>{tag}</Tag>
+                    <span
+                        className="rounded-xl bg-primary/[8.24%] px-2 py-0.5 text-xs font-normal text-primary"
+                        key={tag}
+                    >
+                        {tag}
+                    </span>
                 ))}
-            </Tags>
-            <Details>
-                <Title>{project.title}</Title>
-                <Date>{project.date}</Date>
-                <Desc>{project.description}</Desc>
-            </Details>
-            <Members>
+            </div>
+            <div className="flex w-full flex-col px-0.5">
+                <div className="max-w-full truncate text-xl font-semibold text-text-secondary">
+                    {project.title}
+                </div>
+                <div className="pl-0.5 text-xs font-normal text-text-secondary/[50.2%] max-md:text-[10px]">
+                    {project.date}
+                </div>
+                <div className="line-clamp-3 max-w-full pt-2 font-normal text-text-secondary/60">
+                    {project.description}
+                </div>
+            </div>
+            <div className="flex items-center pl-2.5">
                 {project.members?.map((member, index) => (
-                    <Avatar key={index} src={member.img} />
+                    <img
+                        className="-ml-2.5 size-7.5 rounded-full border-[3px] border-card bg-white shadow-[0_0_16px_2px_rgba(0,0,0,0.2)]"
+                        key={index}
+                        src={member.img}
+                    />
                 ))}
-            </Members>
-        </Card>
+            </div>
+        </div>
     );
 };
 

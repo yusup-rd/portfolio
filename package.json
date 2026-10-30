@@ -8,7 +8,12 @@
         "build": "npm run typecheck && vite build",
         "lint": "eslint . --max-warnings 0",
         "preview": "vite preview",
-        "typecheck": "tsc -b"
+        "typecheck": "tsc -b",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "prepare": "husky",
+        "lint:staged": "lint-staged",
+        "spellcheck": "cspell --config cspell.config.ts --no-progress \"src/**/*.{ts,tsx,css}\" \"*.md\""
     },
     "dependencies": {
         "@emailjs/browser": "^5.0.3",
@@ -22,26 +27,43 @@
         "react-dom": "^19.3.1",
         "react-icons": "^5.7.0",
         "react-router-dom": "^7.18.5",
-        "styled-components": "^6.6.0",
         "typewriter-effect": "^3.3.0"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@tailwindcss/vite": "^4.3.3",
         "@types/aos": "^3.0.8",
         "@types/node": "^26.6.6",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "@vitejs/plugin-react": "^6.1.2",
+        "cspell": "^10.4.0",
         "eslint": "^10.13.0",
         "eslint-plugin-react-hooks": "^7.1.1",
         "eslint-plugin-react-refresh": "^0.5.7",
         "globals": "^17.13.0",
+        "husky": "^9.1.7",
         "jiti": "^2.7.0",
+        "lint-staged": "^17.6.0",
+        "prettier": "^3.9.10",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "prettier-plugin-tailwindcss": "^0.8.1",
+        "tailwindcss": "^4.3.3",
         "typescript": "~6.0.3",
         "typescript-eslint": "^8.72.1",
         "vite": "^8.3.5"
     },
     "engines": {
         "node": "^22.13.0 || >=24.0.0"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "prettier --write",
+            "eslint --fix --max-warnings 0",
+            "prettier --write"
+        ],
+        "*.{json,css,md,html}": [
+            "prettier --write"
+        ]
     }
 }

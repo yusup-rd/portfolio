@@ -1,146 +1,50 @@
 import type { Education } from "../../types/portfolio";
-import styled from "styled-components";
 
-const Document = styled.img`
-    display: none;
-    height: 70px;
-    width: fit-content;
-    object-fit: contain;
-    background-color: #000;
-    border-radius: 10px;
-    &:hover {
-        cursor: pointer;
-        opacity: 0.8;
-    }
-`;
-const Span = styled.span`
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    max-width: 100%;
-    text-overflow: ellipsis;
-`;
-const Card = styled.div`
-    width: 650px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 12px 16px;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: all 0.3s ease-in-out;
-    &:hover {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        transform: translateY(-5px);
-    }
-    &:hover ${Span} {
-        overflow: visible;
-        -webkit-line-clamp: unset;
-    }
-    &:hover ${Document} {
-        display: flex;
-    }
-    @media (max-width: 768px) {
-        gap: 8px;
-        width: 300px;
-    }
-    border: 0.1px solid ${({ theme }) => theme.border2};
-    box-shadow: rgba(23, 92, 230, 0.15) 0 4px 24px;
-`;
-const Top = styled.div`
-    display: flex;
-    gap: 12px;
-    width: 100%;
-`;
-const Logo = styled.img`
-    height: 50px;
-    width: 50px;
-    object-fit: contain;
-    background-color: #fff;
-    border-radius: 10px;
-    margin-top: 4px;
-    @media (max-width: 768px) {
-        height: 40px;
-        width: 40px;
-    }
-`;
-const Body = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-`;
-const Name = styled.div`
-    font-size: 18px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_primary + 99};
-    @media (max-width: 768px) {
-        font-size: 14px;
-    }
-`;
-const Degree = styled.div`
-    font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text_secondary + 99};
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-`;
-const Date = styled.div`
-    font-size: 12px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_secondary + 80};
-    @media (max-width: 768px) {
-        font-size: 10px;
-    }
-`;
-const Desc = styled.div`
-    width: 100%;
-    font-size: 15px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_primary + 99};
-    margin-bottom: 10px;
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-`;
-const Grade = styled.div`
-    font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text_secondary + 99};
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-`;
+interface EducationCardProps {
+    education: Education;
+}
 
-const EducationCard = ({ education }: { education: Education }) => {
+const EducationCard = ({ education }: EducationCardProps) => {
     return (
-        <Card>
-            <Top>
-                <Logo src={education.img}></Logo>
-                <Body>
-                    <Name>{education.school}</Name>
-                    <Degree>{education.degree}</Degree>
-                    <Date>{education.date}</Date>
-                </Body>
-            </Top>
-            <Grade>Grade: {education.grade}</Grade>
-            <Desc>
-                <Span>{education.desc}</Span>
-            </Desc>
+        <div className="group relative flex w-162.5 max-w-[calc(100dvw-4rem)] flex-col justify-between gap-3 overflow-hidden rounded-xl border-[0.1px] border-border2 px-4 pt-3 pb-5.5 shadow-[0_4px_24px_rgba(23,92,230,0.15)] transition-all duration-300 ease-in-out hover:-translate-y-1.25 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] max-md:w-75 max-md:gap-2">
+            <div className="flex w-full gap-3">
+                <img
+                    className="size-12.5 shrink-0 rounded-xl bg-white object-contain max-md:size-10"
+                    src={education.img}
+                ></img>
+                <div className="flex w-full flex-col">
+                    <div className="text-lg font-semibold text-text-primary/60 max-md:text-sm">
+                        {education.school}
+                    </div>
+                    <div className="text-sm font-medium text-text-secondary/60 max-md:text-xs">
+                        {education.degree}
+                    </div>
+                    <div className="text-xs font-normal text-text-secondary/[50.2%] max-md:text-[10px]">
+                        {education.date}
+                    </div>
+                </div>
+            </div>
+            <div className="text-sm font-medium text-text-secondary/60 max-md:text-xs">
+                Grade: {education.grade}
+            </div>
+            <div className="w-full text-sm font-normal text-text-primary/60 max-md:text-xs">
+                <span className="line-clamp-4 max-w-full text-ellipsis group-hover:line-clamp-none">
+                    {education.desc}
+                </span>
+            </div>
             {education.doc && (
                 <a
                     href={education.doc}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <Document src={education.doc} />
+                    <img
+                        className="hidden h-17.5 w-fit rounded-xl bg-black object-contain group-hover:flex hover:cursor-pointer hover:opacity-80"
+                        src={education.doc}
+                    />
                 </a>
             )}
-        </Card>
+        </div>
     );
 };
 
