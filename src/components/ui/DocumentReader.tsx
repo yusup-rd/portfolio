@@ -62,7 +62,7 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
                             <FiFileText aria-hidden="true" />
                             {title}
                         </h2>
-                        <div className="flex items-center gap-2">
+                        <div className="ml-auto flex items-center gap-2">
                             <a
                                 className="button button-secondary"
                                 href={src}

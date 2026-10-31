@@ -11,6 +11,7 @@ const links = [
     ["Work", "projects"],
     ["Experience", "experience"],
     ["Expertise", "skills"],
+    ["Education", "education"],
     ["Contact", "contact"],
 ] as const;
 const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
