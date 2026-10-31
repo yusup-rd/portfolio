@@ -7,6 +7,9 @@ education timelines, a reusable document reader, and an EmailJS contact form.
 ## Development
 
 Use Node.js 22.13+ (22.x) or Node.js 24+ and npm.
+The root `.nvmrc` selects Node.js 24.x for local version managers and Netlify
+builds, overriding Netlify's older default. On Netlify, use `npm run build`
+with `dist` as the publish directory.
 
 ```sh
 npm ci
