@@ -1,6 +1,6 @@
 # Third-party notices
 
-## React Bits Particles, Dot Grid, and Rubber Segment
+## React Bits Particles, Dot Grid, Rubber Segment, and Glide Select
 
 The hero starfield adapts the particle glow, twinkle, and seeded distribution from
 [React Bits Particles](https://reactbits.dev/r/Particles-TS-TW.json) by David Haz.
@@ -8,8 +8,11 @@ The light-mode dot grid adapts the proximity response and radial entrance from
 [React Bits Dot Grid](https://reactbits.dev/r/DotGrid-TS-TW.json).
 The project category selector adapts the clipped highlight and independent-edge
 springs from [React Bits Rubber Segment](https://reactbits.dev/r/RubberSegment-TS-TW.json).
-The renderer is scoped to this portfolio's starfield; unused interaction and
-connection features are omitted. The upstream notice follows.
+The custom dropdown adapts the corner pop and gliding highlight from
+[React Bits Glide Select](https://reactbits.dev/c/micro/glide-select), using Radix Select
+for focus management, keyboard interaction, portals, and collision handling.
+These integrations include only the features needed by this portfolio.
+The upstream notice follows.
 
 MIT + Commons Clause License Condition v1.0
 

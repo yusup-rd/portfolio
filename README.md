@@ -115,8 +115,9 @@ renders. The project collection includes its toolbar in height transitions and
 restores the saved scroll position on collapse.
 
 Project screenshots use Embla with swipe, previous/next buttons, active dots,
-keyboard navigation, and announced counts. Apple platforms use a native sort
-selector; other platforms use Radix Select. Material UI and Emotion provide
+keyboard navigation, and announced counts. All platforms use a reusable
+Glide Select adapted from React Bits,
+with an animated corner pop and gliding row highlight over Radix Select. Material UI and Emotion provide
 modal focus handling and the contact snackbar. Contact validation uses Zod;
 smoke tests must never send real emails.
 
