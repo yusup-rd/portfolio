@@ -1,5 +1,13 @@
 import type { FormEvent } from "react";
 import React from "react";
+import {
+    FiMail,
+    FiMessageSquare,
+    FiSend,
+    FiType,
+    FiUser,
+} from "react-icons/fi";
+import SectionHeading from "../ui/SectionHeading";
 
 import emailjs from "@emailjs/browser";
 import { Snackbar } from "@mui/material";
@@ -97,27 +105,32 @@ const Contact = () => {
     };
 
     return (
-        <div className="relative z-1 flex flex-col items-center justify-center">
-            <div className="relative flex w-full max-w-337.5 flex-col items-center justify-between gap-10 pt-5 pb-20 max-md:pt-3">
-                <div className="flex flex-col items-center gap-3 max-md:gap-6">
-                    <div className="text-center text-4xl font-semibold text-text-primary max-md:text-3xl">
-                        Contact
-                    </div>
-                    <div className="max-w-150 text-center text-lg text-text-secondary max-md:px-3.75 max-md:text-base">
-                        Please don&apos;t hesitate to contact me if you have any
-                        inquiries or if there are any opportunities you&apos;d
-                        like to discuss.
-                    </div>
+        <section id="contact" className="border-t border-border bg-bg-light">
+            <div className="page-shell section-space grid gap-12 lg:grid-cols-2 lg:gap-24">
+                <div className="flex flex-col gap-8">
+                    <SectionHeading
+                        number="05"
+                        eyebrow="Start a conversation"
+                        title="Good work starts with a conversation."
+                    />
+                    <p className="max-w-100 text-lg leading-relaxed text-text-secondary">
+                        Have a product to build, a problem to solve, or a team I
+                        could contribute to? I’d like to hear about it.
+                    </p>
+                    <p className="text-sm text-text-secondary">
+                        Tell me a little about your idea and what you have in
+                        mind.
+                    </p>
                 </div>
                 <form
-                    className="flex w-[95%] max-w-150 flex-col gap-3 rounded-2xl bg-card p-8 shadow-[0_4px_24px_rgba(23,92,230,0.15)]"
+                    className="surface flex min-w-0 flex-col gap-5 p-6 sm:p-8"
                     ref={form}
                     onSubmit={handleSubmit}
                     noValidate
                     aria-busy={isSubmitting}
                 >
                     <div className="pb-1.5 text-2xl font-semibold text-text-primary">
-                        Email Me 🚀
+                        Send a message
                     </div>
                     {fields.map((field) => {
                         const inputProps = {
@@ -151,15 +164,26 @@ const Contact = () => {
                                         event.currentTarget.value,
                                     );
                             },
-                            className:
-                                "min-w-0 w-full rounded-xl border border-text-secondary bg-transparent px-4 py-3 text-lg text-text-primary outline-none focus:border-primary aria-invalid:border-red-500",
+                            className: "contact-input",
                         };
                         return (
                             <div
                                 key={field.name}
                                 className="flex flex-col gap-1.5"
                             >
-                                <label htmlFor={field.name} className="sr-only">
+                                <label
+                                    htmlFor={field.name}
+                                    className="flex items-center gap-2 text-sm font-medium"
+                                >
+                                    {field.name === "from_email" ? (
+                                        <FiMail aria-hidden="true" />
+                                    ) : field.name === "from_name" ? (
+                                        <FiUser aria-hidden="true" />
+                                    ) : field.name === "subject" ? (
+                                        <FiType aria-hidden="true" />
+                                    ) : (
+                                        <FiMessageSquare aria-hidden="true" />
+                                    )}
                                     {field.label}
                                 </label>
                                 {field.name === "message" ? (
@@ -187,7 +211,7 @@ const Contact = () => {
                                 {fieldErrors[field.name] && (
                                     <p
                                         id={field.name + "-error"}
-                                        className="text-sm text-text-primary"
+                                        className="text-sm text-error"
                                         role="alert"
                                     >
                                         {fieldErrors[field.name]}
@@ -197,7 +221,7 @@ const Contact = () => {
                         );
                     })}
                     <button
-                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-none bg-(image:--portfolio-special-btn) px-4 py-3.25 text-lg font-semibold text-text-primary transition-transform duration-200 ease-in-out enabled:hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+                        className="button button-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
                         type="submit"
                         disabled={isSubmitting}
                     >
@@ -207,6 +231,7 @@ const Contact = () => {
                                 className="size-5 animate-spin rounded-full border-2 border-current border-r-transparent"
                             />
                         )}
+                        {!isSubmitting && <FiSend aria-hidden="true" />}
                         <span aria-live="polite">
                             {isSubmitting ? "Sending…" : "Send"}
                         </span>
@@ -226,10 +251,9 @@ const Contact = () => {
                         vertical: "bottom",
                         horizontal: "center",
                     }}
-                    className="absolute! top-[85%]! left-1/2! -translate-x-1/2"
                 />
             </div>
-        </div>
+        </section>
     );
 };
 

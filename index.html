@@ -2,10 +2,34 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <script>
+            try {
+                const saved = localStorage.getItem("portfolio-theme");
+                document.documentElement.dataset.theme =
+                    saved === "light" || saved === "dark"
+                        ? saved
+                        : matchMedia("(prefers-color-scheme: dark)").matches
+                          ? "dark"
+                          : "light";
+            } catch {
+                document.documentElement.dataset.theme = matchMedia(
+                    "(prefers-color-scheme: dark)",
+                ).matches
+                    ? "dark"
+                    : "light";
+            }
+        </script>
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/images/logos/portfolio-mark.svg"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:title" content="Yusup Rejebov Portfolio" />
-        <meta property="og:image" content="https://i.imgur.com/Ef7TMKz.png" />
+        <meta
+            property="og:image"
+            content="https://yusuprd.netlify.app/images/social/portfolio-preview.png"
+        />
         <meta
             property="og:description"
             content="Welcome to my portfolio! Here, you'll find a collection of my creative work and technical projects. I hope you enjoy exploring."

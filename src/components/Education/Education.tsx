@@ -1,52 +1,79 @@
-import {
-    Timeline,
-    TimelineConnector,
-    TimelineContent,
-    TimelineDot,
-    TimelineItem,
-    TimelineSeparator,
-} from "@mui/lab";
+import { FiAward, FiBookOpen } from "react-icons/fi";
 import { education } from "../../data/constants";
-import EducationCard from "../Cards/EducationCard";
-
+import DocumentLink from "../ui/DocumentLink";
+import SectionHeading from "../ui/SectionHeading";
+import Timeline from "../ui/Timeline";
 const Education = () => {
     return (
-        <div
-            className="relative z-1 flex flex-col items-center justify-center pt-10 pb-20"
+        <section
             id="education"
+            className="page-shell section-space flex flex-col gap-14"
         >
-            <div className="relative flex w-full max-w-275 flex-col items-center justify-center gap-3 pt-5 max-md:pt-3">
-                <div className="text-center text-4xl font-semibold text-text-primary max-md:text-3xl">
-                    Education
-                </div>
-                <div className="max-w-150 text-center text-lg text-text-secondary max-md:px-3.75 max-md:text-base">
-                    My educational experience has been a voyage of
-                    self-exploration and personal development. Here are the
-                    specifics of my educational background.
-                </div>
-                <div className="flex w-full max-w-250 flex-col items-center justify-center gap-3 pt-2.5">
-                    <Timeline>
-                        {education.map((educationItem, index) => (
-                            <TimelineItem key={index}>
-                                <TimelineContent sx={{ py: "12px", px: 2 }}>
-                                    <EducationCard education={educationItem} />
-                                </TimelineContent>
-                                <TimelineSeparator>
-                                    <TimelineDot
-                                        variant="outlined"
-                                        color="secondary"
-                                    />
-                                    {index !== education.length - 1 && (
-                                        <TimelineConnector className="bg-[#854CE6]!" />
-                                    )}
-                                </TimelineSeparator>
-                            </TimelineItem>
+            <SectionHeading
+                number="04"
+                eyebrow="Education"
+                title="A foundation for what’s next."
+                description="Formal study, independent learning, and a continuing curiosity about how things work."
+            />
+            <Timeline
+                label="Education timeline"
+                entries={[...education]
+                    .filter((e) => e.school.includes("Tenaga"))
+                    .sort(
+                        (a, b) =>
+                            Number(b.date.match(/20\d{2}/g)?.at(-1) ?? 0) -
+                            Number(a.date.match(/20\d{2}/g)?.at(-1) ?? 0),
+                    )
+                    .map((e) => ({
+                        id: e.id,
+                        title: e.degree,
+                        organization: e.school,
+                        date: e.date,
+                        description: e.desc,
+                        tags: [e.grade],
+                        ...(e.documents ? { documents: e.documents } : {}),
+                    }))}
+            />
+            <div className="flex flex-col gap-5">
+                <h3 className="flex items-center gap-2 text-xl font-semibold">
+                    <FiBookOpen aria-hidden="true" />
+                    Courses & continuing education
+                </h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                    {education
+                        .filter((e) => !e.school.includes("Tenaga"))
+                        .map((e) => (
+                            <article
+                                key={e.id}
+                                className="surface flex flex-col gap-3 p-6"
+                            >
+                                <p className="eyebrow text-primary">
+                                    {e.school} · {e.date}
+                                </p>
+                                <h4 className="text-lg font-medium">
+                                    {e.degree}
+                                </h4>
+                                <p className="text-sm leading-relaxed text-text-secondary">
+                                    {e.desc}
+                                </p>
+                                <p className="text-xs text-text-secondary">
+                                    {e.grade}
+                                </p>
+                                {e.documents?.map((document) => (
+                                    <DocumentLink
+                                        key={document.src}
+                                        src={document.src}
+                                        title={document.title}
+                                    >
+                                        <FiAward aria-hidden="true" />
+                                        View certificate
+                                    </DocumentLink>
+                                ))}
+                            </article>
                         ))}
-                    </Timeline>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
-
 export default Education;
