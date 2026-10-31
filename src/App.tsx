@@ -9,6 +9,7 @@ import Hero from "./components/Hero/Hero";
 import Navbar from "./components/Nav/Navbar";
 import Projects from "./components/Projects/Projects";
 import Skills from "./components/Skills/Skills";
+import { useAnchorScroll } from "./hooks/useAnchorScroll";
 import { useReveal } from "./hooks/useReveal";
 import { useTheme } from "./hooks/useTheme";
 import type { ProjectModalState } from "./types/portfolio";
@@ -19,6 +20,7 @@ const App = () => {
         project: null,
     });
     useReveal();
+    useAnchorScroll();
     return (
         <>
             <a className="skip-link" href="#main">

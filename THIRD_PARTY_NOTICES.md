@@ -1,9 +1,11 @@
 # Third-party notices
 
-## React Bits Particles
+## React Bits Particles and Dot Grid
 
 The hero starfield adapts the particle glow, twinkle, and seeded distribution from
 [React Bits Particles](https://reactbits.dev/r/Particles-TS-TW.json) by David Haz.
+The light-mode dot grid adapts the proximity response and radial entrance from
+[React Bits Dot Grid](https://reactbits.dev/r/DotGrid-TS-TW.json).
 The renderer is scoped to this portfolio's starfield; unused interaction and
 connection features are omitted. The upstream notice follows.
 

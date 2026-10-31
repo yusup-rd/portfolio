@@ -10,12 +10,14 @@ import {
 } from "react-icons/fi";
 import { Bio, skills } from "../../data/constants";
 import DocumentLink from "../ui/DocumentLink";
+import HeroDotGrid from "../ui/HeroDotGrid";
 import HeroParticles from "../ui/HeroParticles";
 import SkillBadge from "../ui/SkillBadge";
 const Hero = () => {
     return (
         <section id="about" className="relative isolate">
             <HeroParticles />
+            <HeroDotGrid />
             <div className="page-shell grid gap-14 pt-14 pb-16 md:pt-24 md:pb-24 lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:gap-20">
                 <div className="flex flex-col items-start gap-6" data-reveal>
                     <p className="eyebrow flex items-center gap-3">

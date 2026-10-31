@@ -43,7 +43,7 @@
 @layer base {
     html {
         scroll-behavior: smooth;
-        scroll-padding-top: 6rem;
+        scroll-padding-top: var(--header-height, 5.0625rem);
         background: var(--page);
     }
     main {
@@ -80,6 +80,23 @@
     :focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 5px;
+    }
+}
+@layer components {
+    .hero-background {
+        position: absolute;
+        inset-block: 0;
+        left: 50%;
+        width: 100dvw;
+        transform: translateX(-50%);
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 500ms var(--ease-out);
+    }
+    :root[data-theme="dark"] .hero-stars,
+    :root[data-theme="light"] .hero-dots {
+        opacity: 1;
     }
 }
 @layer components {

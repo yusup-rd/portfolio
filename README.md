@@ -100,8 +100,10 @@ Assets still needed for future content updates:
 
 The hero has a full-viewport-width starfield adapted from
 [React Bits Particles](https://reactbits.dev/c/backgrounds/particles?glow=1&twinkle=0.85).
-Small stars glow and twinkle slowly, with pause/play and a still reduced-motion
-composition. Rendering suspends offscreen and in hidden tabs, caps pixel ratio at
+Dark-mode stars rotate at speed `0.05`, twinkle, and react gently to the cursor. Light mode uses
+a [React Bits Dot Grid](https://reactbits.dev/c/backgrounds/dot-grid). Both stay mounted
+for smooth crossfades and replay their entrance on theme activation. Reduced motion
+uses still compositions; no pause/play control is displayed. Rendering suspends offscreen and in hidden tabs, caps pixel ratio at
 1.5 and frame rate at 30, and falls back to Canvas 2D if WebGL is unavailable.
 Attribution and the upstream license are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 Disclosures and mobile navigation
