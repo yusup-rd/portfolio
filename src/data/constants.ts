@@ -160,7 +160,7 @@ export const skills: SkillGroup[] = [
             },
             {
                 name: "gRPC",
-                image: "",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grpc/grpc-plain.svg",
             },
             {
                 name: "GraphQL",
@@ -184,8 +184,12 @@ export const skills: SkillGroup[] = [
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",
             },
             {
-                name: "XDebug",
-                image: "",
+                name: "Jest",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg",
+            },
+            {
+                name: "Vitest",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitest/vitest-original.svg",
             },
             {
                 name: "Docker",

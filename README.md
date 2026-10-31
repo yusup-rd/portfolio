@@ -120,6 +120,11 @@ selector; other platforms use Radix Select. Material UI and Emotion provide
 modal focus handling and the contact snackbar. Contact validation uses Zod;
 smoke tests must never send real emails.
 
+Project categories use a controlled Rubber Segment adapted from React Bits, with
+a restrained, interruptible highlight, drag selection, radio-group keyboard
+navigation, and immediate keyboard/reduced-motion updates. It keeps 44px touch
+targets and uses a shorter "All" label on mobile.
+
 ## License and contact
 
 [MIT](LICENSE). Contact [yusuprd@icloud.com](mailto:yusuprd@icloud.com).

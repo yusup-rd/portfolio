@@ -6,8 +6,15 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 import type { ProjectModalControls } from "../../types/portfolio";
 import { motionTiming } from "../../utils/motion";
 import ProjectCard from "../Cards/ProjectCard";
+import RubberSegment from "../ui/RubberSegment";
 import SectionHeading from "../ui/SectionHeading";
 import SortSelect from "../ui/SortSelect";
+const projectFilters = [
+    { value: "all", label: "All projects", compactLabel: "All" },
+    { value: "full-stack", label: "Full-stack" },
+    { value: "mobile", label: "Mobile" },
+    { value: "back-end", label: "Backend" },
+] as const;
 const loadMotionFeatures = () =>
     import("../ui/motionFeatures").then((module) => module.default);
 
@@ -93,30 +100,12 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                     <div ref={gallery} className="flex flex-col gap-8">
                         {expanded && (
                             <div className="flex flex-wrap items-center justify-between gap-4">
-                                <div
-                                    className="flex flex-wrap gap-2"
-                                    role="group"
-                                    aria-label="Filter projects"
-                                >
-                                    {[
-                                        "all",
-                                        ...new Set(
-                                            projects.map((p) => p.category),
-                                        ),
-                                    ].map((cat) => (
-                                        <button
-                                            type="button"
-                                            className="filter-button"
-                                            aria-pressed={category === cat}
-                                            key={cat}
-                                            onClick={() => setCategory(cat)}
-                                        >
-                                            {cat === "all"
-                                                ? "All projects"
-                                                : cat.replaceAll("-", " ")}
-                                        </button>
-                                    ))}
-                                </div>
+                                <RubberSegment
+                                    items={projectFilters}
+                                    value={category}
+                                    onChange={setCategory}
+                                    label="Filter projects"
+                                />
                                 <SortSelect value={sort} onChange={setSort} />
                             </div>
                         )}
