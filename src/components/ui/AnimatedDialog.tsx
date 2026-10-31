@@ -1,12 +1,18 @@
 import { Fade, Modal } from "@mui/material";
-import { useState, type ReactNode } from "react";
+import { useState, type AriaAttributes, type ReactNode } from "react";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { motionTiming } from "../../utils/motion";
 interface AnimatedDialogProps {
     labelledBy: string;
     describedBy?: string;
     onClose: () => void;
-    children: (close: () => void) => ReactNode;
+    children: (
+        close: () => void,
+        dialogProps: Pick<
+            AriaAttributes,
+            "aria-labelledby" | "aria-describedby"
+        >,
+    ) => ReactNode;
 }
 const AnimatedDialog = ({
     labelledBy,
@@ -30,8 +36,6 @@ const AnimatedDialog = ({
             open={open}
             onClose={(_, reason) => close(reason === "escapeKeyDown")}
             closeAfterTransition
-            aria-labelledby={labelledBy}
-            aria-describedby={describedBy}
         >
             <Fade
                 in={open}
@@ -42,12 +46,14 @@ const AnimatedDialog = ({
                 <div
                     className="dialog-position"
                     data-state={open ? "open" : "closed"}
-                    onClick={(event) => {
-                        if (event.target === event.currentTarget)
-                            close(event.detail === 0);
+                    onMouseDown={(event) => {
+                        if (event.target === event.currentTarget) close(false);
                     }}
                 >
-                    {children(() => close())}
+                    {children(() => close(), {
+                        "aria-labelledby": labelledBy,
+                        "aria-describedby": describedBy,
+                    })}
                 </div>
             </Fade>
         </Modal>

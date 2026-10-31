@@ -15,7 +15,6 @@ const ThemeToggle = ({ theme, toggleTheme }: ThemeToggleProps) => {
                     ? "Switch to light theme"
                     : "Switch to dark theme"
             }
-            aria-pressed={theme === "dark"}
         >
             <span className="theme-icon" data-active={theme === "light"}>
                 <FiSun />

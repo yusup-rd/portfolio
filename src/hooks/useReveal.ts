@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 export const useReveal = () => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         const keyboard = () => {
             document.documentElement.dataset.input = "keyboard";
         };

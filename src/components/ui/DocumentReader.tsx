@@ -27,27 +27,28 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
     const [zoom, setZoom] = useState(1);
     const [width, setWidth] = useState(600);
     const [failed, setFailed] = useState(false);
-    const body = useRef<HTMLDivElement>(null);
+    const [body, setBody] = useState<HTMLDivElement | null>(null);
     const pageStatus = useRef<HTMLParagraphElement>(null);
     const isPdf = /\.pdf(?:$|[?#])/i.test(src);
     useEffect(() => {
-        if (!body.current) return;
+        if (!body) return;
         const observer = new ResizeObserver(([entry]) => {
             if (entry) setWidth(Math.max(200, entry.contentRect.width - 32));
         });
-        observer.observe(body.current);
+        observer.observe(body);
         return () => observer.disconnect();
-    }, []);
+    }, [body]);
     const changePage = (next: number) => {
         setPage(next);
         if (next === 1 || next === pages)
             pageStatus.current?.focus({ preventScroll: true });
-        body.current?.scrollTo({ top: 0 });
+        body?.scrollTo({ top: 0 });
     };
     return (
         <AnimatedDialog labelledBy="document-reader-title" onClose={onClose}>
-            {(close) => (
+            {(close, dialogProps) => (
                 <section
+                    {...dialogProps}
                     className="surface project-dialog flex h-[92dvh] w-full max-w-280 flex-col overflow-hidden"
                     role="dialog"
                     aria-modal="true"
@@ -147,7 +148,7 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
                         </div>
                     )}
                     <div
-                        ref={body}
+                        ref={setBody}
                         className="document-pages min-h-0 flex-1 overflow-auto bg-bg-light p-4"
                     >
                         {failed ? (

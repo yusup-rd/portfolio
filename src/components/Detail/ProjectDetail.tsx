@@ -16,8 +16,9 @@ const ProjectDetail = ({ openModal, setOpenModal }: ProjectDetailProps) => {
             describedBy="project-description"
             onClose={() => setOpenModal({ state: false, project: null })}
         >
-            {(close) => (
+            {(close, dialogProps) => (
                 <div
+                    {...dialogProps}
                     className="project-dialog surface relative flex max-h-[90dvh] w-full max-w-220 flex-col overflow-hidden outline-none"
                     role="dialog"
                     aria-modal="true"
