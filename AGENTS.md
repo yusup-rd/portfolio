@@ -27,7 +27,7 @@ Use the versions in `package.json` and `package-lock.json` as the source of trut
 - Use only Tailwind's preset responsive breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`, and their `max-*` variants). Do not restore legacy/custom breakpoints.
 - Use `dvh` and `dvw` for viewport dimensions, including inside calculations; do not use `vh` or `vw`.
 - Keep class names statically discoverable. Use complete conditional classes or data/ARIA variants instead of dynamically constructing utility names.
-- Use theme tokens for palette colors. Theme values live in `src/utils/Themes.ts`; `App` applies CSS variables to the document root so portaled dialogs inherit them.
+- Use theme tokens for palette colors. Light/dark palette values live in `src/App.css`; `useTheme` sets the root data attribute so portaled dialogs inherit them. Follow the OS preference until the user explicitly chooses a theme.
 - Keep custom CSS for global defaults and effects that are clearer in CSS (such as complex gradients and scrollbars). Prefer utilities for normal component layout.
 - Use Prettier's Tailwind plugin to sort classes; do not manually impose a different order.
 
@@ -40,3 +40,18 @@ Use the versions in `package.json` and `package-lock.json` as the source of trut
 - Run `npm run format`, `npm run format:check`, `npm run lint`, and `npm run build` after relevant changes; the build includes type checking.
 - For styling changes, verify desktop, tablet, and mobile layouts, theme switching, project filters/dialogs, and the contact form's appearance. Do not send real emails as a smoke test.
 - Reassess SEO implications for major feature, routing, rendering, or content changes; minor styling fixes do not require a full SEO audit. Do not assume the future SEO roadmap has already been implemented.
+
+## Visual direction
+
+- Use system typography, warm neutral light surfaces and an evergreen light accent, with neutral obsidian surfaces and a pale accent in dark mode. Emphasize important words with weight and hierarchy rather than arbitrary colors.
+- Use immediate press feedback, short material transitions, one-time section reveals, and scroll-linked timeline progress. Respect reduced motion, reduced transparency, and increased contrast.
+- Keep long content behind explicit, keyboard-accessible disclosure controls; never expand content only on hover.
+
+- Keep reader documents in `public/docs/cv`, `public/docs/university`, or `public/docs/udemy`, and images in `public/images/projects`, `public/images/profile`, `public/images/logos`, or `public/images/social`. Use descriptive, lowercase, hyphenated filenames; prefix project screenshots with the project name. Keep only assets used by the portfolio and update references when moving them. Devicons remain remote official CDN URLs in the constants; do not download or vendor them. Track provenance in `src/data/asset-sources.json`. Developer documentation belongs in the root README, separate from reader documents. Missing certificates or client visuals must be requested rather than invented.
+- Use the reusable lazy-loaded document reader for local PDFs and certificate images. Keep its worker local and preserve download and keyboard dismissal.
+- Disclosures and project collection resizing intentionally animate height so surrounding content moves with them. Use the shared timing in `src/utils/motion.ts`, keep transitions interruptible in both directions, restore the pre-expansion scroll position when collapsing projects, and skip motion for reduced-motion/keyboard input. Never remove disclosure content before its closing animation finishes.
+- The hero uses moving, cursor-responsive React Bits Particles in dark mode and a React Bits Dot Grid in light mode. Keep both renderers mounted, crossfade them and replay their entrances on initial load/theme activation. There is no pause/play control. Keep its canvas on a full `dvw` layer outside the constrained content column, with no horizontal clipping or overflow. Preserve subtle glow, slow twinkling, live reduced-motion support, and offscreen/hidden-tab suspension. Avoid unused interaction features and new dependencies for this effect; retain the upstream notice in `THIRD_PARTY_NOTICES.md`.
+- Multiple project screenshots use the reusable carousel with swipe, previous/next buttons, active dots, and keyboard navigation; never add a nested screenshot scroll strip. Keep scrollbars thin and theme-aware.
+- Use the shared accessible Glide Select dropdown on every platform, including iOS and macOS. Do not add native-selector branches or platform detection. Preserve keyboard navigation, touch interaction, reduced-motion support, and animated opening/closing and highlight movement for pointer input.
+- Apply concentric nested corners across the entire project: cards and their content, dialogs, menus, segmented controls, image frames, and every other rounded container/child pair. Use `outer radius = inner radius + intervening padding/gap + outer border width`; never choose the two values independently or give inset children the same radius as the parent. Recalculate at responsive sizes whenever the inset changes, using Tailwind utilities where possible. For example, a menu with `rounded-2xl` (16px), `p-1.75` (7px), and a 1px border needs `rounded-lg` (8px) rows and highlight. Verify the relationship visually in both themes.
+- Show document pagination only when the loaded PDF has more than one page; keep zoom and download available for single-page PDFs.
