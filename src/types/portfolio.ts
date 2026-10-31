@@ -1,16 +1,12 @@
 import type { Dispatch, SetStateAction } from "react";
 
 export interface Biography {
-    name: string;
-    roles: string[];
-    description: string;
     github: string;
     resume: string;
     image: string;
     linkedin: string;
     telegram: string;
     instagram: string;
-    facebook: string;
 }
 
 export interface SkillGroup {
@@ -20,30 +16,33 @@ export interface SkillGroup {
 
 export interface Experience {
     id: number;
-    img: string;
     role: string;
     company: string;
     date: string;
     desc: string;
     skills: string[];
-    doc?: string;
+}
+
+export interface PortfolioDocument {
+    title: string;
+    src: string;
 }
 
 export interface Education {
+    documents?: PortfolioDocument[];
     id: number;
-    img: string;
     school: string;
     date: string;
     grade: string;
     desc: string;
     degree: string;
-    doc?: string;
 }
 
-export type ProjectCategory =
-    "front-end" | "back-end" | "full-stack" | "mobile" | "programming";
+export type ProjectCategory = "back-end" | "full-stack" | "mobile";
 
 export interface Project {
+    screenshots?: string[];
+    imageFit?: "contain" | "cover";
     id: number;
     title: string;
     date: string;
@@ -53,7 +52,6 @@ export interface Project {
     category: ProjectCategory;
     github: string;
     webapp: string;
-    members?: { name: string; img: string; github: string; linkedin: string }[];
 }
 
 export type ProjectModalState =
@@ -61,9 +59,4 @@ export type ProjectModalState =
 
 export interface ProjectModalControls {
     setOpenModal: Dispatch<SetStateAction<ProjectModalState>>;
-}
-
-export interface ThemeControls {
-    selectedThemeIndex: number;
-    changeTheme: (index: number) => void;
 }

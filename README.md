@@ -1,87 +1,134 @@
-# Yusup's Portfolio Website
+# Yusup Rejebov's portfolio
 
-Hello and welcome to my portfolio website!
+A personal portfolio for full-stack web and mobile work, built with React 19,
+TypeScript, Tailwind CSS 4, and Vite. It includes selected projects, career and
+education timelines, a reusable document reader, and an EmailJS contact form.
 
-## Description
-
-This website serves as a showcase for my creative works and technical projects. Here, you'll find a collection of engaging content, including web applications, programming projects, and machine learning endeavors.
-
-## Features
-
-- Browse through my creative portfolio.
-- Explore a variety of my web applications, programs, and technical projects.
-- Learn more about me and my background.
-- Contact me for collaborations or inquiries.
-
-## Technologies Used
-
-- React.js
-- Tailwind CSS 4 (CSS-first configuration)
-- TypeScript (strict mode)
-- Vite
-- Git
-
-## Local development
+## Development
 
 Use Node.js 22.13+ (22.x) or Node.js 24+ and npm.
+The root `.nvmrc` selects Node.js 24.x for local version managers and Netlify
+builds, overriding Netlify's older default. On Netlify, use `npm run build`
+with `dist` as the publish directory.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Copy `.env.example` to `.env` and supply your EmailJS service ID, template ID,
-and public key (`VITE_EMAILJS_PUBLIC_KEY`) to enable the contact form. Vite exposes
-`VITE_` values to the browser; only use the EmailJS public key, never a private key.
+Copy `.env.example` to `.env` and set the EmailJS service ID, template ID, and
+`VITE_EMAILJS_PUBLIC_KEY`. Vite exposes `VITE_` values to the browser; use only
+the public key here, never a private key.
 
 ```sh
-npm run typecheck
 npm run format
 npm run format:check
+npm run spellcheck
 npm run lint
 npm run build
 npm run preview
 ```
 
-The production build runs TypeScript checks before bundling. Application code
-lives in `.ts` and `.tsx` files; shared portfolio models are in
-`src/types/portfolio.ts`. Tailwind is integrated with `@tailwindcss/vite`, with
-theme tokens in `src/App.css` and palette values in `src/utils/Themes.ts`.
-The theme variables are applied to the document root so dialogs inherit them.
-There is no JavaScript Tailwind configuration. Material UI and Emotion remain
-for the existing timelines, dialogs, snackbar, and icons.
+The build includes TypeScript checking. TypeScript stays on 6.0.x until the
+installed typescript-eslint supports newer versions. Tailwind uses its Vite
+plugin and CSS-first configuration in `src/App.css`. Theme tokens live there
+and apply at the document root, including portaled dialogs. Light/dark follows
+the OS preference until an explicit choice is saved.
 
-Prettier uses `prettier-plugin-tailwindcss` and the CSS entry point to sort
-utility classes automatically. Run `npm run format` to format the project,
-or `npm run format:check` to check formatting. Contributor conventions and
-version-specific documentation links are in [AGENTS.md](AGENTS.md).
-ESLint uses `eslint.config.ts`.
+Workspace settings enable Prettier, import organization, and unused-import
+cleanup on save. Project spelling exceptions live in `.vscode/settings.json`.
+Husky runs lint-staged before commits: Prettier, ESLint fixes, then Prettier again
+on staged TypeScript files. Partially staged files remain supported. Contributor
+conventions and official documentation links are in [AGENTS.md](AGENTS.md).
 
-Workspace settings recommend Prettier, ESLint, Tailwind IntelliSense, and cSpell
-extensions. Saving a file formats it and organizes/removes unused imports.
-Prettier also performs import cleanup from the command line. Project spelling
-exceptions live in `.vscode/settings.json`; `npm run spellcheck` reads that same
-dictionary through `cspell.config.ts`.
+## Files and assets
 
-`npm install` enables Husky through the `prepare` script. Before each commit,
-lint-staged processes only staged files: it organizes imports and formats code,
-applies ESLint fixes to TypeScript files, then formats the result. Unfixable lint
-errors block the commit. Partially staged changes are handled by lint-staged.
-You can run this manually with `npm run lint:staged`.
+```text
+public/
+  docs/
+    cv/                 Resume PDFs
+    university/         UNITEN certificates and transcripts
+    udemy/              Course certificates
+  images/
+    projects/           Screenshots prefixed with their project name
+    profile/            Portrait
+    logos/              Logos actually used, including the portfolio favicon
+    social/             Social preview image
+src/
+  components/           Portfolio sections and reusable UI
+  data/
+    constants.ts        Portfolio content and asset URLs
+    asset-sources.json  Provenance for retained local assets
+  hooks/                Shared React hooks
+  types/                Portfolio content models
+  utils/                Shared motion timing
+```
 
-TypeScript is kept on 6.0.3 because the current `typescript-eslint` release
-supports TypeScript below 6.1. Upgrade these tools together when TypeScript 7
-support is available. AOS uses its latest stable release (2.3.4); MUI Lab uses
-the latest beta for the timeline components.
+Files in `public` are served directly from `/docs/...` or `/images/...`. Keep new reader documents
+with the relevant institution or provider, and name screenshots clearly, such
+as `qalb-prayer-times.png`. Remove assets when their last use is removed. Devicons
+are the explicit remote exception: use official CDN URLs in the constants.
 
-## Contributing
+The document reader loads on demand, bundles its PDF worker locally, and offers
+zoom, selectable PDF text, download, and keyboard dismissal. Pagination appears
+only for multi-page PDFs. The bachelor's degree certificate and academic
+transcript are separate documents. Udemy courses display completion dates only.
 
-If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your changes. Contributions are always welcome!
+## Content maintenance
 
-## License
+Qalb, Tangle, and Real-time Chat are the initial selection. Other retained
+projects are available through the expanded collection. Source repositories:
+[Qalb](https://github.com/yusup-rd/qalb),
+[Tangle](https://github.com/yusup-rd/tangle), and
+[Real-time Chat](https://github.com/yusup-rd/chat-app-backend).
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The supplied CV states 2.5+ years of experience and dates the Ornate Oasis role
+January 2025-June 2026. Career metrics come from the owner's CV. Tangle's CV
+entry and repository differ on the authentication provider, so its description
+avoids naming an unconfirmed current provider. Do not invent deployment links,
+app-store availability, or usage counts.
 
-## Contact
+Assets still needed for future content updates:
 
-For any questions or inquiries, please contact me via email at [yusuprd@icloud.com](mailto:yusuprd@icloud.com).
+- Foundation, Dean's List, final-year-project excellence, and cultural-night
+  certificates. Original PDFs can optionally replace the existing degree and
+  transcript JPEGs.
+- Updated Tangle and higher-resolution chat screenshots, if available.
+- Hakyda Auto visuals and the owner's publishable contribution details; FinchNest
+  screenshots and a substantive project summary before considering either for
+  the featured selection.
+- Confirmed Qalb store or demo links, if published.
+
+## Interaction
+
+The hero has a full-viewport-width starfield adapted from
+[React Bits Particles](https://reactbits.dev/c/backgrounds/particles?glow=1&twinkle=0.85).
+Dark-mode stars rotate at speed `0.05`, twinkle, and react gently to the cursor. Light mode uses
+a [React Bits Dot Grid](https://reactbits.dev/c/backgrounds/dot-grid). Both stay mounted
+for smooth crossfades and replay their entrance on theme activation. Reduced motion
+uses still compositions; no pause/play control is displayed. Rendering suspends offscreen and in hidden tabs, caps pixel ratio at
+1.5 and frame rate at 30, and falls back to Canvas 2D if WebGL is unavailable.
+Attribution and the upstream license are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Disclosures and mobile navigation
+share measured, interruptible height transitions through `AnimatedHeight`.
+`AnimatedDialog` retains project and document dialogs until their exits finish.
+Shared timing lives in `src/utils/motion.ts`; reduced-motion and keyboard input
+update immediately. Timelines follow scroll progress without per-frame React
+renders. The project collection includes its toolbar in height transitions and
+restores the saved scroll position on collapse.
+
+Project screenshots use Embla with swipe, previous/next buttons, active dots,
+keyboard navigation, and announced counts. All platforms use a reusable
+Glide Select adapted from React Bits,
+with an animated corner pop and gliding row highlight over Radix Select. Material UI and Emotion provide
+modal focus handling and the contact snackbar. Contact validation uses Zod;
+smoke tests must never send real emails.
+
+Project categories use a controlled Rubber Segment adapted from React Bits, with
+a restrained, interruptible highlight, drag selection, radio-group keyboard
+navigation, and immediate keyboard/reduced-motion updates. It keeps 44px touch
+targets and uses a shorter "All" label on mobile.
+
+## License and contact
+
+[MIT](LICENSE). Contact [yusuprd@icloud.com](mailto:yusuprd@icloud.com).

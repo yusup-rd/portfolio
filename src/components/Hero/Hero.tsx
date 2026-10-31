@@ -1,66 +1,139 @@
-import Typewriter from "typewriter-effect";
-import { Bio } from "../../data/constants";
-import HeroBgAnimation from "../HeroBgAnimation";
-
+import {
+    FiArrowDown,
+    FiArrowUpRight,
+    FiCheckCircle,
+    FiCode,
+    FiGithub,
+    FiLinkedin,
+    FiPenTool,
+    FiSmartphone,
+} from "react-icons/fi";
+import { Bio, skills } from "../../data/constants";
+import DocumentLink from "../ui/DocumentLink";
+import HeroDotGrid from "../ui/HeroDotGrid";
+import HeroParticles from "../ui/HeroParticles";
+import SkillBadge from "../ui/SkillBadge";
 const Hero = () => {
     return (
-        <section id="about">
-            <div className="relative z-1 flex justify-center bg-card-light px-7.5 py-20 [clip-path:polygon(0_0,100%_0,100%_100%,70%_95%,0_100%)] max-lg:px-4 max-lg:py-16.5 max-sm:py-8">
-                <div className="absolute top-1/2 left-1/2 flex size-full max-w-340 -translate-x-1/2 -translate-y-1/2 justify-end overflow-hidden px-7.5 max-lg:justify-center max-lg:px-0">
-                    <HeroBgAnimation />
-                </div>
-                <div className="relative flex w-full max-w-275 items-center justify-between max-lg:flex-col max-lg:gap-20 max-sm:gap-7.5">
-                    <div
-                        className="order-1 flex w-full flex-col gap-10.5 max-lg:order-2 max-lg:items-center max-lg:pb-8 max-sm:pb-7.5"
-                        data-aos="fade-right"
-                        data-aos-once="false"
-                    >
-                        <div className="flex w-full flex-col max-lg:items-center max-sm:gap-3">
-                            <div className="flex w-full flex-col max-lg:items-center max-sm:gap-2">
-                                <div className="text-5xl leading-17 font-bold text-text-primary max-lg:text-center max-sm:text-4xl max-sm:leading-12">
-                                    Hi, I am <br />
-                                    {Bio.name}
-                                </div>
-                                <div className="flex gap-3 text-3xl leading-17 font-semibold text-text-primary max-lg:text-center max-sm:text-xl max-sm:leading-12">
-                                    I am a
-                                    <div className="text-primary">
-                                        <Typewriter
-                                            options={{
-                                                strings: Bio.roles,
-                                                autoStart: true,
-                                                loop: true,
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                className="text-xl leading-8 text-text-primary/[58.43%] max-lg:text-center max-sm:px-3.75 max-sm:text-justify max-sm:text-base"
-                                data-aos="fade-right"
-                                data-aos-once="false"
-                            >
-                                {Bio.description}
-                            </div>
-                        </div>
-                        <a
-                            className="w-[95%] max-w-75 cursor-pointer rounded-3xl bg-(image:--portfolio-special-btn) py-4 text-center text-xl font-semibold text-white no-underline shadow-(--portfolio-special-btn-shadow) transition-all duration-200 ease-in-out hover:scale-105 hover:brightness-100 max-sm:py-3 max-sm:text-lg"
-                            href={Bio.resume}
-                            target="_blank"
-                        >
-                            My Resume
+        <section id="about" className="relative isolate">
+            <HeroParticles />
+            <HeroDotGrid />
+            <div className="page-shell grid gap-14 pt-14 pb-16 md:pt-24 md:pb-24 lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:gap-20">
+                <div className="flex flex-col items-start gap-6" data-reveal>
+                    <p className="eyebrow flex items-center gap-3">
+                        <span className="size-2 rounded-full bg-primary" />{" "}
+                        Software developer · Design-minded
+                    </p>
+                    <h1 className="text-5xl leading-none font-semibold tracking-tighter sm:text-6xl lg:text-6xl xl:text-7xl">
+                        Thoughtful interfaces.
+                        <br />
+                        <span className="text-text-secondary">
+                            Solid engineering.
+                        </span>
+                    </h1>
+                    <p className="max-w-135 text-lg leading-relaxed text-text-secondary">
+                        I’m{" "}
+                        <strong className="font-medium text-text-primary">
+                            Yusup Rejebov
+                        </strong>
+                        , a software engineer building dependable web products
+                        and iOS and Android applications. I work across the
+                        interface, API, and data layer to turn product ideas
+                        into reliable software.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                        <a href="#projects" className="button button-primary">
+                            Explore my work <FiArrowDown aria-hidden="true" />
                         </a>
+                        <DocumentLink
+                            src={Bio.resume}
+                            title="Yusup Rejebov — résumé"
+                            className="button button-secondary"
+                        >
+                            View résumé <FiArrowUpRight aria-hidden="true" />
+                        </DocumentLink>
                     </div>
-                    <div className="order-2 flex w-full justify-end gap-3 max-lg:order-1 max-lg:items-center max-lg:justify-center">
+                    <div className="flex flex-col gap-4 border-t border-border pt-5">
+                        <p className="eyebrow text-primary">
+                            Core toolkit · Web & mobile
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                            {skills[0]?.skills.map((skill) => (
+                                <SkillBadge key={skill.name} {...skill} />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-border pt-6 text-xs text-text-secondary">
+                        <span className="flex items-center gap-2">
+                            <FiCode aria-hidden="true" />
+                            FULL-STACK
+                        </span>
+                        <span className="flex items-center gap-2">
+                            <FiSmartphone aria-hidden="true" />
+                            MOBILE APPS
+                        </span>
+                        <span className="flex items-center gap-2">
+                            <FiPenTool aria-hidden="true" />
+                            INTERFACE DESIGN
+                        </span>
+                        <span className="flex items-center gap-2">
+                            <FiCheckCircle aria-hidden="true" />
+                            QUALITY & AUTOMATION
+                        </span>
+                    </div>
+                </div>
+                <div className="portrait-composition" data-reveal>
+                    <div className="portrait-topline">
+                        <span>THE PERSON BEHIND THE PIXELS</span>
+                        <span>01 — YR</span>
+                    </div>
+                    <div className="portrait-frame">
                         <img
-                            className="relative size-full max-h-100 max-w-100 rounded-full border-2 border-primary object-cover max-sm:max-h-70 max-sm:max-w-70"
                             src={Bio.image}
-                            alt="Profile"
+                            alt="Yusup Rejebov"
+                            className="size-full object-cover"
+                            fetchPriority="high"
                         />
+                        <span className="portrait-caption">
+                            Curious by nature.
+                            <br />
+                            Precise by practice.
+                        </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4 pt-5">
+                        <div className="flex gap-2">
+                            <a
+                                className="icon-button"
+                                href={Bio.github}
+                                aria-label="GitHub profile"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FiGithub />
+                            </a>
+                            <a
+                                className="icon-button"
+                                href={Bio.linkedin}
+                                aria-label="LinkedIn profile"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FiLinkedin />
+                            </a>
+                        </div>
+                        <span className="text-sm font-medium">
+                            Design meets development.
+                        </span>
+                        <span
+                            className="text-xl text-primary"
+                            aria-hidden="true"
+                        >
+                            ↗
+                        </span>
                     </div>
                 </div>
             </div>
         </section>
     );
 };
-
 export default Hero;
