@@ -271,6 +271,14 @@ export const education: Education[] = [
                 title: "Academic transcript",
                 src: "/docs/university/uniten-academic-transcript.jpg",
             },
+            {
+                title: "Final-year project excellence certificate",
+                src: "/docs/university/uniten-final-year-project-excellence.pdf",
+            },
+            {
+                title: "International Cultural Night appreciation certificate",
+                src: "/docs/university/uniten-international-cultural-night-2023.pdf",
+            },
         ],
     },
     {

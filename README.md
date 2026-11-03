@@ -58,7 +58,7 @@ src/
   components/           Portfolio sections and reusable UI
   data/
     constants.ts        Portfolio content and asset URLs
-    asset-sources.json  Provenance for retained local assets
+    asset-sources.json  Provenance for newly added local assets
   hooks/                Shared React hooks
   types/                Portfolio content models
   utils/                Shared motion timing
@@ -84,6 +84,14 @@ from `src/components/Skeletons` while loading. A tab-session cache retains up to
 three recent documents and 8 MiB of PDF bytes/previews. Reopening shows a cached
 first-page preview while selectable text is restored; canvases and PDF workers
 are still released on close. Evicted preview URLs are revoked.
+The bachelor's four records use the React Bits Folder component, installed
+through shadcn (`@react-bits/Folder-TS-TW`). `components.json` records the registry;
+the `@/` alias is shared by TypeScript and Vite. The upstream static paper cards
+show document names without thumbnails or PDF loading. The engine provides peek, entrance,
+pointer tilt, drag layering, free dragging, and viewport return on release.
+Free dragging is constrained only on release, returning papers to the document
+area. The section stays below the sticky header. Keyboard selection and reduced motion remain supported. Document selection
+opens the reusable reader instead of a second built-in zoom preview.
 
 ## Content maintenance
 
@@ -101,9 +109,8 @@ app-store availability, or usage counts.
 
 Assets still needed for future content updates:
 
-- Foundation, Dean's List, final-year-project excellence, and cultural-night
-  certificates. Original PDFs can optionally replace the existing degree and
-  transcript JPEGs.
+- Foundation and Dean's List certificates. Original PDFs can optionally replace
+  the existing degree and transcript JPEGs.
 - Updated Tangle and higher-resolution chat screenshots, if available.
 - Hakyda Auto visuals and the owner's publishable contribution details; FinchNest
   screenshots and a substantive project summary before considering either for

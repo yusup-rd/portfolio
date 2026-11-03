@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
-import { FiFileText } from "react-icons/fi";
 import type { PortfolioDocument } from "../../types/portfolio";
 import AnimatedDisclosure from "./AnimatedDisclosure";
-import DocumentLink from "./DocumentLink";
+import DocumentFolder from "./DocumentFolder";
 interface TimelineEntry {
     id: number;
     title: string;
@@ -93,18 +92,6 @@ const Timeline = ({ entries, label }: TimelineProps) => {
                                     </p>
                                 </AnimatedDisclosure>
                             )}
-                            <div className="flex flex-wrap gap-4">
-                                {entry.documents?.map((document) => (
-                                    <DocumentLink
-                                        key={document.src}
-                                        src={document.src}
-                                        title={document.title}
-                                    >
-                                        <FiFileText aria-hidden="true" />
-                                        {document.title}
-                                    </DocumentLink>
-                                ))}
-                            </div>
                             <div className="flex flex-wrap gap-2">
                                 {entry.tags.map((tag) => (
                                     <span key={tag} className="tag">
@@ -112,6 +99,9 @@ const Timeline = ({ entries, label }: TimelineProps) => {
                                     </span>
                                 ))}
                             </div>
+                            {!!entry.documents?.length && (
+                                <DocumentFolder documents={entry.documents} />
+                            )}
                         </article>
                     </li>
                 ))}
