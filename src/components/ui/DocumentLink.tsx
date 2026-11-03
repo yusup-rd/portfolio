@@ -1,5 +1,5 @@
-import { lazy, Suspense, useState, type ReactNode } from "react";
-const DocumentReader = lazy(() => import("./DocumentReader"));
+import { useState, type ReactNode } from "react";
+import DocumentReader from "./DocumentReader";
 interface DocumentLinkProps {
     src: string;
     title: string;
@@ -23,19 +23,11 @@ const DocumentLink = ({
                 {children ?? title}
             </button>
             {open && (
-                <Suspense
-                    fallback={
-                        <p className="reader-loading" role="status">
-                            Opening document reader…
-                        </p>
-                    }
-                >
-                    <DocumentReader
-                        src={src}
-                        title={title}
-                        onClose={() => setOpen(false)}
-                    />
-                </Suspense>
+                <DocumentReader
+                    src={src}
+                    title={title}
+                    onClose={() => setOpen(false)}
+                />
             )}
         </>
     );

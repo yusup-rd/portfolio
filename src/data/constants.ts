@@ -151,8 +151,8 @@ export const skills: SkillGroup[] = [
         title: "APIs & architecture",
         skills: [
             {
-                name: "REST APIs",
-                image: "",
+                name: "REST APIs (Swagger)",
+                image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg",
             },
             {
                 name: "WebSockets",
@@ -198,10 +198,6 @@ export const skills: SkillGroup[] = [
             {
                 name: "GitHub Actions",
                 image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg",
-            },
-            {
-                name: "CI/CD",
-                image: "",
             },
             {
                 name: "Git",
