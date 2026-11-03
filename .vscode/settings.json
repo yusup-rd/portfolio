@@ -1,6 +1,9 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
+    "json.schemaDownload.trustedDomains": {
+        "https://ui.shadcn.com/schema.json": true
+    },
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit",
         "source.removeUnusedImports": "explicit",
