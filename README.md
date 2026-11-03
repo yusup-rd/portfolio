@@ -4,6 +4,10 @@ A personal portfolio for full-stack web and mobile work, built with React 19,
 TypeScript, Tailwind CSS 4, and Vite. It includes selected projects, career and
 education timelines, a reusable document reader, and an EmailJS contact form.
 
+UI components use Tailwind and focused Radix primitives; notifications use Sonner.
+`components.json` configures the shadcn CLI and React Bits registry for adding
+component source. It is development configuration and adds no browser runtime.
+
 ## Development
 
 Use Node.js 22.13+ (22.x) or Node.js 24+ and npm.
@@ -58,7 +62,6 @@ src/
   components/           Portfolio sections and reusable UI
   data/
     constants.ts        Portfolio content and asset URLs
-    asset-sources.json  Provenance for newly added local assets
   hooks/                Shared React hooks
   types/                Portfolio content models
   utils/                Shared motion timing
@@ -138,8 +141,8 @@ restores the saved scroll position on collapse.
 Project screenshots use Embla with swipe, previous/next buttons, active dots,
 keyboard navigation, and announced counts. All platforms use a reusable
 Glide Select adapted from React Bits,
-with an animated corner pop and gliding row highlight over Radix Select. Material UI and Emotion provide
-modal focus handling and the contact snackbar. Contact validation uses Zod;
+with an animated corner pop and gliding row highlight over Radix Select. Radix Dialog
+provides modal focus handling; Sonner displays contact notifications. Contact validation uses Zod;
 smoke tests must never send real emails.
 
 Project categories use a controlled Rubber Segment adapted from React Bits, with

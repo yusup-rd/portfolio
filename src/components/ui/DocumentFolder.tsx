@@ -58,7 +58,12 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
     }, []);
     const select = (_item: FolderEntry, index: number) => {
         const item = documents[index];
-        if (item) setSelected(item);
+        if (item) {
+            stage.current
+                ?.querySelector<HTMLElement>(`[data-folder-item="${index}"]`)
+                ?.focus({ preventScroll: true });
+            setSelected(item);
+        }
     };
     return (
         <section

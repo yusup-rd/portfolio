@@ -1,3 +1,4 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import {
     lazy,
     Suspense,
@@ -63,7 +64,7 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
         body?.scrollTo({ top: 0 });
     };
     return (
-        <AnimatedDialog labelledBy="document-reader-title" onClose={onClose}>
+        <AnimatedDialog onClose={onClose}>
             {(close, dialogProps) => (
                 <AnimatedHeight
                     open
@@ -72,181 +73,187 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
                     }
                     className="w-full max-w-240"
                 >
-                    <section
+                    <Dialog.Content
                         {...dialogProps}
-                        className="surface project-dialog flex max-h-[92dvh] w-full flex-col overflow-hidden"
-                        role="dialog"
-                        aria-modal="true"
-                        tabIndex={-1}
+                        aria-describedby={undefined}
                     >
-                        <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-6">
-                            <h2
-                                id="document-reader-title"
-                                className="flex items-center gap-2 text-base font-semibold"
-                            >
-                                <FiFileText aria-hidden="true" />
-                                {title}
-                            </h2>
-                            <div className="ml-auto flex items-center gap-2">
-                                <a
-                                    className="icon-button"
-                                    href={src}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    aria-label="Open original document in a new tab"
-                                >
-                                    <FiExternalLink aria-hidden="true" />
-                                </a>
-                                <a
-                                    className="button button-secondary"
-                                    href={src}
-                                    download
-                                >
-                                    <FiDownload aria-hidden="true" />
-                                    Download
-                                </a>
-                                <button
-                                    className="icon-button"
-                                    type="button"
-                                    aria-label="Close document reader"
-                                    onClick={close}
-                                >
-                                    <FiX />
-                                </button>
-                            </div>
-                        </header>
-                        {isPdf && (
-                            <div
-                                className={
-                                    "flex shrink-0 flex-wrap items-center gap-3 border-b border-border px-4 py-2 " +
-                                    (pages > 1
-                                        ? "justify-between"
-                                        : "justify-end")
-                                }
-                            >
-                                {pages > 1 && (
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            className="icon-button"
-                                            aria-label="Previous page"
-                                            disabled={page <= 1}
-                                            onClick={() => changePage(page - 1)}
-                                        >
-                                            <FiChevronLeft aria-hidden="true" />
-                                        </button>
-                                        <p
-                                            ref={pageStatus}
-                                            tabIndex={-1}
-                                            role="status"
-                                            className="text-sm"
-                                        >
-                                            Page {page} of {pages}
-                                        </p>
-                                        <button
-                                            type="button"
-                                            className="icon-button"
-                                            aria-label="Next page"
-                                            disabled={!pages || page >= pages}
-                                            onClick={() => changePage(page + 1)}
-                                        >
-                                            <FiChevronRight aria-hidden="true" />
-                                        </button>
-                                    </div>
-                                )}
-                                <div className="flex items-center gap-2">
+                        <section className="surface project-dialog flex max-h-[92dvh] w-full flex-col overflow-hidden">
+                            <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-6">
+                                <Dialog.Title asChild>
+                                    <h2 className="flex items-center gap-2 text-base font-semibold">
+                                        <FiFileText aria-hidden="true" />
+                                        {title}
+                                    </h2>
+                                </Dialog.Title>
+                                <div className="ml-auto flex items-center gap-2">
+                                    <a
+                                        className="icon-button"
+                                        href={src}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label="Open original document in a new tab"
+                                    >
+                                        <FiExternalLink aria-hidden="true" />
+                                    </a>
+                                    <a
+                                        className="button button-secondary"
+                                        href={src}
+                                        download
+                                    >
+                                        <FiDownload aria-hidden="true" />
+                                        Download
+                                    </a>
                                     <button
                                         className="icon-button"
                                         type="button"
-                                        aria-label="Zoom out"
-                                        disabled={zoom <= 0.75}
-                                        onClick={() =>
-                                            setZoom((z) =>
-                                                Math.max(0.75, z - 0.25),
-                                            )
-                                        }
+                                        aria-label="Close document reader"
+                                        onClick={close}
                                     >
-                                        <FiMinus />
-                                    </button>
-                                    <span className="text-sm tabular-nums">
-                                        {Math.round(zoom * 100)}%
-                                    </span>
-                                    <button
-                                        className="icon-button"
-                                        type="button"
-                                        aria-label="Zoom in"
-                                        disabled={zoom >= 4}
-                                        onClick={() =>
-                                            setZoom((z) =>
-                                                Math.min(4, z + 0.25),
-                                            )
-                                        }
-                                    >
-                                        <FiPlus />
+                                        <FiX />
                                     </button>
                                 </div>
-                            </div>
-                        )}
-                        <div
-                            ref={setBody}
-                            className="document-pages min-h-0 overflow-auto bg-bg-light p-4"
-                        >
-                            <ErrorBoundary fallback={unavailable}>
-                                {failed ? (
-                                    unavailable
-                                ) : isPdf ? (
-                                    <Suspense
-                                        fallback={<DocumentPreview src={src} />}
-                                    >
-                                        {width > 0 ? (
-                                            <PdfDocument
+                            </header>
+                            {isPdf && (
+                                <div
+                                    className={
+                                        "flex shrink-0 flex-wrap items-center gap-3 border-b border-border px-4 py-2 " +
+                                        (pages > 1
+                                            ? "justify-between"
+                                            : "justify-end")
+                                    }
+                                >
+                                    {pages > 1 && (
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                type="button"
+                                                className="icon-button"
+                                                aria-label="Previous page"
+                                                disabled={page <= 1}
+                                                onClick={() =>
+                                                    changePage(page - 1)
+                                                }
+                                            >
+                                                <FiChevronLeft aria-hidden="true" />
+                                            </button>
+                                            <p
+                                                ref={pageStatus}
+                                                tabIndex={-1}
+                                                role="status"
+                                                className="text-sm"
+                                            >
+                                                Page {page} of {pages}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                className="icon-button"
+                                                aria-label="Next page"
+                                                disabled={
+                                                    !pages || page >= pages
+                                                }
+                                                onClick={() =>
+                                                    changePage(page + 1)
+                                                }
+                                            >
+                                                <FiChevronRight aria-hidden="true" />
+                                            </button>
+                                        </div>
+                                    )}
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            className="icon-button"
+                                            type="button"
+                                            aria-label="Zoom out"
+                                            disabled={zoom <= 0.75}
+                                            onClick={() =>
+                                                setZoom((z) =>
+                                                    Math.max(0.75, z - 0.25),
+                                                )
+                                            }
+                                        >
+                                            <FiMinus />
+                                        </button>
+                                        <span className="text-sm tabular-nums">
+                                            {Math.round(zoom * 100)}%
+                                        </span>
+                                        <button
+                                            className="icon-button"
+                                            type="button"
+                                            aria-label="Zoom in"
+                                            disabled={zoom >= 4}
+                                            onClick={() =>
+                                                setZoom((z) =>
+                                                    Math.min(4, z + 0.25),
+                                                )
+                                            }
+                                        >
+                                            <FiPlus />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            <div
+                                ref={setBody}
+                                className="document-pages min-h-0 overflow-auto bg-bg-light p-4"
+                            >
+                                <ErrorBoundary fallback={unavailable}>
+                                    {failed ? (
+                                        unavailable
+                                    ) : isPdf ? (
+                                        <Suspense
+                                            fallback={
+                                                <DocumentPreview src={src} />
+                                            }
+                                        >
+                                            {width > 0 ? (
+                                                <PdfDocument
+                                                    src={src}
+                                                    page={page}
+                                                    width={width * zoom}
+                                                    onLoad={setPages}
+                                                    onError={handleError}
+                                                />
+                                            ) : (
+                                                <DocumentPreview src={src} />
+                                            )}
+                                        </Suspense>
+                                    ) : (
+                                        <div
+                                            className="relative"
+                                            style={{
+                                                aspectRatio:
+                                                    getCachedDocument(src)
+                                                        ?.aspectRatio,
+                                            }}
+                                        >
+                                            {!imageReady && (
+                                                <DocumentPreview src={src} />
+                                            )}
+                                            <img
                                                 src={src}
-                                                page={page}
-                                                width={width * zoom}
-                                                onLoad={setPages}
+                                                alt={title}
+                                                className={
+                                                    imageReady
+                                                        ? "h-auto w-full object-contain"
+                                                        : "absolute inset-0 h-auto w-full object-contain opacity-0"
+                                                }
+                                                onLoad={(event) => {
+                                                    const image =
+                                                        event.currentTarget;
+                                                    cacheImageDimensions(
+                                                        src,
+                                                        image.naturalWidth,
+                                                        image.naturalHeight,
+                                                    );
+                                                    setImageReady(true);
+                                                }}
                                                 onError={handleError}
                                             />
-                                        ) : (
-                                            <DocumentPreview src={src} />
-                                        )}
-                                    </Suspense>
-                                ) : (
-                                    <div
-                                        className="relative"
-                                        style={{
-                                            aspectRatio:
-                                                getCachedDocument(src)
-                                                    ?.aspectRatio,
-                                        }}
-                                    >
-                                        {!imageReady && (
-                                            <DocumentPreview src={src} />
-                                        )}
-                                        <img
-                                            src={src}
-                                            alt={title}
-                                            className={
-                                                imageReady
-                                                    ? "h-auto w-full object-contain"
-                                                    : "absolute inset-0 h-auto w-full object-contain opacity-0"
-                                            }
-                                            onLoad={(event) => {
-                                                const image =
-                                                    event.currentTarget;
-                                                cacheImageDimensions(
-                                                    src,
-                                                    image.naturalWidth,
-                                                    image.naturalHeight,
-                                                );
-                                                setImageReady(true);
-                                            }}
-                                            onError={handleError}
-                                        />
-                                    </div>
-                                )}
-                            </ErrorBoundary>
-                        </div>
-                    </section>
+                                        </div>
+                                    )}
+                                </ErrorBoundary>
+                            </div>
+                        </section>
+                    </Dialog.Content>
                 </AnimatedHeight>
             )}
         </AnimatedDialog>

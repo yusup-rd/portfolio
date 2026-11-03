@@ -10,8 +10,8 @@ import {
 import SectionHeading from "../ui/SectionHeading";
 
 import emailjs from "@emailjs/browser";
-import { Snackbar } from "@mui/material";
 import { useRef } from "react";
+import { toast } from "sonner";
 
 import {
     contactSchema,
@@ -27,7 +27,6 @@ const fields = [
 ] as const;
 
 const Contact = () => {
-    const [open, setOpen] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
     const [fieldErrors, setFieldErrors] = React.useState<ContactErrors>({});
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -49,7 +48,7 @@ const Contact = () => {
         if (pending.current) return;
         const formElement = event.currentTarget;
         setError(null);
-        setOpen(false);
+        toast.dismiss("contact-success");
         const result = contactSchema.safeParse(
             Object.fromEntries(new FormData(formElement)),
         );
@@ -95,7 +94,9 @@ const Contact = () => {
                 publicKey,
             });
             formElement.reset();
-            setOpen(true);
+            toast.success("Email sent successfully!", {
+                id: "contact-success",
+            });
         } catch {
             setError("Email could not be sent. Please try again.");
         } finally {
@@ -242,16 +243,6 @@ const Contact = () => {
                         </p>
                     )}
                 </form>
-                <Snackbar
-                    open={open}
-                    autoHideDuration={6000}
-                    onClose={() => setOpen(false)}
-                    message="Email sent successfully!"
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "center",
-                    }}
-                />
             </div>
         </section>
     );

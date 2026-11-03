@@ -12,7 +12,8 @@ Use the versions in `package.json` and `package-lock.json` as the source of trut
 - Tailwind CSS 4: https://tailwindcss.com/docs/installation/using-vite, https://tailwindcss.com/docs/theme, and https://tailwindcss.com/docs/responsive-design
 - Vite 8: https://vite.dev/guide/
 - Prettier 3: https://prettier.io/docs/configuration and https://github.com/tailwindlabs/prettier-plugin-tailwindcss
-- Material UI 9: https://mui.com/material-ui/getting-started/ and https://mui.com/material-ui/migration/
+- shadcn/ui and Radix Dialog: https://ui.shadcn.com/docs and https://www.radix-ui.com/primitives/docs/components/dialog
+- Sonner: https://sonner.emilkowal.ski
 
 ## Code conventions
 
@@ -31,6 +32,14 @@ Use the versions in `package.json` and `package-lock.json` as the source of trut
 - Keep custom CSS for global defaults and effects that are clearer in CSS (such as complex gradients and scrollbars). Prefer utilities for normal component layout.
 - Use Prettier's Tailwind plugin to sort classes; do not manually impose a different order.
 
+## Project cleanliness
+
+- Add only files, assets, components, and dependencies needed by an implemented feature. Reuse existing utilities and keep one library per responsibility; do not add overlapping UI or animation libraries without a concrete need.
+- Use shadcn-style components with Radix primitives and Tailwind for UI, and Sonner for notifications. Do not reintroduce Material UI or Emotion. Install only the primitives a component uses.
+- Keep `components.json` as the shadcn/React Bits CLI configuration; shadcn distributes component source, so there is no UI runtime package to install in its place. Do not generate unused component collections or helper files.
+- Do not create asset inventories, provenance manifests, generated thumbnails, audit reports, or duplicate documentation without a real consumer or explicit request. Preserve required licenses and third-party attribution.
+- Remove assets, imports, files, and direct dependencies when their final use is removed. Check dynamic imports, public URLs, build tooling, and compatibility fallbacks before deciding something is unused. Keep temporary scripts and screenshots outside the repository.
+
 ## Scope and verification
 
 - Work only on the requested roadmap items. Preserve content, theme choices, responsiveness, and interactions during migrations unless a change is explicitly requested.
@@ -47,7 +56,7 @@ Use the versions in `package.json` and `package-lock.json` as the source of trut
 - Use immediate press feedback, short material transitions, one-time section reveals, and scroll-linked timeline progress. Respect reduced motion, reduced transparency, and increased contrast.
 - Keep long content behind explicit, keyboard-accessible disclosure controls; never expand content only on hover.
 
-- Keep reader documents in `public/docs/cv`, `public/docs/university`, or `public/docs/udemy`, and images in `public/images/projects`, `public/images/profile`, `public/images/logos`, or `public/images/social`. Use descriptive, lowercase, hyphenated filenames; prefix project screenshots with the project name. Keep only assets used by the portfolio and update references when moving them. Devicons remain remote official CDN URLs in the constants; do not download or vendor them. Track provenance in `src/data/asset-sources.json`. Developer documentation belongs in the root README, separate from reader documents. Missing certificates or client visuals must be requested rather than invented.
+- Keep reader documents in `public/docs/cv`, `public/docs/university`, or `public/docs/udemy`, and images in `public/images/projects`, `public/images/profile`, `public/images/logos`, or `public/images/social`. Use descriptive, lowercase, hyphenated filenames; prefix project screenshots with the project name. Keep only assets used by the portfolio and update references when moving them. Devicons remain remote official CDN URLs in the constants; do not download or vendor them. Developer documentation belongs in the root README, separate from reader documents. Missing certificates or client visuals must be requested rather than invented.
 - Use the reusable lazy-loaded document reader for local PDFs and certificate images. Keep its worker local and preserve download and keyboard dismissal.
 - Disclosures and project collection resizing intentionally animate height so surrounding content moves with them. Use the shared timing in `src/utils/motion.ts`, keep transitions interruptible in both directions, restore the pre-expansion scroll position when collapsing projects, and skip motion for reduced-motion/keyboard input. Never remove disclosure content before its closing animation finishes.
 - The hero uses moving, cursor-responsive React Bits Particles in dark mode and a React Bits Dot Grid in light mode. Keep both renderers mounted, crossfade them and replay their entrances on initial load/theme activation. There is no pause/play control. Keep its canvas on a full `dvw` layer outside the constrained content column, with no horizontal clipping or overflow. Preserve subtle glow, slow twinkling, live reduced-motion support, and offscreen/hidden-tab suspension. Avoid unused interaction features and new dependencies for this effect; retain the upstream notice in `THIRD_PARTY_NOTICES.md`.

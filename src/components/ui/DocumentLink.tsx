@@ -18,7 +18,10 @@ const DocumentLink = ({
             <button
                 type="button"
                 className={className}
-                onClick={() => setOpen(true)}
+                onClick={(event) => {
+                    event.currentTarget.focus({ preventScroll: true });
+                    setOpen(true);
+                }}
             >
                 {children ?? title}
             </button>

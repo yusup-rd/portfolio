@@ -24,11 +24,21 @@ const AnimatedHeight = ({
     useEffect(() => {
         const element = content.current;
         if (!element) return;
-        const observer = new ResizeObserver(() =>
-            setHeight(element.getBoundingClientRect().height),
-        );
+        let frame = 0;
+        const observer = new ResizeObserver(([entry]) => {
+            if (!entry) return;
+            // Measure layout height, not the dialog entrance's transformed size.
+            const nextHeight =
+                entry.borderBoxSize[0]?.blockSize ?? element.offsetHeight;
+            // Resize the animated parent in the next frame to avoid observer loops.
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => setHeight(nextHeight));
+        });
         observer.observe(element);
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+            cancelAnimationFrame(frame);
+        };
     }, []);
     return (
         <LazyMotion features={features}>

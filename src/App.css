@@ -370,6 +370,8 @@
     }
     /* Shared dialogs: backdrop, centered positioning, and panel transitions. */
     .dialog-position {
+        z-index: 1300;
+        animation: dialog-fade-in var(--dialog-duration) var(--ease-out) both;
         position: fixed;
         inset: 0;
         display: flex;
@@ -379,15 +381,45 @@
         background: rgba(0, 0, 0, 0.45);
         backdrop-filter: blur(8px);
     }
+    .dialog-position[data-state="closed"] {
+        animation-name: dialog-fade-out;
+    }
     .project-dialog {
-        transition: transform 220ms var(--ease-out);
+        animation: dialog-panel-in var(--dialog-duration) var(--ease-out) both;
         box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.2);
     }
-    .dialog-position[data-state="closed"] .project-dialog {
-        transform: translateY(0.375rem) scale(0.99);
+    .project-dialog[data-state="closed"] {
+        animation-name: dialog-panel-out;
     }
-    @starting-style {
-        .dialog-position[data-state="open"] .project-dialog {
+    @keyframes dialog-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes dialog-fade-out {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+    @keyframes dialog-panel-in {
+        from {
+            transform: translateY(0.375rem) scale(0.99);
+        }
+        to {
+            transform: none;
+        }
+    }
+    @keyframes dialog-panel-out {
+        from {
+            transform: none;
+        }
+        to {
             transform: translateY(0.375rem) scale(0.99);
         }
     }

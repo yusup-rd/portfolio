@@ -7,7 +7,10 @@ const ProjectCard = ({ project, setOpenModal }: ProjectCardProps) => {
     return (
         <button
             type="button"
-            onClick={() => setOpenModal({ state: true, project })}
+            onClick={(event) => {
+                event.currentTarget.focus({ preventScroll: true });
+                setOpenModal({ state: true, project });
+            }}
             className="project-card group flex w-full flex-col gap-5 text-left"
         >
             <div className="project-image">
