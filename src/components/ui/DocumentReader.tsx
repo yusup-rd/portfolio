@@ -36,9 +36,7 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
     const [zoom, setZoom] = useState(1);
     const [width, setWidth] = useState(0);
     const [failed, setFailed] = useState(false);
-    const [imageReady, setImageReady] = useState(
-        () => !!getCachedDocument(src)?.aspectRatio,
-    );
+    const [imageReady, setImageReady] = useState(false);
     const [body, setBody] = useState<HTMLDivElement | null>(null);
     const pageStatus = useRef<HTMLParagraphElement>(null);
     const isPdf = /\.pdf(?:$|[?#])/i.test(src);

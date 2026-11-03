@@ -51,6 +51,10 @@ export const loadDocumentFile = (src: string): Promise<Blob> => {
             const file = await response.blob();
             if (file.size <= maxBytes)
                 save(src, { ...documents.get(src), file });
+            else {
+                const entry = documents.get(src);
+                if (entry) save(src, entry);
+            }
             return file;
         })
         .finally(() => pending.delete(src));

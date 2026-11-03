@@ -33,6 +33,10 @@ const PdfDocument = ({
         () => getCachedDocument(src)?.file,
     );
     const [renderedKey, setRenderedKey] = useState("");
+    const [failedTextPage, setFailedTextPage] = useState<number | null>(null);
+    const [failedAnnotationPage, setFailedAnnotationPage] = useState<
+        number | null
+    >(null);
     const canvas = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
         let active = true;
@@ -92,8 +96,16 @@ const PdfDocument = ({
                         }
                         onLoadError={onError}
                         onRenderError={onError}
-                        onRenderTextLayerError={onError}
-                        onRenderAnnotationLayerError={onError}
+                        renderTextLayer={failedTextPage !== page}
+                        renderAnnotationLayer={failedAnnotationPage !== page}
+                        onGetTextError={() => setFailedTextPage(page)}
+                        onRenderTextLayerError={() => setFailedTextPage(page)}
+                        onGetAnnotationsError={() =>
+                            setFailedAnnotationPage(page)
+                        }
+                        onRenderAnnotationLayerError={() =>
+                            setFailedAnnotationPage(page)
+                        }
                         loading={null}
                     />
                 </Document>

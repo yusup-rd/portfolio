@@ -9,14 +9,17 @@ interface DocumentPreviewProps {
 const DocumentPreview = ({ src, page = 1 }: DocumentPreviewProps) => {
     const cached = getCachedDocument(src);
     return cached?.preview && page === 1 ? (
-        <img
-            src={cached.preview.url}
-            alt=""
-            aria-hidden="true"
-            width={cached.preview.width}
-            height={cached.preview.height}
-            className="h-auto w-full"
-        />
+        <div role="status" aria-label="Loading document" className="w-full">
+            <span className="sr-only">Loading document</span>
+            <img
+                src={cached.preview.url}
+                alt=""
+                aria-hidden="true"
+                width={cached.preview.width}
+                height={cached.preview.height}
+                className="h-auto w-full"
+            />
+        </div>
     ) : (
         <DocumentSkeleton aspectRatio={cached?.aspectRatio} />
     );
