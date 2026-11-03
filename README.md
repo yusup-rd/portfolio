@@ -69,10 +69,21 @@ with the relevant institution or provider, and name screenshots clearly, such
 as `qalb-prayer-times.png`. Remove assets when their last use is removed. Devicons
 are the explicit remote exception: use official CDN URLs in the constants.
 
-The document reader loads on demand, bundles its PDF worker locally, and offers
-zoom, selectable PDF text, download, and keyboard dismissal. Pagination appears
+The document reader keeps its controls available while its PDF engine loads on
+demand. Image certificates do not load PDF.js. The PDF engine and local worker
+use matching compatibility builds with a scoped `Promise.withResolvers` polyfill
+in both the page and worker; Vite's default target includes Safari/iOS
+16.4. PDF canvas resolution is bounded to limit memory use on mobile devices.
+An error boundary isolates preview failures from the dialog, with direct access
+to the original document and download if inline rendering is unavailable.
+The reader offers zoom, selectable PDF text, download, and keyboard dismissal. Pagination appears
 only for multi-page PDFs. The bachelor's degree certificate and academic
 transcript are separate documents. Udemy courses display completion dates only.
+The dialog fits its content up to the viewport height limit and uses skeletons
+from `src/components/Skeletons` while loading. A tab-session cache retains up to
+three recent documents and 8 MiB of PDF bytes/previews. Reopening shows a cached
+first-page preview while selectable text is restored; canvases and PDF workers
+are still released on close. Evicted preview URLs are revoked.
 
 ## Content maintenance
 
