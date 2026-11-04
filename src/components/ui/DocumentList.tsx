@@ -22,7 +22,7 @@ const DocumentList = ({ documents, labelId }: DocumentListProps) => {
                 type="button"
                 aria-expanded={open}
                 aria-controls={id}
-                className="flex min-h-11 w-full items-center justify-between gap-3 text-left text-sm font-medium"
+                className="pressable flex min-h-11 w-full items-center justify-between gap-3 text-left text-sm font-medium transition-transform duration-150 ease-out"
                 onClick={(event) => {
                     setInstant(event.detail === 0);
                     setOpen(!open);
@@ -32,7 +32,7 @@ const DocumentList = ({ documents, labelId }: DocumentListProps) => {
                     <FiFileText className="shrink-0" aria-hidden="true" />
                     University documents
                 </span>
-                <span className="flex shrink-0 items-center gap-3 text-text-secondary">
+                <span className="flex shrink-0 items-center gap-2 text-text-secondary">
                     <span className="text-xs">
                         {documents.length} documents
                     </span>

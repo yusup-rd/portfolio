@@ -17,6 +17,7 @@ const DocumentLink = ({
         <>
             <button
                 type="button"
+                aria-haspopup="dialog"
                 className={className}
                 onClick={(event) => {
                     event.currentTarget.focus({ preventScroll: true });

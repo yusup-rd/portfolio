@@ -5,7 +5,7 @@ interface SkillBadgeProps {
 }
 const SkillBadge = ({ name, image }: SkillBadgeProps) => {
     return (
-        <span className="tag gap-2">
+        <span className="tag gap-2 rounded-xl p-1.75">
             {image ? (
                 <img
                     src={image}

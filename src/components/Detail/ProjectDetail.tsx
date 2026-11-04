@@ -17,8 +17,8 @@ const ProjectDetail = ({ openModal, setOpenModal }: ProjectDetailProps) => {
         >
             {(close, dialogProps) => (
                 <Dialog.Content {...dialogProps}>
-                    <div className="project-dialog surface relative flex max-h-[90dvh] w-full max-w-220 flex-col overflow-hidden outline-none">
-                        <div className="flex items-center justify-between gap-4 border-b border-border px-6 py-4">
+                    <div className="project-dialog surface relative flex max-h-[calc(100dvh-1.5rem)] w-full max-w-220 flex-col overflow-hidden outline-none sm:max-h-[calc(100dvh-3rem)]">
+                        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-border px-6 py-4">
                             <p className="eyebrow">
                                 Project overview / {project.date}
                             </p>
@@ -30,7 +30,7 @@ const ProjectDetail = ({ openModal, setOpenModal }: ProjectDetailProps) => {
                                 <FiX />
                             </button>
                         </div>
-                        <div className="flex flex-col gap-7 overflow-y-auto p-6 sm:p-8">
+                        <div className="flex min-h-0 flex-col gap-7 overflow-y-auto overscroll-contain p-6 sm:p-8">
                             <ImageCarousel
                                 images={[
                                     ...new Set(

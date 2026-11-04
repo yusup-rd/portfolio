@@ -40,6 +40,25 @@ interface GalleryItemProps {
     ref?: Ref<HTMLDivElement>;
     className?: string;
 }
+// Dates are displayed as either a year or an English month and year.
+const projectDate = (date: string) => {
+    const year = Number(date.match(/\d{4}/)?.[0] ?? 0);
+    const month = [
+        "jan",
+        "feb",
+        "mar",
+        "apr",
+        "may",
+        "jun",
+        "jul",
+        "aug",
+        "sep",
+        "oct",
+        "nov",
+        "dec",
+    ].indexOf(date.slice(0, 3).toLowerCase());
+    return year * 12 + Math.max(0, month);
+};
 const exit = (instant: boolean) => ({
     opacity: 0,
     transition: { duration: instant ? 0 : motionTiming.fade },
@@ -104,7 +123,8 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
               .sort((a, b) =>
                   sort === "title"
                       ? a.title.localeCompare(b.title)
-                      : b.id - a.id,
+                      : projectDate(b.date) - projectDate(a.date) ||
+                        b.id - a.id,
               )
         : featured;
     return (
@@ -194,7 +214,12 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                     </div>
                 </div>
             </LazyMotion>
-            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-7">
+            <p className="sr-only" role="status" aria-atomic="true">
+                {expanded
+                    ? `${visible.length} projects shown. ${category === "all" ? "All categories" : category.replaceAll("-", " ")} selected. Sorted by ${sort === "title" ? "title" : "most recent"}.`
+                    : "3 selected projects shown."}
+            </p>
+            <div className="flex flex-wrap items-center justify-end gap-4 border-t border-border pt-7 sm:justify-between">
                 <button
                     className="button button-secondary"
                     type="button"

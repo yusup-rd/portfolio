@@ -150,6 +150,9 @@
             color-mix(in srgb, var(--line) 65%, transparent);
     }
     .nav-link {
+        display: inline-flex;
+        min-height: 2.75rem;
+        align-items: center;
         font-size: var(--text-sm);
         font-weight: 500;
         color: var(--muted);
@@ -190,9 +193,10 @@
         color: var(--ink);
         border: 1px solid var(--line);
     }
-    .button:active,
-    .icon-button:active,
-    .pressable:active {
+    .button:active:not(:disabled),
+    .icon-button:active:not(:disabled),
+    .pressable:active:not(:disabled),
+    .project-card:active {
         transform: scale(0.97);
     }
     .icon-button,
@@ -235,11 +239,15 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
+        min-height: 2.75rem;
         font-weight: 500;
         transition: color 160ms ease;
     }
     .text-link:hover {
         color: var(--accent);
+    }
+    :is(.text-link, .nav-link):active {
+        opacity: 0.65;
     }
     .tag {
         display: inline-flex;
@@ -303,7 +311,11 @@
     }
     /* Project cards: screenshot frames and the open-project affordance. */
     .project-card {
-        border-radius: 1rem;
+        border-radius: 1.25rem;
+        transition: transform 140ms var(--ease-out);
+    }
+    .project-card:focus-visible {
+        outline-offset: -2px;
     }
     .project-image {
         position: relative;
@@ -351,7 +363,7 @@
     .contact-input {
         width: 100%;
         min-width: 0;
-        border: 1px solid var(--line);
+        border: 1px solid color-mix(in srgb, var(--muted) 80%, var(--page));
         border-radius: 0.75rem;
         background: var(--page);
         padding: 0.875rem 1rem;
@@ -382,7 +394,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1.5rem;
+        padding: 0.75rem;
         background: rgba(0, 0, 0, 0.45);
         backdrop-filter: blur(8px);
     }
@@ -546,6 +558,11 @@
         padding-block: 7rem;
     }
 }
+@media (min-width: 40rem) {
+    .dialog-position {
+        padding: 1.5rem;
+    }
+}
 /* Pointer-only feedback: avoid persistent hover states on touchscreens. */
 @media (hover: hover) and (pointer: fine) {
     .project-card:hover .project-image img {
@@ -576,8 +593,22 @@
     .theme-icon {
         transform: none;
     }
+    :is(.button, .icon-button, .pressable, .project-card):active,
+    .project-card:hover .project-image img,
+    .project-card:hover .project-open {
+        transform: none;
+    }
     .timeline-progress {
         transform: scaleY(1) !important;
+    }
+}
+@media (prefers-contrast: more) {
+    :root,
+    :root[data-theme="dark"] {
+        --line: var(--muted);
+    }
+    .hero-background {
+        visibility: hidden;
     }
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
@@ -593,7 +624,18 @@
 }
 
 /* Keyboard navigation: skip decorative motion and reveal focused content. */
-:root[data-input="keyboard"] :is(.project-dialog, .theme-icon) {
+:root[data-input="keyboard"]
+    :is(
+        .dialog-position,
+        .project-dialog,
+        .theme-icon,
+        .button,
+        .icon-button,
+        .pressable,
+        .project-card,
+        .disclosure-trigger,
+        .reveal-ready
+    ) {
     animation: none;
     transition: none;
 }
@@ -660,6 +702,10 @@
         color: var(--accent);
         font-size: var(--text-sm);
         font-weight: 500;
+        transition: opacity 140ms ease;
+    }
+    .disclosure-trigger:active {
+        opacity: 0.65;
     }
     .disclosure-trigger .disclosure-icon {
         transition: transform 220ms var(--ease-out);

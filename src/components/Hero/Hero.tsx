@@ -41,16 +41,27 @@ const Hero = () => {
                         interface, API, and data layer to turn product ideas
                         into reliable software.
                     </p>
-                    <div className="flex flex-wrap gap-3">
-                        <a href="#projects" className="button button-primary">
-                            Explore my work <FiArrowDown aria-hidden="true" />
+                    <div className="grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto">
+                        <a
+                            href="#projects"
+                            className="button button-primary min-w-0 px-3 sm:px-5"
+                        >
+                            <span>Explore my work</span>
+                            <FiArrowDown
+                                className="shrink-0"
+                                aria-hidden="true"
+                            />
                         </a>
                         <DocumentLink
                             src={Bio.resume}
                             title="Yusup Rejebov — résumé"
-                            className="button button-secondary"
+                            className="button button-secondary min-w-0 px-3 sm:px-5"
                         >
-                            View résumé <FiArrowUpRight aria-hidden="true" />
+                            <span>View résumé</span>
+                            <FiArrowUpRight
+                                className="shrink-0"
+                                aria-hidden="true"
+                            />
                         </DocumentLink>
                     </div>
                     <div className="flex flex-col gap-4 border-t border-border pt-5">
