@@ -6,9 +6,10 @@ import {
     useState,
     useSyncExternalStore,
 } from "react";
-import { FiFileText } from "react-icons/fi";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import type { PortfolioDocument } from "../../types/portfolio";
 import Folder, { type FolderEntry } from "../Folder";
+import DocumentList from "./DocumentList";
 import DocumentReader from "./DocumentReader";
 
 interface DocumentFolderProps {
@@ -37,8 +38,11 @@ const getMobile = () => matchMedia(mobileQuery).matches;
 
 const DocumentFolder = ({ documents }: DocumentFolderProps) => {
     const stage = useRef<HTMLDivElement>(null);
+    const keyboardInput = useRef(false);
     const [width, setWidth] = useState(300);
     const [open, setOpen] = useState(false);
+    const [instant, setInstant] = useState(false);
+    const reduced = useReducedMotion();
     const [selected, setSelected] = useState<PortfolioDocument | null>(null);
     const theme = useSyncExternalStore<"dark" | "light">(
         subscribeTheme,
@@ -82,20 +86,15 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
     return (
         <section
             aria-labelledby={labelId}
-            className="relative z-10 flex min-w-0 flex-col gap-3 border-t border-border pt-5"
+            className="relative z-10 flex min-w-0 flex-col gap-3 border-t border-border pt-3"
+            onKeyDownCapture={() => {
+                keyboardInput.current = true;
+            }}
+            onPointerDownCapture={() => {
+                keyboardInput.current = false;
+            }}
         >
-            <div className="flex items-center justify-between gap-3">
-                <p
-                    id={labelId}
-                    className="flex items-center gap-2 text-sm font-medium"
-                >
-                    <FiFileText aria-hidden="true" />
-                    University documents
-                </p>
-                <span className="text-xs text-text-secondary">
-                    {documents.length} documents
-                </span>
-            </div>
+            <DocumentList documents={documents} labelId={labelId} />
             <div
                 ref={stage}
                 className="relative flex h-80 w-full items-center justify-center sm:h-88"
@@ -115,7 +114,10 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
                         Math.max(0.3, (width - 24) / (224 * 2.3)),
                     )}
                     open={open}
-                    onOpenChange={setOpen}
+                    onOpenChange={(next) => {
+                        setInstant(keyboardInput.current);
+                        setOpen(next);
+                    }}
                     onItemClick={select}
                     peek
                     intro
@@ -125,11 +127,28 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
                     closeOnOutsideClick={!selected}
                 />
             </div>
-            <p className="text-center text-xs text-text-secondary">
-                {open
-                    ? "Choose a document to read. Drag to explore."
-                    : "Open the folder to explore certificates and records."}
-            </p>
+            <div className="grid text-center text-xs text-text-secondary">
+                <p
+                    aria-hidden={open}
+                    className={`${open ? "opacity-0" : "opacity-100"} col-start-1 row-start-1 transition-opacity duration-200 ease-out`}
+                    style={{
+                        transitionDuration:
+                            instant || reduced ? "0s" : undefined,
+                    }}
+                >
+                    Open the folder to explore certificates and records.
+                </p>
+                <p
+                    aria-hidden={!open}
+                    className={`${open ? "opacity-100" : "opacity-0"} col-start-1 row-start-1 transition-opacity duration-200 ease-out`}
+                    style={{
+                        transitionDuration:
+                            instant || reduced ? "0s" : undefined,
+                    }}
+                >
+                    Choose a document to read. Drag to explore.
+                </p>
+            </div>
             {selected && (
                 <DocumentReader
                     src={selected.src}
