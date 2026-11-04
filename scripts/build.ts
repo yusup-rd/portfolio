@@ -3,11 +3,14 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { build } from "vite";
 
-await build();
+// Share the year between bundles even if the build crosses New Year's midnight.
+const define = { __BUILD_YEAR__: new Date().getFullYear() };
+await build({ define });
 // Run the same React tree in Node at build time. Only dist is deployed; no
 // production Node server or browser-only renderer is needed for indexing.
 const serverDirectory = "node_modules/.tmp/portfolio-ssr";
 await build({
+    define,
     build: {
         ssr: "src/entry-server.tsx",
         outDir: serverDirectory,

@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 import {
     FiArrowUp,
     FiArrowUpRight,
@@ -7,7 +8,16 @@ import {
 } from "react-icons/fi";
 import { SiTelegram } from "react-icons/si";
 import { Bio } from "../../data/constants";
+const subscribeYear = () => () => {};
+const getCurrentYear = () => new Date().getFullYear();
+const getBuildYear = () => __BUILD_YEAR__;
 const Footer = () => {
+    // Match the generated HTML year during hydration, then use the visitor's year.
+    const year = useSyncExternalStore(
+        subscribeYear,
+        getCurrentYear,
+        getBuildYear,
+    );
     return (
         <footer className="border-t border-border">
             <div className="page-shell flex flex-col gap-8 py-10">
@@ -59,7 +69,7 @@ const Footer = () => {
                     </a>
                 </div>
                 <div className="flex flex-wrap justify-between gap-3 text-xs text-text-secondary">
-                    <p>© {new Date().getFullYear()} Yusup Rejebov</p>
+                    <p>© {year} Yusup Rejebov</p>
                     <p>Built with intention. Refined with curiosity.</p>
                 </div>
             </div>

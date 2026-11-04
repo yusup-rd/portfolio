@@ -7,6 +7,7 @@ import { defineConfig } from "vite";
 const require = createRequire(import.meta.url);
 
 export default defineConfig({
+    define: { __BUILD_YEAR__: new Date().getFullYear() },
     plugins: [react(), tailwindcss()],
     worker: {
         format: "es",
