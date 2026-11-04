@@ -357,7 +357,27 @@ const parseColor = (() => {
         const key = String(value);
         const cached = cache.get(key);
         if (cached) return cached;
+        // Resolve theme and paper hex colors identically during prerender and hydration.
+        if (/^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(key)) {
+            const hex =
+                key.length === 4
+                    ? key
+                          .slice(1)
+                          .split("")
+                          .map((digit) => digit + digit)
+                          .join("")
+                    : key.slice(1);
+            const rgb: Rgb = [
+                parseInt(hex.slice(0, 2), 16),
+                parseInt(hex.slice(2, 4), 16),
+                parseInt(hex.slice(4, 6), 16),
+            ];
+            cache.set(key, rgb);
+            return rgb;
+        }
         let rgb: Rgb = [61, 139, 255];
+        // A fallback without a browser is not a resolved CSS color and must not be cached.
+        if (typeof document === "undefined") return rgb;
         if (typeof document !== "undefined") {
             context ??= document
                 .createElement("canvas")
@@ -1264,7 +1284,7 @@ const DocumentCard = ({ title, description }: DocumentCardProps) => {
         <div className="box-border flex h-full flex-col" style={DOC_STYLE}>
             {title ? (
                 <span
-                    className="shrink-0 leading-[1.2] font-semibold break-words whitespace-normal"
+                    className="shrink-0 leading-[1.2] font-semibold wrap-break-word whitespace-normal"
                     style={DOC_TITLE_STYLE}
                 >
                     {title}
@@ -3003,7 +3023,7 @@ const Folder = ({
     return (
         <div
             ref={rootRef}
-            className={`group/folder relative inline-block align-middle select-none [-webkit-tap-highlight-color:transparent] [&[data-dragging]]:cursor-grabbing [&[data-dragging]_*]:cursor-grabbing! ${className}`.trim()}
+            className={`group/folder relative inline-block align-middle select-none [-webkit-tap-highlight-color:transparent] data-dragging:cursor-grabbing [&[data-dragging]_*]:cursor-grabbing! ${className}`.trim()}
             data-mode={book ? "book" : "flap"}
             data-variant={variant}
             data-theme={theme === "light" ? "light" : "dark"}
@@ -3026,7 +3046,7 @@ const Folder = ({
                 <button
                     type="button"
                     data-folder-toggle
-                    className="absolute inset-0 rounded-[var(--folder-r)]"
+                    className="absolute inset-0 rounded-(--folder-r)"
                     aria-expanded={isOpen}
                     aria-label={label ? `${label} folder` : "Folder"}
                     onClick={(event) => {
@@ -3036,7 +3056,7 @@ const Folder = ({
                 />
                 <span
                     ref={groundRef}
-                    className={`${LAYER} pointer-events-none z-[1]`}
+                    className={`${LAYER} pointer-events-none z-1`}
                     style={
                         book
                             ? {
@@ -3059,7 +3079,7 @@ const Folder = ({
                 {book && (
                     <span
                         ref={castRef}
-                        className={`${LAYER} pointer-events-none z-[1]`}
+                        className={`${LAYER} pointer-events-none z-1`}
                         style={{
                             width: "var(--folder-w)",
                             height: "calc(var(--folder-h) - var(--folder-front-y) + var(--folder-tab-h))",
@@ -3072,7 +3092,7 @@ const Folder = ({
 
                 <div
                     ref={backRef}
-                    className={`${LAYER} z-[4]`}
+                    className={`${LAYER} z-4`}
                     style={{
                         width: "var(--folder-w)",
                         height: "calc(var(--folder-tab-h) + var(--folder-h))",
@@ -3107,7 +3127,7 @@ const Folder = ({
                         <path
                             d={shape}
                             fill="none"
-                            className="group-has-[:focus-visible]/stage:[stroke:var(--folder-focus)] group-has-[:focus-visible]/stage:[stroke-width:2px]"
+                            className="group-has-focus-visible/stage:stroke-(--folder-focus) group-has-focus-visible/stage:stroke-[2px]"
                         />
                     </svg>
                     {label && (
@@ -3137,7 +3157,7 @@ const Folder = ({
                             ref={(node) => {
                                 itemRefs.current[index] = node;
                             }}
-                            className={`${LAYER} z-[10] overflow-hidden outline-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:[outline-color:var(--folder-focus)] focus-visible:outline-solid`}
+                            className={`${LAYER} z-10 overflow-hidden outline-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-(--folder-focus) focus-visible:outline-solid`}
                             style={
                                 {
                                     "--folder-scale": scale * paperDensity,
@@ -3182,7 +3202,7 @@ const Folder = ({
                 {book && (
                     <span
                         ref={shadeRef}
-                        className={`${LAYER} pointer-events-none z-[39] opacity-0`}
+                        className={`${LAYER} pointer-events-none z-39 opacity-0`}
                         style={{
                             width: "var(--folder-w)",
                             height: "var(--folder-front-h)",
@@ -3197,7 +3217,7 @@ const Folder = ({
 
                 <div
                     ref={frontRef}
-                    className={`group/front ${LAYER} z-[40]`}
+                    className={`group/front ${LAYER} z-40`}
                     style={{
                         width: "var(--folder-w)",
                         height: "var(--folder-front-h)",
@@ -3206,7 +3226,7 @@ const Folder = ({
                     aria-hidden="true"
                 >
                     <div
-                        className={`${FACE} group-data-[face=inner]/front:invisible group-data-[gl]/folder:invisible!`}
+                        className={`${FACE} group-data-gl/folder:invisible! group-data-[face=inner]/front:invisible`}
                         style={{
                             ...defined(skin).outer,
                             borderRadius: "var(--folder-front-radius)",
@@ -3219,7 +3239,7 @@ const Folder = ({
                     </div>
                     {book && (
                         <div
-                            className={`${FACE} invisible group-data-[face=inner]/front:visible group-data-[gl]/folder:invisible!`}
+                            className={`${FACE} invisible group-data-gl/folder:invisible! group-data-[face=inner]/front:visible`}
                             style={{
                                 ...defined(skin).inner,
                                 borderRadius: "var(--folder-front-radius)",
@@ -3244,7 +3264,7 @@ const Folder = ({
                 {glass && (
                     <canvas
                         ref={glassRef}
-                        className="pointer-events-none absolute z-[40]"
+                        className="pointer-events-none absolute z-40"
                         aria-hidden="true"
                         style={{
                             left: view.x,

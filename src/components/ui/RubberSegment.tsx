@@ -468,7 +468,7 @@ const RubberSegment = ({
                 aria-disabled={disabled || undefined}
                 data-equal={equalSlots ? "" : undefined}
                 data-draggable={draggable && !disabled ? "" : undefined}
-                className={`group relative inline-grid touch-pan-y auto-cols-auto grid-flow-col rounded-[var(--rs-radius)] p-[var(--rs-inset)] align-middle [font-family:inherit] select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [background:var(--rs-track)] aria-disabled:pointer-events-none data-[equal]:auto-cols-[minmax(0,1fr)] data-[held]:cursor-grabbing aria-disabled:opacity-50${className ? ` ${className}` : ""}`}
+                className={`group relative inline-grid touch-pan-y auto-cols-auto grid-flow-col rounded-(--rs-radius) p-(--rs-inset) align-middle font-[inherit] select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [background:var(--rs-track)] aria-disabled:pointer-events-none data-equal:auto-cols-fr data-held:cursor-grabbing aria-disabled:opacity-50${className ? ` ${className}` : ""}`}
                 style={
                     {
                         "--rs-track": trackColor,
@@ -507,7 +507,7 @@ const RubberSegment = ({
                         aria-checked={i === index}
                         tabIndex={i === index ? 0 : -1}
                         disabled={disabled}
-                        className="m-0 inline-flex h-[calc(var(--rs-h)-var(--rs-inset)*2)] min-h-11 min-w-[var(--rs-min)] cursor-pointer items-center justify-center gap-1.5 rounded-[var(--rs-thumb-radius)] border-0 bg-transparent px-2 py-0 text-xs leading-none font-medium whitespace-nowrap [color:var(--rs-ink)] opacity-70 outline-none [font:inherit] [transition:opacity_160ms_ease,transform_160ms_var(--rs-ease-out)] group-data-[held]:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:[outline-color:var(--rs-thumb)] aria-checked:cursor-default group-data-[draggable]:aria-checked:cursor-grab data-[pressed]:[transform:scale(0.96)] motion-reduce:[transition:opacity_160ms_ease] sm:px-4 sm:text-sm [@media(hover:hover)_and_(pointer:fine)]:[&[aria-checked=false]:hover]:opacity-90"
+                        className="m-0 inline-flex h-[calc(var(--rs-h)-var(--rs-inset)*2)] min-h-11 min-w-(--rs-min) cursor-pointer items-center justify-center gap-1.5 rounded-(--rs-thumb-radius) border-0 bg-transparent px-2 py-0 text-xs leading-none font-medium whitespace-nowrap text-(--rs-ink) opacity-70 outline-none [font:inherit] [transition:opacity_160ms_ease,transform_160ms_var(--rs-ease-out)] group-data-held:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-(--rs-thumb) aria-checked:cursor-default group-data-draggable:aria-checked:cursor-grab data-pressed:transform-[scale(0.96)] motion-reduce:[transition:opacity_160ms_ease] sm:px-4 sm:text-sm [@media(hover:hover)_and_(pointer:fine)]:[&[aria-checked=false]:hover]:opacity-90"
                         onPointerDown={(e) => handlePointerDown(e, i)}
                         onKeyDown={handleKeyDown}
                         onClick={(e) => {
@@ -523,14 +523,14 @@ const RubberSegment = ({
                     </button>
                 ))}
                 <m.div
-                    className="pointer-events-none absolute inset-[var(--rs-inset)] grid auto-cols-auto grid-flow-col [color:var(--rs-ink-active)] [background:var(--rs-thumb)] group-data-[equal]:auto-cols-[minmax(0,1fr)]"
+                    className="pointer-events-none absolute inset-(--rs-inset) grid auto-cols-auto grid-flow-col text-(--rs-ink-active) [background:var(--rs-thumb)] group-data-equal:auto-cols-fr"
                     aria-hidden="true"
                     style={{ clipPath }}
                 >
                     {list.map((item) => (
                         <span
                             key={item.value}
-                            className="m-0 inline-flex h-[calc(var(--rs-h)-var(--rs-inset)*2)] min-h-11 min-w-[var(--rs-min)] cursor-default items-center justify-center gap-1.5 rounded-[var(--rs-thumb-radius)] border-0 bg-transparent px-2 py-0 text-xs leading-none font-medium whitespace-nowrap [color:inherit] outline-none [font:inherit] [transition:opacity_160ms_ease,transform_160ms_var(--rs-ease-out)] motion-reduce:[transition:opacity_160ms_ease] sm:px-4 sm:text-sm"
+                            className="m-0 inline-flex h-[calc(var(--rs-h)-var(--rs-inset)*2)] min-h-11 min-w-(--rs-min) cursor-default items-center justify-center gap-1.5 rounded-(--rs-thumb-radius) border-0 bg-transparent px-2 py-0 text-xs leading-none font-medium whitespace-nowrap text-inherit outline-none [font:inherit] [transition:opacity_160ms_ease,transform_160ms_var(--rs-ease-out)] motion-reduce:[transition:opacity_160ms_ease] sm:px-4 sm:text-sm"
                         >
                             {item.icon}
                             {item.label}
