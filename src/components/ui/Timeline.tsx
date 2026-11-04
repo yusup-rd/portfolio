@@ -1,5 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useMotionValueEvent, useSpring } from "motion/react";
+import { useLayoutEffect, useRef } from "react";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import type { PortfolioDocument } from "../../types/portfolio";
+import { motionTiming } from "../../utils/motion";
 import AnimatedDisclosure from "./AnimatedDisclosure";
 import DocumentFolder from "./DocumentFolder";
 interface TimelineEntry {
@@ -18,33 +21,79 @@ interface TimelineProps {
 const Timeline = ({ entries, label }: TimelineProps) => {
     const track = useRef<HTMLDivElement>(null);
     const progress = useRef<HTMLDivElement>(null);
-    useEffect(() => {
+    const reduced = useReducedMotion();
+    const smoothProgress = useSpring(0, {
+        visualDuration: motionTiming.fade,
+        bounce: motionTiming.spring.bounce,
+        restDelta: 0.0001,
+        restSpeed: 0.001,
+    });
+    useMotionValueEvent(smoothProgress, "change", (amount) => {
+        if (progress.current)
+            progress.current.style.transform = `scaleY(${Math.min(1, Math.max(0, amount))})`;
+    });
+    useLayoutEffect(() => {
+        const element = track.current;
+        const line = progress.current;
+        if (!element || !line) return;
         let frame = 0;
+        let initialized = false;
         const update = () => {
             frame = 0;
-            if (!track.current || !progress.current) return;
-            const r = track.current.getBoundingClientRect();
-            const amount = Math.min(
-                1,
-                Math.max(0, (innerHeight * 0.55 - r.top) / r.height),
-            );
-            progress.current.style.transform = "scaleY(" + amount + ")";
+            const rect = element.getBoundingClientRect();
+            const amount = reduced
+                ? 1
+                : Math.min(
+                      1,
+                      Math.max(
+                          0,
+                          (innerHeight * 0.55 - rect.top) /
+                              Math.max(1, rect.height),
+                      ),
+                  );
+            if (
+                !initialized ||
+                reduced ||
+                document.documentElement.dataset.input === "keyboard"
+            ) {
+                smoothProgress.jump(amount);
+                line.style.transform = `scaleY(${amount})`;
+            } else {
+                smoothProgress.set(amount);
+            }
+            initialized = true;
         };
         const schedule = () => {
-            if (!frame) frame = requestAnimationFrame(update);
+            if (!frame && !document.hidden)
+                frame = requestAnimationFrame(update);
+        };
+        const visibility = () => {
+            if (document.hidden) {
+                cancelAnimationFrame(frame);
+                frame = 0;
+                smoothProgress.stop();
+            } else {
+                initialized = false;
+                schedule();
+            }
         };
         const resize = new ResizeObserver(schedule);
-        if (track.current) resize.observe(track.current);
+        resize.observe(element);
+        // Content above a timeline can move its start without resizing the track itself.
+        resize.observe(document.body);
+        document.addEventListener("visibilitychange", visibility);
         addEventListener("scroll", schedule, { passive: true });
         addEventListener("resize", schedule);
         update();
         return () => {
             removeEventListener("scroll", schedule);
             removeEventListener("resize", schedule);
+            document.removeEventListener("visibilitychange", visibility);
             resize.disconnect();
             cancelAnimationFrame(frame);
+            smoothProgress.stop();
         };
-    }, []);
+    }, [reduced, smoothProgress]);
     return (
         <div ref={track} className="relative">
             <div

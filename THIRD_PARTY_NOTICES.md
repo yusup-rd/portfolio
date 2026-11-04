@@ -6,8 +6,8 @@ The hero starfield adapts the particle glow, twinkle, and seeded distribution fr
 [React Bits Particles](https://reactbits.dev/r/Particles-TS-TW.json) by David Haz.
 The light-mode dot grid adapts the proximity response and radial entrance from
 [React Bits Dot Grid](https://reactbits.dev/r/DotGrid-TS-TW.json).
-The project category selector adapts the clipped highlight and independent-edge
-springs from [React Bits Rubber Segment](https://reactbits.dev/r/RubberSegment-TS-TW.json).
+The project category selector uses the upstream stretch, squash, momentum, and
+independent-edge spring engine from [React Bits Rubber Segment](https://reactbits.dev/r/RubberSegment-TS-TW.json).
 The custom dropdown adapts the corner pop and gliding highlight from
 [React Bits Glide Select](https://reactbits.dev/c/micro/glide-select), using Radix Select
 for focus management, keyboard interaction, portals, and collision handling.

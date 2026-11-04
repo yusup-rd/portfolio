@@ -146,7 +146,7 @@ provides modal focus handling; Sonner displays contact notifications. Contact va
 smoke tests must never send real emails.
 
 Project categories use a controlled Rubber Segment adapted from React Bits, with
-a restrained, interruptible highlight, drag selection, radio-group keyboard
+the upstream stretch/squash, momentum, and handoff settings, drag selection, radio-group keyboard
 navigation, and immediate keyboard/reduced-motion updates. It keeps 44px touch
 targets and uses a shorter "All" label on mobile.
 

@@ -42,6 +42,8 @@ export interface FolderProps {
     tabPosition?: "left" | "center" | "right";
     layout?: "spread" | "stack" | "row";
     size?: number;
+    openItemScale?: number;
+    paperResolution?: number;
     openOn?: "click" | "hover";
     open?: boolean;
     defaultOpen?: boolean;
@@ -250,6 +252,8 @@ interface EngineState {
 
 interface Settings {
     open: boolean;
+    openItemScale: number;
+    paperResolution: number;
     layout: string;
     openOn: string;
     peek: boolean;
@@ -1483,6 +1487,8 @@ const Folder = ({
     tabPosition = "right",
     layout = "spread",
     size = 1,
+    openItemScale = 1,
+    paperResolution = 1,
     openOn = "click",
     open,
     defaultOpen = false,
@@ -1536,6 +1542,7 @@ const Folder = ({
     const count = entries.length;
 
     const scale = Math.max(0.3, Number(size) || 1);
+    const paperDensity = Math.max(1, Number(paperResolution) || 1);
     const g = measureFolder(
         book,
         scale,
@@ -1591,6 +1598,8 @@ const Folder = ({
 
     const settings: Settings = {
         open: isOpen,
+        openItemScale,
+        paperResolution: paperDensity,
         layout,
         openOn,
         peek,
@@ -1616,7 +1625,7 @@ const Folder = ({
             mixRgb(rgb, [0, 0, 0], 0.08).map((v) => v / 255),
             backTone.map((v) => v / 255),
         ],
-        content: `${mode}|${scale}|${paperColor}|${color}|${g.tabX}|${g.tabW}`,
+        content: `${mode}|${scale}|${paperDensity}|${paperColor}|${color}|${g.tabX}|${g.tabW}`,
         depth: Math.round(Math.max(g.w, g.h) * 5),
         view,
         g,
@@ -1880,11 +1889,16 @@ const Folder = ({
             phase: Phase,
             s: Settings,
         ) => {
-            if (s.g.book) return placeBook(rank, inside, phase, s.layout, s.g);
             const pointer = state.hovered
                 ? ((state.pointerX + 1) / 2) * s.g.w
                 : null;
-            return placeFlap(rank, inside, phase, s.layout, s.g, pointer);
+            const slot = s.g.book
+                ? placeBook(rank, inside, phase, s.layout, s.g)
+                : placeFlap(rank, inside, phase, s.layout, s.g, pointer);
+            // Enlarge open papers through the existing springs; closed/peek poses stay original.
+            return phase === "open" && s.open
+                ? { ...slot, s: slot.s * s.openItemScale }
+                : slot;
         };
 
         const approach = (item: ItemState, slot: Slot, s: Settings): Slot => {
@@ -2463,7 +2477,14 @@ const Folder = ({
                     inside: item.layer === "inside",
                 });
                 if (!node) return;
-                node.style.transform = toCss(matrix);
+                // Rasterize the paper at a larger intrinsic size, then map it onto the
+                // same physical geometry. This keeps small 3D-transformed text sharper.
+                const density = s.paperResolution;
+                node.style.transform = toCss(
+                    density === 1
+                        ? matrix
+                        : multiply(matrix, stretch(1 / density, 1 / density)),
+                );
                 node.style.zIndex = String(layer);
                 node.style.setProperty(
                     "--folder-lift",
@@ -3109,19 +3130,25 @@ const Folder = ({
                                 itemRefs.current[index] = node;
                             }}
                             className={`${LAYER} z-[10] overflow-hidden outline-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:[outline-color:var(--folder-focus)] focus-visible:outline-solid`}
-                            style={{
-                                width: "var(--folder-doc-w)",
-                                height: "var(--folder-doc-h)",
-                                borderRadius: "calc(7px * var(--folder-scale))",
-                                background: "var(--folder-paper)",
-                                boxShadow: PAPER_SHADOW,
-                                cursor: draggable
-                                    ? "grab"
-                                    : isOpen
-                                      ? "pointer"
-                                      : undefined,
-                                touchAction: draggable ? "none" : undefined,
-                            }}
+                            style={
+                                {
+                                    "--folder-scale": scale * paperDensity,
+                                    width: g.docW * paperDensity,
+                                    height: g.docH * paperDensity,
+                                    outlineWidth: 2 * paperDensity,
+                                    outlineOffset: 3 * paperDensity,
+                                    borderRadius:
+                                        "calc(7px * var(--folder-scale))",
+                                    background: "var(--folder-paper)",
+                                    boxShadow: PAPER_SHADOW,
+                                    cursor: draggable
+                                        ? "grab"
+                                        : isOpen
+                                          ? "pointer"
+                                          : undefined,
+                                    touchAction: draggable ? "none" : undefined,
+                                } as CSSProperties
+                            }
                             data-folder-item={index}
                             role={interactive ? "button" : undefined}
                             tabIndex={interactive ? 0 : -1}

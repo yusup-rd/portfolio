@@ -26,6 +26,15 @@ const subscribeTheme = (notify: () => void) => {
 const getTheme = (): "dark" | "light" =>
     document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 
+// Match Tailwind's sm breakpoint; desktop keeps the upstream paper size.
+const mobileQuery = "(width < 40rem)";
+const subscribeMobile = (notify: () => void) => {
+    const media = matchMedia(mobileQuery);
+    media.addEventListener("change", notify);
+    return () => media.removeEventListener("change", notify);
+};
+const getMobile = () => matchMedia(mobileQuery).matches;
+
 const DocumentFolder = ({ documents }: DocumentFolderProps) => {
     const stage = useRef<HTMLDivElement>(null);
     const [width, setWidth] = useState(300);
@@ -35,6 +44,11 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
         subscribeTheme,
         getTheme,
         () => "light",
+    );
+    const mobile = useSyncExternalStore(
+        subscribeMobile,
+        getMobile,
+        () => false,
     );
     const labelId = useId();
     const color = getComputedStyle(document.documentElement)
@@ -91,6 +105,8 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
                     variant="matte"
                     mode="flap"
                     layout="spread"
+                    openItemScale={mobile ? 1.5 : 1}
+                    paperResolution={2}
                     theme={theme}
                     color={color}
                     items={items}

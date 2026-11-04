@@ -80,7 +80,20 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                             setOpen(!open);
                         }}
                     >
-                        {open ? <FiX /> : <FiMenu />}
+                        <span
+                            className="theme-icon"
+                            data-active={!open}
+                            aria-hidden="true"
+                        >
+                            <FiMenu />
+                        </span>
+                        <span
+                            className="theme-icon"
+                            data-active={open}
+                            aria-hidden="true"
+                        >
+                            <FiX />
+                        </span>
                     </button>
                 </div>
             </div>
