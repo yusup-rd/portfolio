@@ -1,16 +1,20 @@
 # Third-party notices
 
-## React Bits Particles, Dot Grid, Rubber Segment, and Glide Select
+## React Bits Particles, Dot Grid, Rubber Segment, Glide Select, and Folder
 
 The hero starfield adapts the particle glow, twinkle, and seeded distribution from
 [React Bits Particles](https://reactbits.dev/r/Particles-TS-TW.json) by David Haz.
 The light-mode dot grid adapts the proximity response and radial entrance from
 [React Bits Dot Grid](https://reactbits.dev/r/DotGrid-TS-TW.json).
-The project category selector adapts the clipped highlight and independent-edge
-springs from [React Bits Rubber Segment](https://reactbits.dev/r/RubberSegment-TS-TW.json).
+The project category selector uses the upstream stretch, squash, momentum, and
+independent-edge spring engine from [React Bits Rubber Segment](https://reactbits.dev/r/RubberSegment-TS-TW.json).
 The custom dropdown adapts the corner pop and gliding highlight from
 [React Bits Glide Select](https://reactbits.dev/c/micro/glide-select), using Radix Select
 for focus management, keyboard interaction, portals, and collision handling.
+The university document folder uses [React Bits Folder](https://reactbits.dev/c/components/folder),
+installed with the shadcn registry's TypeScript/Tailwind variant. It preserves
+the upstream spring engine, pointer tilt, paper stacking, drag-out behavior,
+and viewport return, with strict typing, accessibility, and document-reader integration.
 These integrations include only the features needed by this portfolio.
 The upstream notice follows.
 

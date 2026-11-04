@@ -1,4 +1,4 @@
-import { LazyMotion, m } from "motion/react";
+import { domAnimation, LazyMotion, m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
 import { Bio, projects } from "../../data/constants";
@@ -10,14 +10,20 @@ import RubberSegment from "../ui/RubberSegment";
 import SectionHeading from "../ui/SectionHeading";
 import SortSelect from "../ui/SortSelect";
 const projectFilters = [
-    { value: "all", label: "All projects", compactLabel: "All" },
+    {
+        value: "all",
+        ariaLabel: "All projects",
+        label: (
+            <>
+                <span className="sm:hidden">All</span>
+                <span className="hidden sm:inline">All projects</span>
+            </>
+        ),
+    },
     { value: "full-stack", label: "Full-stack" },
     { value: "mobile", label: "Mobile" },
     { value: "back-end", label: "Backend" },
 ] as const;
-const loadMotionFeatures = () =>
-    import("../ui/motionFeatures").then((module) => module.default);
-
 interface ProjectsProps {
     setOpenModal: ProjectModalControls["setOpenModal"];
 }
@@ -74,7 +80,7 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                 title="Ideas, made tangible."
                 description="A selection of applications exploring useful products, considered interfaces, and the systems underneath."
             />
-            <LazyMotion features={loadMotionFeatures}>
+            <LazyMotion features={domAnimation}>
                 <m.div
                     initial={false}
                     animate={{ height: height ?? "auto" }}
@@ -104,7 +110,15 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                                     items={projectFilters}
                                     value={category}
                                     onChange={setCategory}
-                                    label="Filter projects"
+                                    aria-label="Filter projects"
+                                    trackColor="var(--page)"
+                                    thumbColor="var(--accent)"
+                                    textColor="var(--ink)"
+                                    activeTextColor="var(--button-ink)"
+                                    size="lg"
+                                    radius={16}
+                                    inset={4}
+                                    className="rubber-segment w-full sm:w-auto"
                                 />
                                 <SortSelect value={sort} onChange={setSort} />
                             </div>

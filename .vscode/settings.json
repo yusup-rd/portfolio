@@ -1,6 +1,9 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
+    "json.schemaDownload.trustedDomains": {
+        "https://ui.shadcn.com/schema.json": true
+    },
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit",
         "source.removeUnusedImports": "explicit",
@@ -15,6 +18,7 @@
         "crossfade",
         "crossfades",
         "cypressio",
+        "deadzone",
         "devicon",
         "Devicons",
         "Embla",
@@ -26,6 +30,8 @@
         "interruptible",
         "Kalob",
         "Laravel",
+        "luma",
+        "Moodboard",
         "Nasional",
         "pressable",
         "Qalb",
@@ -43,6 +49,7 @@
         "UNITEN",
         "Universiti",
         "Wilk",
+        "webglcontextlost",
         "Yusup",
         "yuzee",
         "Yuzee",

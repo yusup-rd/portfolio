@@ -85,7 +85,7 @@ const Hero = () => {
                 <div className="portrait-composition" data-reveal>
                     <div className="portrait-topline">
                         <span>THE PERSON BEHIND THE PIXELS</span>
-                        <span>01 — YR</span>
+                        <span>YR</span>
                     </div>
                     <div className="portrait-frame">
                         <img

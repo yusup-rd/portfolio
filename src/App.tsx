@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Toaster } from "sonner";
 import "./App.css";
 import Contact from "./components/Contact/Contact";
 import ProjectDetail from "./components/Detail/ProjectDetail";
@@ -40,6 +41,20 @@ const App = () => {
                 <Contact />
             </main>
             <Footer />
+            <Toaster
+                theme={theme}
+                position="bottom-center"
+                duration={6000}
+                toastOptions={{
+                    style: {
+                        background: "var(--surface)",
+                        color: "var(--ink)",
+                        borderColor: "var(--line)",
+                        fontFamily: "inherit",
+                        borderRadius: "1rem",
+                    },
+                }}
+            />
             {openModal.state && (
                 <ProjectDetail
                     openModal={openModal}

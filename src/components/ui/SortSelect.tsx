@@ -11,7 +11,7 @@ const options = [
 const SortSelect = ({ value, onChange }: SortSelectProps) => {
     const labelId = useId();
     return (
-        <div className="flex items-center gap-2 text-sm text-text-secondary">
+        <div className="ml-auto flex items-center gap-2 text-sm text-text-secondary">
             <span id={labelId}>Sort by</span>
             <GlideSelect
                 options={options}

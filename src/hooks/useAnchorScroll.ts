@@ -20,7 +20,7 @@ export const useAnchorScroll = () => {
         const scroll = (
             hash: string,
             instant: boolean,
-            focus: boolean,
+            focus: "keyboard" | "pointer" | false,
             waitForMenu = false,
         ) => {
             let target: HTMLElement | null;
@@ -42,14 +42,19 @@ export const useAnchorScroll = () => {
                     return;
                 }
                 if (focus) {
-                    if (!target.hasAttribute("tabindex")) {
+                    const temporaryTabIndex = !target.hasAttribute("tabindex");
+                    if (temporaryTabIndex)
                         target.setAttribute("tabindex", "-1");
-                        target.addEventListener(
-                            "blur",
-                            () => target.removeAttribute("tabindex"),
-                            { once: true },
-                        );
-                    }
+                    target.dataset.anchorFocus = focus;
+                    target.addEventListener(
+                        "blur",
+                        () => {
+                            if (temporaryTabIndex)
+                                target.removeAttribute("tabindex");
+                            delete target.dataset.anchorFocus;
+                        },
+                        { once: true },
+                    );
                     target.focus({ preventScroll: true });
                 }
                 window.scrollTo({
@@ -95,7 +100,7 @@ export const useAnchorScroll = () => {
                 url.hash,
                 event.detail === 0 ||
                     matchMedia("(prefers-reduced-motion: reduce)").matches,
-                true,
+                event.detail === 0 ? "keyboard" : "pointer",
                 Boolean(anchor.closest("#mobile-navigation")),
             );
         };

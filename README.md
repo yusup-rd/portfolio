@@ -4,6 +4,10 @@ A personal portfolio for full-stack web and mobile work, built with React 19,
 TypeScript, Tailwind CSS 4, and Vite. It includes selected projects, career and
 education timelines, a reusable document reader, and an EmailJS contact form.
 
+UI components use Tailwind and focused Radix primitives; notifications use Sonner.
+`components.json` configures the shadcn CLI and React Bits registry for adding
+component source. It is development configuration and adds no browser runtime.
+
 ## Development
 
 Use Node.js 22.13+ (22.x) or Node.js 24+ and npm.
@@ -58,7 +62,6 @@ src/
   components/           Portfolio sections and reusable UI
   data/
     constants.ts        Portfolio content and asset URLs
-    asset-sources.json  Provenance for retained local assets
   hooks/                Shared React hooks
   types/                Portfolio content models
   utils/                Shared motion timing
@@ -84,6 +87,14 @@ from `src/components/Skeletons` while loading. A tab-session cache retains up to
 three recent documents and 8 MiB of PDF bytes/previews. Reopening shows a cached
 first-page preview while selectable text is restored; canvases and PDF workers
 are still released on close. Evicted preview URLs are revoked.
+The bachelor's four records use the React Bits Folder component, installed
+through shadcn (`@react-bits/Folder-TS-TW`). `components.json` records the registry;
+the `@/` alias is shared by TypeScript and Vite. The upstream static paper cards
+show document names without thumbnails or PDF loading. The engine provides peek, entrance,
+pointer tilt, drag layering, free dragging, and viewport return on release.
+Free dragging is constrained only on release, returning papers to the document
+area. The section stays below the sticky header. Keyboard selection and reduced motion remain supported. Document selection
+opens the reusable reader instead of a second built-in zoom preview.
 
 ## Content maintenance
 
@@ -101,9 +112,8 @@ app-store availability, or usage counts.
 
 Assets still needed for future content updates:
 
-- Foundation, Dean's List, final-year-project excellence, and cultural-night
-  certificates. Original PDFs can optionally replace the existing degree and
-  transcript JPEGs.
+- Foundation and Dean's List certificates. Original PDFs can optionally replace
+  the existing degree and transcript JPEGs.
 - Updated Tangle and higher-resolution chat screenshots, if available.
 - Hakyda Auto visuals and the owner's publishable contribution details; FinchNest
   screenshots and a substantive project summary before considering either for
@@ -131,12 +141,12 @@ restores the saved scroll position on collapse.
 Project screenshots use Embla with swipe, previous/next buttons, active dots,
 keyboard navigation, and announced counts. All platforms use a reusable
 Glide Select adapted from React Bits,
-with an animated corner pop and gliding row highlight over Radix Select. Material UI and Emotion provide
-modal focus handling and the contact snackbar. Contact validation uses Zod;
+with an animated corner pop and gliding row highlight over Radix Select. Radix Dialog
+provides modal focus handling; Sonner displays contact notifications. Contact validation uses Zod;
 smoke tests must never send real emails.
 
 Project categories use a controlled Rubber Segment adapted from React Bits, with
-a restrained, interruptible highlight, drag selection, radio-group keyboard
+the upstream stretch/squash, momentum, and handoff settings, drag selection, radio-group keyboard
 navigation, and immediate keyboard/reduced-motion updates. It keeps 44px touch
 targets and uses a shorter "All" label on mobile.
 

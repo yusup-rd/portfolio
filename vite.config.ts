@@ -1,6 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 
 const require = createRequire(import.meta.url);
@@ -22,6 +23,10 @@ export default defineConfig({
     },
     resolve: {
         alias: [
+            {
+                find: "@",
+                replacement: fileURLToPath(new URL("./src", import.meta.url)),
+            },
             {
                 find: /^pdfjs-dist$/,
                 replacement: require.resolve("pdfjs-dist/legacy/build/pdf.mjs"),

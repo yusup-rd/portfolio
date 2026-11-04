@@ -1,284 +1,545 @@
-// Adapted from React Bits Rubber Segment by David Haz. See THIRD_PARTY_NOTICES.md.
-import { animate, useMotionValue, useMotionValueEvent } from "motion/react";
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+// React Bits Rubber Segment by David Haz. See THIRD_PARTY_NOTICES.md.
+"use client";
+
+import {
+    animate,
+    domAnimation,
+    LazyMotion,
+    m,
+    useMotionValue,
+    useTransform,
+    type MotionValue,
+} from "motion/react";
+import React, {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+    type CSSProperties,
+    type ReactNode,
+} from "react";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
-import { motionTiming } from "../../utils/motion";
-interface RubberSegmentItem {
-    value: string;
-    label: string;
-    compactLabel?: string;
-}
-interface RubberSegmentProps {
+
+export type RubberSegmentSize = "sm" | "md" | "lg";
+export type RubberSegmentItem =
+    | string
+    | { value: string; label: ReactNode; icon?: ReactNode; ariaLabel?: string };
+
+export interface RubberSegmentProps {
     items: readonly RubberSegmentItem[];
-    value: string;
-    onChange: (value: string) => void;
-    label: string;
+    value?: string;
+    defaultValue?: string;
+    onChange?: (value: string, index: number) => void;
+    trackColor?: string;
+    thumbColor?: string;
+    textColor?: string;
+    activeTextColor?: string;
+    size?: RubberSegmentSize;
+    radius?: number;
+    inset?: number;
+    equalSlots?: boolean;
+    stretch?: number;
+    squash?: number;
+    speed?: number;
+    glide?: number;
+    draggable?: boolean;
+    disabled?: boolean;
+    className?: string;
+    "aria-label"?: string;
 }
-const itemClass =
-    "flex min-h-11 min-w-11 items-center justify-center whitespace-nowrap rounded-xl px-2 text-xs font-medium sm:px-4 sm:text-sm";
+
+type Slot = { l: number; r: number };
+type Sample = [number, number];
+type Drag = {
+    id: number;
+    x0: number;
+    slot: number;
+    onThumb: boolean;
+    live: boolean;
+    offset: number;
+    w: number;
+    hist: Sample[];
+};
+
+const EASE_OUT: [number, number, number, number] = [0.23, 1, 0.32, 1];
+const SPRING_UI = { type: "spring" as const, duration: 0.3, bounce: 0 };
+const SPRING_MOMENTUM = { type: "spring" as const, duration: 0.4, bounce: 0.2 };
+const SPRING_RELAX = { type: "spring" as const, duration: 0.16, bounce: 0 };
+const DILATE = 0.19;
+const HANDOFF = 0.15;
+const FLICK = 110;
+const MAX_VELOCITY = 2000;
+const DEADZONE = 4;
+const SLOP = 10;
+const RUBBER = 0.55;
+const SIZES: Record<
+    RubberSegmentSize,
+    { height: number; font: number; pad: number; min: number }
+> = {
+    sm: { height: 28, font: 12, pad: 10, min: 36 },
+    md: { height: 36, font: 13, pad: 14, min: 44 },
+    lg: { height: 44, font: 14, pad: 18, min: 48 },
+};
+
+const clamp = (value: number, min: number, max: number) =>
+    Math.min(max, Math.max(min, value));
+const rubber = (over: number, dim: number) =>
+    (over * dim * RUBBER) / (dim + RUBBER * Math.abs(over));
+const project = (v: number, glide: number) => {
+    const d = 1 - 0.1 * Math.pow(0.05, glide / 100);
+    return ((v / 1000) * d) / (1 - d);
+};
+const velocityOf = (hist: Sample[], now: number) => {
+    const recent = hist.filter(([t]) => now - t <= 100);
+    if (recent.length < 2) return 0;
+    const first = recent[0];
+    const last = recent[recent.length - 1];
+    if (!first || !last) return 0;
+    const [t0, x0] = first;
+    const [t1, x1] = last;
+    return t1 - t0 >= 8 ? ((x1 - x0) / (t1 - t0)) * 1000 : 0;
+};
+const nearestSlot = (slots: Slot[], x: number) => {
+    let best = 0;
+    for (let i = 1; i < slots.length; i++) {
+        const candidate = slots[i];
+        const previous = slots[best];
+        if (
+            candidate &&
+            previous &&
+            Math.abs((candidate.l + candidate.r) / 2 - x) <
+                Math.abs((previous.l + previous.r) / 2 - x)
+        )
+            best = i;
+    }
+    return best;
+};
+
 const RubberSegment = ({
     items,
     value,
+    defaultValue,
     onChange,
-    label,
+    trackColor = "#27272a",
+    thumbColor = "#fafafa",
+    textColor = "#fafafa",
+    activeTextColor = "#18181b",
+    size = "md",
+    radius = 10,
+    inset = 3,
+    equalSlots = true,
+    stretch = 100,
+    squash = 3,
+    speed = 1,
+    glide = 75,
+    draggable = true,
+    disabled = false,
+    className = "",
+    "aria-label": ariaLabel = "Segmented control",
 }: RubberSegmentProps) => {
-    const track = useRef<HTMLDivElement>(null);
-    const highlight = useRef<HTMLDivElement>(null);
-    const buttons = useRef(new Map<string, HTMLButtonElement>());
-    const selected = useRef(value);
-    const slots = useRef(new Map<string, { left: number; right: number }>());
-    const drag = useRef<{
-        id: number;
-        x: number;
-        y: number;
-        left: number;
-        width: number;
-        live: boolean;
-    } | null>(null);
-    const suppressClick = useRef(false);
-    const reduced = useReducedMotion();
-    const left = useMotionValue(0);
-    const right = useMotionValue(0);
-    const width = useMotionValue(0);
-    const syncClip = useCallback(() => {
-        if (!highlight.current) return;
-        highlight.current.style.clipPath =
-            width.get() > 0
-                ? `inset(0 ${Math.max(0, width.get() - right.get())}px 0 ${Math.max(0, left.get())}px round 12px)`
-                : "inset(0 100% 0 0 round 12px)";
-    }, [width, right, left]);
-    useMotionValueEvent(left, "change", syncClip);
-    useMotionValueEvent(right, "change", syncClip);
-    useMotionValueEvent(width, "change", syncClip);
-    const move = useCallback(
-        (next: string, instant: boolean) => {
-            const slot = slots.current.get(next);
-            if (!slot) return;
-            left.stop();
-            right.stop();
-            if (instant) {
-                left.jump(slot.left);
-                right.jump(slot.right);
-                // Apply the measured mask synchronously, including before the first paint.
-                syncClip();
-                return;
-            }
-            const forward =
-                (slot.left + slot.right) / 2 > (left.get() + right.get()) / 2;
-            const delay = motionTiming.fade / 4;
-            const transition = {
-                ...motionTiming.spring,
-                duration: motionTiming.spring.duration - delay,
-            };
-            // The leading edge arrives first; the trailing edge follows without a bounce.
-            animate(left, slot.left, {
-                ...transition,
-                delay: forward ? delay : 0,
-            });
-            animate(right, slot.right, {
-                ...transition,
-                delay: forward ? 0 : delay,
-            });
-        },
-        [left, right, syncClip],
+    const list = useMemo(
+        () =>
+            items.map((item) =>
+                typeof item === "string"
+                    ? {
+                          value: item,
+                          label: item,
+                          icon: undefined,
+                          ariaLabel: item,
+                      }
+                    : item,
+            ),
+        [items],
     );
+    const [inner, setInner] = useState<string | undefined>(
+        defaultValue ?? list[0]?.value,
+    );
+    const current = value !== undefined ? value : inner;
+    const index = Math.max(
+        0,
+        list.findIndex((item) => item.value === current),
+    );
+    const reduce = useReducedMotion();
+
+    const trackRef = useRef<HTMLDivElement>(null);
+    const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const slots = useRef<Slot[]>([]);
+    const box = useRef<DOMRect | null>(null);
+    const committed = useRef(index);
+    const handoff = useRef<ReturnType<typeof setTimeout> | undefined>(
+        undefined,
+    );
+    const drag = useRef<Drag | null>(null);
+    const gen = useRef(0);
+
+    const edgeL = useMotionValue(0);
+    const edgeR = useMotionValue(0);
+    const innerW = useMotionValue(0);
+    const thumbRadius = Math.max(0, radius - inset);
+    const clipPath = useTransform(() => {
+        // Read every edge even before measurement so Motion subscribes to all three values.
+        const width = innerW.get();
+        const left = edgeL.get();
+        const right = edgeR.get();
+        return width > 0
+            ? `inset(0 ${Math.max(0, width - right)}px 0 ${Math.max(0, left)}px round ${thumbRadius}px)`
+            : "inset(0 100% 0 0)";
+    });
+
+    const t = (seconds: number) => seconds / speed;
+
+    const jumpTo = useCallback(
+        (i: number) => {
+            const s = slots.current[i];
+            if (!s) return;
+            clearTimeout(handoff.current);
+            gen.current += 1;
+            edgeL.jump(s.l);
+            edgeR.jump(s.r);
+        },
+        [edgeL, edgeR],
+    );
+
     const measure = useCallback(() => {
-        const element = track.current;
-        if (!element) return;
-        const rect = element.getBoundingClientRect();
-        const inset =
-            parseFloat(getComputedStyle(element).paddingLeft) +
-            element.clientLeft;
-        width.jump(rect.width - inset * 2);
-        for (const [key, button] of buttons.current) {
-            const item = button.getBoundingClientRect();
-            slots.current.set(key, {
-                left: item.left - rect.left - inset,
-                right: item.right - rect.left - inset,
-            });
-        }
-        move(selected.current, true);
-    }, [move, width]);
+        const track = trackRef.current;
+        if (!track) return;
+        const rect = track.getBoundingClientRect();
+        box.current = rect;
+        slots.current = list.map((_, i) => {
+            const el = itemRefs.current[i];
+            if (!el) return { l: 0, r: 0 };
+            const r = el.getBoundingClientRect();
+            return {
+                l: r.left - rect.left - inset,
+                r: r.right - rect.left - inset,
+            };
+        });
+        innerW.set(rect.width - inset * 2);
+        jumpTo(committed.current);
+    }, [list, inset, innerW, jumpTo]);
+
     useLayoutEffect(() => {
-        const observer = new ResizeObserver(measure);
-        if (track.current) observer.observe(track.current);
-        for (const button of buttons.current.values()) observer.observe(button);
         measure();
-        let mounted = true;
+        const observer = new ResizeObserver(measure);
+        if (trackRef.current) observer.observe(trackRef.current);
+        let active = true;
         void document.fonts.ready.then(() => {
-            if (mounted) measure();
+            if (active) measure();
         });
         return () => {
-            mounted = false;
+            active = false;
             observer.disconnect();
         };
-    }, [items, measure]);
-    useLayoutEffect(() => {
-        if (selected.current !== value || reduced) {
-            selected.current = value;
-            move(value, true);
+    }, [measure, size, equalSlots]);
+
+    useEffect(() => {
+        if (!drag.current && (committed.current !== index || reduce)) {
+            committed.current = index;
+            jumpTo(index);
         }
-    }, [value, reduced, move]);
+    });
+
     useEffect(
         () => () => {
-            left.stop();
-            right.stop();
+            clearTimeout(handoff.current);
+            edgeL.stop();
+            edgeR.stop();
         },
-        [left, right],
+        [edgeL, edgeR],
     );
-    const select = (next: string, instant: boolean) => {
-        selected.current = next;
-        move(next, instant || reduced);
-        if (next !== value) onChange(next);
+
+    const commit = (i: number) => {
+        committed.current = i;
+        if (i === index) return;
+        const item = list[i];
+        if (!item) return;
+        if (value === undefined) setInner(item.value);
+        onChange?.(item.value, i);
     };
-    const labels = (item: RubberSegmentItem) =>
-        item.compactLabel ? (
-            <>
-                <span className="sm:hidden">{item.compactLabel}</span>
-                <span className="hidden sm:inline">{item.label}</span>
-            </>
-        ) : (
-            item.label
+
+    const land = (
+        to: number,
+        v: number | null,
+        flick: boolean,
+        withSquash: boolean,
+    ) => {
+        const b = slots.current[to];
+        if (!b) return;
+        const g = ++gen.current;
+        const dir =
+            Math.sign((b.l + b.r) / 2 - (edgeL.get() + edgeR.get()) / 2) || 1;
+        const [lead, leadTo, trail, trailTo] =
+            dir > 0 ? [edgeR, b.r, edgeL, b.l] : [edgeL, b.l, edgeR, b.r];
+        const velocityFor = (mv: MotionValue<number>) =>
+            clamp(
+                v === null ? mv.getVelocity() : v,
+                -MAX_VELOCITY,
+                MAX_VELOCITY,
+            );
+        animate(lead, leadTo, {
+            ...(flick ? SPRING_MOMENTUM : SPRING_UI),
+            duration: t(flick ? 0.4 : 0.3),
+            velocity: velocityFor(lead),
+        });
+        const trailVelocity = velocityFor(trail);
+        if (!withSquash || squash <= 0) {
+            animate(trail, trailTo, {
+                ...SPRING_UI,
+                duration: t(0.3),
+                velocity: trailVelocity,
+            });
+            return;
+        }
+        animate(trail, trailTo + dir * squash, {
+            ...SPRING_UI,
+            duration: t(0.3),
+            velocity: trailVelocity,
+        }).then(() => {
+            if (gen.current === g)
+                animate(trail, trailTo, { ...SPRING_RELAX, duration: t(0.16) });
+        });
+    };
+
+    const travel = (from: number, to: number) => {
+        const a = slots.current[from];
+        const b = slots.current[to];
+        if (!a || !b) return;
+        clearTimeout(handoff.current);
+        gen.current += 1;
+        if (reduce) {
+            edgeL.jump(b.l);
+            edgeR.jump(b.r);
+            return;
+        }
+        const u = stretch / 100;
+        const tween = { duration: t(DILATE), ease: EASE_OUT };
+        animate(edgeL, b.l + (Math.min(a.l, b.l) - b.l) * u, tween);
+        animate(edgeR, b.r + (Math.max(a.r, b.r) - b.r) * u, tween);
+        handoff.current = setTimeout(
+            () => land(to, null, false, true),
+            t(HANDOFF) * 1000,
         );
+    };
+
+    const localX = (e: { clientX: number }) =>
+        e.clientX - (box.current ? box.current.left : 0) - inset;
+
+    const handlePointerDown = (
+        e: React.PointerEvent<HTMLButtonElement>,
+        i: number,
+    ) => {
+        if (disabled || drag.current || e.button !== 0) return;
+        box.current = trackRef.current?.getBoundingClientRect() ?? null;
+        try {
+            e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+            // A detached pointer cannot be captured; cancellation restores the thumb.
+        }
+        const x = localX(e);
+        const onThumb = draggable && x >= edgeL.get() && x <= edgeR.get();
+        drag.current = {
+            id: e.pointerId,
+            x0: x,
+            slot: i,
+            onThumb,
+            live: false,
+            offset: 0,
+            w: 0,
+            hist: [[e.timeStamp, x]],
+        };
+        if (onThumb) {
+            clearTimeout(handoff.current);
+            gen.current += 1;
+            edgeL.stop();
+            edgeR.stop();
+        } else if (!reduce) {
+            e.currentTarget.dataset.pressed = "";
+        }
+    };
+
+    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+        const d = drag.current;
+        if (!d || e.pointerId !== d.id || !d.onThumb) return;
+        const x = localX(e);
+        d.hist.push([e.timeStamp, x]);
+        if (d.hist.length > 8) d.hist.shift();
+        if (!d.live) {
+            if (Math.abs(x - d.x0) < DEADZONE) return;
+            d.live = true;
+            d.offset = x - edgeL.get();
+            d.w = edgeR.get() - edgeL.get();
+            if (trackRef.current) trackRef.current.dataset.held = "";
+        }
+        const width = innerW.get();
+        const l = x - d.offset;
+        const maxL = width - d.w;
+        if (reduce) {
+            const c = clamp(l, 0, maxL);
+            edgeL.set(c);
+            edgeR.set(c + d.w);
+        } else if (l < 0) {
+            edgeL.set(0);
+            edgeR.set(d.w - rubber(-l, d.w));
+        } else if (l > maxL) {
+            edgeR.set(width);
+            edgeL.set(maxL + rubber(l - maxL, d.w));
+        } else {
+            edgeL.set(l);
+            edgeR.set(l + d.w);
+        }
+    };
+
+    const release = (d: Drag) => {
+        drag.current = null;
+        if (trackRef.current) delete trackRef.current.dataset.held;
+        const el = itemRefs.current[d.slot];
+        if (el) delete el.dataset.pressed;
+        return d;
+    };
+
+    const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+        const d = drag.current;
+        if (!d || e.pointerId !== d.id) return;
+        release(d);
+        const x = localX(e);
+        if (!d.live) {
+            if (Math.abs(x - d.x0) <= SLOP && d.slot !== committed.current) {
+                const from = committed.current;
+                commit(d.slot);
+                travel(from, d.slot);
+                return;
+            }
+            if (d.onThumb) {
+                if (reduce) jumpTo(committed.current);
+                else land(committed.current, null, false, false);
+            }
+            return;
+        }
+        const v = velocityOf(d.hist, e.timeStamp);
+        const flick = Math.abs(v) > FLICK;
+        let to = nearestSlot(
+            slots.current,
+            (edgeL.get() + edgeR.get()) / 2 + project(v, glide),
+        );
+        if (flick && to === committed.current)
+            to = clamp(to + Math.sign(v), 0, list.length - 1);
+        commit(to);
+        if (reduce) jumpTo(to);
+        else land(to, v, flick, flick);
+    };
+
+    const handlePointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+        const d = drag.current;
+        if (!d || e.pointerId !== d.id) return;
+        release(d);
+        if (!d.live && !d.onThumb) return;
+        if (reduce) jumpTo(committed.current);
+        else land(committed.current, null, false, false);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (disabled) return;
+        const last = list.length - 1;
+        let next: number | null = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown")
+            next = Math.min(last, index + 1);
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp")
+            next = Math.max(0, index - 1);
+        else if (e.key === "Home") next = 0;
+        else if (e.key === "End") next = last;
+        if (next === null) return;
+        e.preventDefault();
+        if (next === index) return;
+        commit(next);
+        jumpTo(next);
+        itemRefs.current[next]?.focus();
+    };
+
+    const preset = SIZES[size] || SIZES.md;
+
     return (
-        <div
-            ref={track}
-            role="radiogroup"
-            aria-label={label}
-            className="rubber-segment relative inline-grid w-full touch-pan-y touch-pinch-zoom auto-cols-auto grid-flow-col rounded-2xl border border-border bg-bg p-0.75 text-text-secondary select-none has-focus-visible:outline-2 has-focus-visible:-outline-offset-2 has-focus-visible:outline-primary sm:w-auto"
-            onPointerMove={(event) => {
-                const held = drag.current;
-                if (!held || held.id !== event.pointerId) return;
-                const dx = event.clientX - held.x;
-                if (!held.live) {
-                    if (Math.abs(event.clientY - held.y) > Math.abs(dx)) {
-                        drag.current = null;
-                        return;
-                    }
-                    if (Math.abs(dx) < 6) return;
-                    held.live = true;
-                    suppressClick.current = true;
-                    event.currentTarget.setPointerCapture(event.pointerId);
-                    left.stop();
-                    right.stop();
-                }
-                const position = Math.min(
-                    width.get() - held.width,
-                    Math.max(0, held.left + dx),
-                );
-                left.set(position);
-                right.set(position + held.width);
-            }}
-            onPointerUp={(event) => {
-                const held = drag.current;
-                if (!held || held.id !== event.pointerId) return;
-                drag.current = null;
-                if (!held.live) return;
-                const center = (left.get() + right.get()) / 2;
-                const nearest = [...slots.current].sort(
-                    (a, b) =>
-                        Math.abs((a[1].left + a[1].right) / 2 - center) -
-                        Math.abs((b[1].left + b[1].right) / 2 - center),
-                )[0];
-                if (nearest) {
-                    select(nearest[0], reduced);
-                    buttons.current
-                        .get(nearest[0])
-                        ?.focus({ preventScroll: true });
-                }
-            }}
-            onLostPointerCapture={() => {
-                if (drag.current) {
-                    drag.current = null;
-                    move(selected.current, reduced);
-                }
-            }}
-            onPointerCancel={() => {
-                drag.current = null;
-                suppressClick.current = false;
-                move(selected.current, reduced);
-            }}
-        >
-            {items.map((item, index) => (
-                <button
-                    key={item.value}
-                    type="button"
-                    role="radio"
-                    aria-label={item.label}
-                    aria-checked={value === item.value}
-                    tabIndex={value === item.value ? 0 : -1}
-                    ref={(element) => {
-                        if (element) buttons.current.set(item.value, element);
-                        else buttons.current.delete(item.value);
-                    }}
-                    className={
-                        itemClass +
-                        " transition-colors duration-150 ease-out outline-none hover:text-text-primary motion-reduce:transition-none"
-                    }
-                    onPointerDown={(event) => {
-                        suppressClick.current = false;
-                        if (
-                            !event.isPrimary ||
-                            event.button !== 0 ||
-                            item.value !== value
-                        )
-                            return;
-                        drag.current = {
-                            id: event.pointerId,
-                            x: event.clientX,
-                            y: event.clientY,
-                            left: left.get(),
-                            width: right.get() - left.get(),
-                            live: false,
-                        };
-                    }}
-                    onClick={(event) => {
-                        if (suppressClick.current && event.detail !== 0) {
-                            suppressClick.current = false;
-                            return;
-                        }
-                        suppressClick.current = false;
-                        select(item.value, event.detail === 0);
-                    }}
-                    onKeyDown={(event) => {
-                        let next: number;
-                        if (
-                            event.key === "ArrowRight" ||
-                            event.key === "ArrowDown"
-                        )
-                            next = (index + 1) % items.length;
-                        else if (
-                            event.key === "ArrowLeft" ||
-                            event.key === "ArrowUp"
-                        )
-                            next = (index - 1 + items.length) % items.length;
-                        else if (event.key === "Home") next = 0;
-                        else if (event.key === "End") next = items.length - 1;
-                        else return;
-                        event.preventDefault();
-                        const target = items[next];
-                        if (target) {
-                            select(target.value, true);
-                            buttons.current.get(target.value)?.focus();
-                        }
-                    }}
-                >
-                    {labels(item)}
-                </button>
-            ))}
+        <LazyMotion features={domAnimation}>
             <div
-                ref={highlight}
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0.75 grid auto-cols-auto grid-flow-col bg-primary text-(--button-ink)"
-                style={{ clipPath: "inset(0 100% 0 0 round 12px)" }}
+                ref={trackRef}
+                role="radiogroup"
+                aria-label={ariaLabel}
+                aria-disabled={disabled || undefined}
+                data-equal={equalSlots ? "" : undefined}
+                data-draggable={draggable && !disabled ? "" : undefined}
+                className={`group relative inline-grid touch-pan-y auto-cols-auto grid-flow-col rounded-[var(--rs-radius)] p-[var(--rs-inset)] align-middle [font-family:inherit] select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [background:var(--rs-track)] aria-disabled:pointer-events-none data-[equal]:auto-cols-[minmax(0,1fr)] data-[held]:cursor-grabbing aria-disabled:opacity-50${className ? ` ${className}` : ""}`}
+                style={
+                    {
+                        "--rs-track": trackColor,
+                        "--rs-thumb": thumbColor,
+                        "--rs-ink": textColor,
+                        "--rs-ink-active": activeTextColor,
+                        "--rs-radius": `${radius}px`,
+                        "--rs-inset": `${inset}px`,
+                        "--rs-thumb-radius": `${thumbRadius}px`,
+                        "--rs-h": `${preset.height}px`,
+                        "--rs-font": `${preset.font}px`,
+                        "--rs-pad": `${preset.pad}px`,
+                        "--rs-min": `${preset.min}px`,
+                        "--rs-ease-out": "cubic-bezier(0.23, 1, 0.32, 1)",
+                    } as CSSProperties
+                }
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerCancel}
+                onLostPointerCapture={handlePointerCancel}
             >
-                {items.map((item) => (
-                    <span key={item.value} className={itemClass}>
-                        {labels(item)}
-                    </span>
+                {list.map((item, i) => (
+                    <button
+                        key={item.value}
+                        ref={(el) => {
+                            itemRefs.current[i] = el;
+                        }}
+                        type="button"
+                        role="radio"
+                        aria-label={
+                            item.ariaLabel ??
+                            (typeof item.label === "string"
+                                ? item.label
+                                : undefined)
+                        }
+                        aria-checked={i === index}
+                        tabIndex={i === index ? 0 : -1}
+                        disabled={disabled}
+                        className="m-0 inline-flex h-[calc(var(--rs-h)-var(--rs-inset)*2)] min-h-11 min-w-[var(--rs-min)] cursor-pointer items-center justify-center gap-1.5 rounded-[var(--rs-thumb-radius)] border-0 bg-transparent px-2 py-0 text-xs leading-none font-medium whitespace-nowrap [color:var(--rs-ink)] opacity-70 outline-none [font:inherit] [transition:opacity_160ms_ease,transform_160ms_var(--rs-ease-out)] group-data-[held]:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:[outline-color:var(--rs-thumb)] aria-checked:cursor-default group-data-[draggable]:aria-checked:cursor-grab data-[pressed]:[transform:scale(0.96)] motion-reduce:[transition:opacity_160ms_ease] sm:px-4 sm:text-sm [@media(hover:hover)_and_(pointer:fine)]:[&[aria-checked=false]:hover]:opacity-90"
+                        onPointerDown={(e) => handlePointerDown(e, i)}
+                        onKeyDown={handleKeyDown}
+                        onClick={(e) => {
+                            // Pointer gestures commit on pointer-up; native button activation covers Enter/Space.
+                            if (e.detail === 0 && !disabled) {
+                                commit(i);
+                                jumpTo(i);
+                            }
+                        }}
+                    >
+                        {item.icon}
+                        {item.label}
+                    </button>
                 ))}
+                <m.div
+                    className="pointer-events-none absolute inset-[var(--rs-inset)] grid auto-cols-auto grid-flow-col [color:var(--rs-ink-active)] [background:var(--rs-thumb)] group-data-[equal]:auto-cols-[minmax(0,1fr)]"
+                    aria-hidden="true"
+                    style={{ clipPath }}
+                >
+                    {list.map((item) => (
+                        <span
+                            key={item.value}
+                            className="m-0 inline-flex h-[calc(var(--rs-h)-var(--rs-inset)*2)] min-h-11 min-w-[var(--rs-min)] cursor-default items-center justify-center gap-1.5 rounded-[var(--rs-thumb-radius)] border-0 bg-transparent px-2 py-0 text-xs leading-none font-medium whitespace-nowrap [color:inherit] outline-none [font:inherit] [transition:opacity_160ms_ease,transform_160ms_var(--rs-ease-out)] motion-reduce:[transition:opacity_160ms_ease] sm:px-4 sm:text-sm"
+                        >
+                            {item.icon}
+                            {item.label}
+                        </span>
+                    ))}
+                </m.div>
             </div>
-        </div>
+        </LazyMotion>
     );
 };
+
 export default RubberSegment;

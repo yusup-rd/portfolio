@@ -11,6 +11,7 @@
     --color-text-secondary: var(--muted);
     --color-border: var(--line);
     --color-error: var(--error);
+    --color-folder-front: var(--folder-front);
     --font-sans:
         ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
@@ -28,6 +29,7 @@
     --error: #b42332;
     --button-ink: #fff;
     --nav: rgba(250, 250, 247, 0.88);
+    --folder-front: #32694d;
     color-scheme: light;
 }
 /* Theme: dark overrides inherited by the page and portaled dialogs. */
@@ -42,6 +44,7 @@
     --error: #ffadb5;
     --button-ink: #111216;
     --nav: rgba(13, 14, 17, 0.92);
+    --folder-front: #4c5361;
     color-scheme: dark;
 }
 /* Global defaults: scrolling, typography, touch feedback, selection, and focus. */
@@ -85,6 +88,10 @@
     :focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 5px;
+    }
+    /* Safari can mark programmatic anchor focus as focus-visible after a tap. */
+    [data-anchor-focus="pointer"]:focus {
+        outline: none;
     }
 }
 /* Hero backgrounds: full viewport layers and theme crossfades. */
@@ -204,7 +211,7 @@
             background-color 160ms ease;
         flex-shrink: 0;
     }
-    /* Theme switch: sun/moon rotation and visibility. */
+    /* Theme and navigation switches: icon rotation and visibility. */
     .theme-icon {
         position: absolute;
         display: grid;
@@ -337,6 +344,7 @@
         box-shadow: 0 0 0 1px var(--line);
     }
     .timeline-progress {
+        will-change: transform;
         transform: scaleY(0);
     }
     /* Contact form: fields, focus rings, validation, and placeholders. */
@@ -367,6 +375,8 @@
     }
     /* Shared dialogs: backdrop, centered positioning, and panel transitions. */
     .dialog-position {
+        z-index: 1300;
+        animation: dialog-fade-in var(--dialog-duration) var(--ease-out) both;
         position: fixed;
         inset: 0;
         display: flex;
@@ -376,15 +386,45 @@
         background: rgba(0, 0, 0, 0.45);
         backdrop-filter: blur(8px);
     }
+    .dialog-position[data-state="closed"] {
+        animation-name: dialog-fade-out;
+    }
     .project-dialog {
-        transition: transform 220ms var(--ease-out);
+        animation: dialog-panel-in var(--dialog-duration) var(--ease-out) both;
         box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.2);
     }
-    .dialog-position[data-state="closed"] .project-dialog {
-        transform: translateY(0.375rem) scale(0.99);
+    .project-dialog[data-state="closed"] {
+        animation-name: dialog-panel-out;
     }
-    @starting-style {
-        .dialog-position[data-state="open"] .project-dialog {
+    @keyframes dialog-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes dialog-fade-out {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+    @keyframes dialog-panel-in {
+        from {
+            transform: translateY(0.375rem) scale(0.99);
+        }
+        to {
+            transform: none;
+        }
+    }
+    @keyframes dialog-panel-out {
+        from {
+            transform: none;
+        }
+        to {
             transform: translateY(0.375rem) scale(0.99);
         }
     }
@@ -621,8 +661,29 @@
         font-size: var(--text-sm);
         font-weight: 500;
     }
-    .disclosure-trigger svg {
-        transition: transform 180ms var(--ease-out);
+    .disclosure-trigger .disclosure-icon {
+        transition: transform 220ms var(--ease-out);
+    }
+    .disclosure-trigger[data-open="true"] .disclosure-icon {
+        transform: rotate(45deg);
+    }
+    .disclosure-word {
+        opacity: 1;
+        transition:
+            transform 220ms var(--ease-out),
+            opacity 220ms ease;
+    }
+    .disclosure-word[data-active="false"] {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    .disclosure-trigger[data-open="true"]
+        .disclosure-word[data-active="false"] {
+        transform: translateY(-100%);
+    }
+    .disclosure-trigger[data-instant="true"]
+        :is(.disclosure-word, .disclosure-icon) {
+        transition: none;
     }
     /* Screenshot carousel: touch targets and active page indicators. */
     .carousel-dot {
@@ -648,6 +709,7 @@
     }
 }
 /* Keep disclosure and carousel keyboard feedback immediate. */
-:root[data-input="keyboard"] :is(.disclosure-trigger svg, .carousel-dot span) {
+:root[data-input="keyboard"]
+    :is(.disclosure-trigger svg, .disclosure-word, .carousel-dot span) {
     transition: none;
 }
