@@ -31,7 +31,7 @@ const Footer = () => {
                     </a>
                     <nav
                         aria-label="Social links"
-                        className="flex flex-wrap gap-6"
+                        className="flex flex-wrap gap-x-6 gap-y-2"
                     >
                         {[
                             ["GitHub", Bio.github],

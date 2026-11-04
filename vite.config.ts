@@ -2,11 +2,20 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 
 const require = createRequire(import.meta.url);
 
 export default defineConfig({
+    test: {
+        environment: "jsdom",
+        include: ["tests/**/*.test.{ts,tsx}"],
+        setupFiles: ["./tests/setup.ts"],
+        clearMocks: true,
+        restoreMocks: true,
+        unstubEnvs: true,
+        unstubGlobals: true,
+    },
     define: { __BUILD_YEAR__: new Date().getFullYear() },
     plugins: [react(), tailwindcss()],
     worker: {

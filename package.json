@@ -13,7 +13,10 @@
         "format:check": "prettier --check .",
         "prepare": "husky",
         "lint:staged": "lint-staged",
-        "spellcheck": "cspell --config cspell.config.ts --no-progress \"src/**/*.{ts,tsx,css}\" \"*.md\""
+        "spellcheck": "cspell --config cspell.config.ts --no-progress \"src/**/*.{ts,tsx,css}\" \"*.md\"",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "knip": "knip"
     },
     "dependencies": {
         "@emailjs/browser": "^5.0.3",
@@ -22,6 +25,7 @@
         "core-js": "^3.51.0",
         "embla-carousel-react": "^8.6.0",
         "motion": "^14.9.0",
+        "pdfjs-dist": "6.3.289",
         "react": "^19.3.1",
         "react-dom": "^19.3.1",
         "react-error-boundary": "^6.1.6",
@@ -33,6 +37,10 @@
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@tailwindcss/vite": "^4.3.4",
+        "@testing-library/dom": "^10.4.2",
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/react": "^16.3.3",
+        "@testing-library/user-event": "^14.6.8",
         "@types/node": "^26.6.6",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
@@ -44,6 +52,8 @@
         "globals": "^17.14.0",
         "husky": "^9.1.7",
         "jiti": "^2.7.0",
+        "jsdom": "^27.4.0",
+        "knip": "^6.44.1",
         "lint-staged": "^17.6.0",
         "prettier": "^3.9.10",
         "prettier-plugin-organize-imports": "^4.3.0",
@@ -51,7 +61,8 @@
         "tailwindcss": "^4.3.4",
         "typescript": "~6.0.3",
         "typescript-eslint": "^8.72.1",
-        "vite": "^8.3.5"
+        "vite": "^8.3.5",
+        "vitest": "^5.1.0"
     },
     "engines": {
         "node": "^22.18.0 || >=24.0.0"

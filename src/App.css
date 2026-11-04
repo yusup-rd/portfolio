@@ -286,7 +286,7 @@
         content: "";
         position: absolute;
         inset: 40% 0 0;
-        background: linear-gradient(transparent, rgba(10, 25, 16, 0.8));
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
         pointer-events: none;
     }
     .portrait-caption {
