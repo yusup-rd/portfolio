@@ -48,7 +48,8 @@ Use the versions in `package.json` and `package-lock.json` as the source of trut
 - Husky runs lint-staged before commits. Keep fixes scoped to staged files: Prettier first organizes/removes unused imports and sorts Tailwind classes, then ESLint applies fixes, then Prettier normalizes the final formatting. Preserve lint-staged's handling of partially staged files.
 - Run `npm run format`, `npm run format:check`, `npm run lint`, and `npm run build` after relevant changes; the build includes type checking.
 - For styling changes, verify desktop, tablet, and mobile layouts, theme switching, project filters/dialogs, and the contact form's appearance. Do not send real emails as a smoke test.
-- Reassess SEO implications for major feature, routing, rendering, or content changes; minor styling fixes do not require a full SEO audit. Do not assume the future SEO roadmap has already been implemented.
+- SEO is implemented with build-time React rendering and client hydration. Reassess SEO for major feature, routing, rendering, or content changes; minor styling fixes do not require an audit. Keep the initial server/client markup identical, browser APIs out of server render paths, and primary content in the generated HTML. Preserve canonical URLs, metadata, JSON-LD, robots.txt, the sitemap, and real HTTP 404 responses. Add actual page URLs to the sitemap when introducing routes; do not list section fragments or invent modification dates. Verify the production build with JavaScript disabled and check for hydration errors after major rendering changes.
+- Keep the evergreen social card at `public/images/social/yusup-rejebov-og.png` independent of homepage screenshots. The path-based `public/images/logos/portfolio-mark.svg` follows the browser's light/dark preference; ICO and Apple touch icons use the dark palette as a fallback. Keep metadata dimensions and asset references accurate when replacing these files.
 
 ## Visual direction
 

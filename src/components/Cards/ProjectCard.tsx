@@ -21,6 +21,7 @@ const ProjectCard = ({ project, setOpenModal }: ProjectCardProps) => {
                         src={project.image}
                         alt={project.title + " application preview"}
                         loading="lazy"
+                        decoding="async"
                         className={
                             project.imageFit === "contain"
                                 ? "size-full object-contain p-3"

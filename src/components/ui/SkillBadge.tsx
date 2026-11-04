@@ -10,6 +10,8 @@ const SkillBadge = ({ name, image }: SkillBadgeProps) => {
                 <img
                     src={image}
                     alt=""
+                    width={20}
+                    height={20}
                     className="devicon size-5 object-contain"
                     loading="lazy"
                 />

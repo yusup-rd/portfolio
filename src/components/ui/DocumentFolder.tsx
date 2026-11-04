@@ -26,6 +26,10 @@ const subscribeTheme = (notify: () => void) => {
 };
 const getTheme = (): "dark" | "light" =>
     document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+const getColor = () =>
+    getComputedStyle(document.documentElement)
+        .getPropertyValue("--folder-front")
+        .trim();
 
 // Match Tailwind's sm breakpoint; desktop keeps the upstream paper size.
 const mobileQuery = "(width < 40rem)";
@@ -55,9 +59,7 @@ const DocumentFolder = ({ documents }: DocumentFolderProps) => {
         () => false,
     );
     const labelId = useId();
-    const color = getComputedStyle(document.documentElement)
-        .getPropertyValue("--folder-front")
-        .trim();
+    const color = useSyncExternalStore(subscribeTheme, getColor, () => "");
     const items = useMemo(
         () =>
             documents.map((item) => ({

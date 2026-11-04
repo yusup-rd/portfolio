@@ -210,6 +210,25 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                                     </GalleryItem>
                                 ))}
                             </AnimatePresence>
+                            {/* Keep the expandable collection in the HTML for
+                                crawlers without changing the selected-work view. */}
+                            {!expanded &&
+                                projects
+                                    .filter(
+                                        (project) =>
+                                            !featured.some(
+                                                (item) =>
+                                                    item.id === project.id,
+                                            ),
+                                    )
+                                    .map((project) => (
+                                        <div key={project.id} hidden inert>
+                                            <ProjectCard
+                                                project={project}
+                                                setOpenModal={setOpenModal}
+                                            />
+                                        </div>
+                                    ))}
                         </m.div>
                     </div>
                 </div>

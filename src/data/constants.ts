@@ -318,7 +318,7 @@ export const projects: Project[] = [
         date: "Feb 2024",
         description:
             "A project-management application combining Laravel, React, and a SQLite data layer.",
-        image: "/images/projects/project-management-app.png",
+        image: "/images/projects/project-management-app.webp",
         tags: [
             "Laravel",
             "React.js",
@@ -336,7 +336,7 @@ export const projects: Project[] = [
         date: "Jun 2024",
         description:
             "A recipe-discovery application using React, TypeScript, Node.js, and the Spoonacular API, with preference-based suggestions and role-based authentication.",
-        image: "/images/projects/gourmet-gleam.png",
+        image: "/images/projects/gourmet-gleam.webp",
         tags: [
             "TypeScript",
             "React",
@@ -357,7 +357,7 @@ export const projects: Project[] = [
         date: "May 2024",
         description:
             "A cross-platform habit-tracking application built with .NET MAUI, C#, and Firebase.",
-        image: "/images/projects/habit-master.png",
+        image: "/images/projects/habit-master.webp",
         tags: [".NET MAUI", "C#", "Firebase"],
         category: "mobile",
         github: "https://github.com/yusup-rd/habit-master",
@@ -369,7 +369,7 @@ export const projects: Project[] = [
         date: "Sep 2024",
         description:
             "A CakePHP bookstore-management application covering catalog and inventory workflows.",
-        image: "/images/projects/online-bookstore-system.png",
+        image: "/images/projects/online-bookstore-system.webp",
         tags: [
             "CakePHP",
             "Docker",
@@ -388,7 +388,7 @@ export const projects: Project[] = [
         date: "Oct 2024",
         description:
             "A Django REST API with author-specific permissions, pagination, and filtering.",
-        image: "/images/projects/book-inventory-api.png",
+        image: "/images/projects/book-inventory-api.webp",
         tags: ["Django", "Django REST Framework", "REST API", "SQLite"],
         category: "back-end",
         github: "https://github.com/yusup-rd/books-api",
@@ -400,7 +400,7 @@ export const projects: Project[] = [
         date: "Oct 2024",
         description:
             "A full-stack social platform with authentication, posts, likes, follows, notifications, and direct messaging. Built with Next.js, TypeScript, Prisma, and PostgreSQL, with optimistic updates, infinite feeds, and media uploads.",
-        image: "/images/projects/tangle.png",
+        image: "/images/projects/tangle.webp",
         tags: [
             "Next.js",
             "Tailwind CSS",
@@ -423,15 +423,15 @@ export const projects: Project[] = [
         date: "2026",
         description:
             "An iOS and Android companion built with React Native and Expo, backed by a NestJS API. Combines offline Quran reading and search, prayer times and reminders, Qibla direction, nearby mosques, and daily tools. On-device SQLite and a server-side Redis layer support content access and provider-backed features.",
-        image: "/images/projects/qalb-home.png",
+        image: "/images/projects/qalb-home.webp",
         screenshots: [
-            "/images/projects/qalb-home.png",
-            "/images/projects/qalb-quran.png",
-            "/images/projects/qalb-prayer-times.png",
-            "/images/projects/qalb-qibla.png",
-            "/images/projects/qalb-mosques.png",
-            "/images/projects/qalb-tasbih.png",
-            "/images/projects/qalb-zakat.png",
+            "/images/projects/qalb-home.webp",
+            "/images/projects/qalb-quran.webp",
+            "/images/projects/qalb-prayer-times.webp",
+            "/images/projects/qalb-qibla.webp",
+            "/images/projects/qalb-mosques.webp",
+            "/images/projects/qalb-tasbih.webp",
+            "/images/projects/qalb-zakat.webp",
         ],
         tags: [
             "React Native (Expo)",
@@ -451,7 +451,7 @@ export const projects: Project[] = [
         date: "2025",
         description:
             "A full-stack messaging application combining a Next.js interface with a NestJS backend. Includes JWT authentication, persistent conversations, typing indicators, online presence, and unread-message counts, using Socket.IO, MongoDB, RabbitMQ, and Docker.",
-        image: "/images/projects/real-time-chat.png",
+        image: "/images/projects/real-time-chat.webp",
         tags: ["Next.js", "NestJS", "Socket.IO", "MongoDB", "Docker"],
         category: "full-stack",
         github: "https://github.com/yusup-rd/chat-app-backend",
