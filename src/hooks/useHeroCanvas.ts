@@ -34,7 +34,8 @@ export const useHeroCanvas = (
         const pointer: [number, number] = [0, 0],
             target: [number, number] = [0, 0];
         const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
-        let touchScroll = false;
+        let touchScrollUntil = 0;
+        let keyboardScroll = false;
         let canvasWidth = 0,
             canvasHeight = 0,
             canvasRatio = 0;
@@ -104,13 +105,9 @@ export const useHeroCanvas = (
             wake();
         };
         const move = (event: PointerEvent) => {
-            if (event.pointerType === "mouse") touchScroll = false;
-            if (
-                event.pointerType !== "mouse" ||
-                reduced ||
-                !finePointer.matches
-            )
-                return;
+            if (event.pointerType !== "mouse" || reduced) return;
+            touchScrollUntil = 0;
+            keyboardScroll = false;
             targetPresence = 1;
             const rect = element.getBoundingClientRect();
             target[0] = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -121,19 +118,50 @@ export const useHeroCanvas = (
             target[0] = 0;
             target[1] = 0;
         };
-        const input = (event: PointerEvent) => {
-            touchScroll = event.pointerType === "touch";
+        const input = () => {
+            touchScrollUntil = 0;
+            keyboardScroll = false;
         };
-        const wheel = () => {
-            touchScroll = false;
+        const touch = () => {
+            keyboardScroll = false;
+            touchScrollUntil = performance.now() + 250;
+        };
+        const endScroll = () => {
+            touchScrollUntil = 0;
+        };
+        const keyboard = (event: KeyboardEvent) => {
+            if (
+                ![
+                    "ArrowUp",
+                    "ArrowDown",
+                    "ArrowLeft",
+                    "ArrowRight",
+                    "PageUp",
+                    "PageDown",
+                    "Home",
+                    "End",
+                    " ",
+                ].includes(event.key)
+            )
+                return;
+            // Include modified navigation keys, which useReveal leaves to the browser.
+            keyboardScroll = true;
+            touchScrollUntil = 0;
+            leave();
         };
         const scroll = () => {
-            if (document.documentElement.dataset.input === "keyboard") {
+            if (
+                keyboardScroll ||
+                document.documentElement.dataset.input === "keyboard"
+            ) {
                 leave();
                 return;
             }
+            const touchScroll = performance.now() < touchScrollUntil;
             if (!scrollResponse || (finePointer.matches && !touchScroll))
                 return;
+            // Retain momentum, but expire the touch override after a pause or scrollend.
+            if (touchScroll) touchScrollUntil = performance.now() + 250;
             const rect = element.getBoundingClientRect();
             // Position drives the field, not event frequency or scroll velocity.
             // A stable hero-relative path also avoids jumps as browser chrome moves.
@@ -161,7 +189,10 @@ export const useHeroCanvas = (
         window.addEventListener("resize", resize);
         if (scrollResponse) {
             window.addEventListener("pointerdown", input, { passive: true });
-            window.addEventListener("wheel", wheel, { passive: true });
+            window.addEventListener("wheel", input, { passive: true });
+            window.addEventListener("touchmove", touch, { passive: true });
+            window.addEventListener("keydown", keyboard);
+            window.addEventListener("scrollend", endScroll);
             window.addEventListener("scroll", scroll, { passive: true });
         }
         finePointer.addEventListener("change", leave);
@@ -177,7 +208,10 @@ export const useHeroCanvas = (
             window.removeEventListener("resize", resize);
             window.removeEventListener("scroll", scroll);
             window.removeEventListener("pointerdown", input);
-            window.removeEventListener("wheel", wheel);
+            window.removeEventListener("wheel", input);
+            window.removeEventListener("touchmove", touch);
+            window.removeEventListener("keydown", keyboard);
+            window.removeEventListener("scrollend", endScroll);
             finePointer.removeEventListener("change", leave);
             renderer.dispose();
         };
