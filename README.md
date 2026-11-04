@@ -46,12 +46,20 @@ npm run format
 npm run format:check
 npm run spellcheck
 npm run lint
+npm run knip
 npm test
 npm run build
 ```
 
 The production build includes TypeScript checking and build-time React rendering. Husky runs lint-staged before
 commits. Contribution guidelines are in [AGENTS.md](AGENTS.md).
+
+Knip checks for unused files, dependencies, and exports. `knip.json` registers
+the server-rendering entry and PDF worker; PDF.js consumes the worker's exported
+handler in the fallback used when a browser cannot start a worker. Its production
+scope covers `src`, while the normal check also covers scripts, tests, and configuration.
+Keep the direct `pdfjs-dist` version aligned with the version required by
+`react-pdf` when updating them.
 
 ## Tests
 

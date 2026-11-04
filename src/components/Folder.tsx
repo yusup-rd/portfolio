@@ -17,7 +17,7 @@ import {
     type RefObject,
 } from "react";
 
-export interface FolderItem {
+interface FolderItem {
     title?: string;
     description?: string;
     image?: string;
@@ -32,7 +32,7 @@ interface DocumentCardProps {
 
 export type FolderEntry = FolderItem | string | number | ReactElement;
 
-export interface FolderProps {
+interface FolderProps {
     items?: FolderEntry[];
     label?: string;
     mode?: "flap" | "book";

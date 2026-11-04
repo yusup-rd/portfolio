@@ -22,12 +22,12 @@ import React, {
 } from "react";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export type RubberSegmentSize = "sm" | "md" | "lg";
-export type RubberSegmentItem =
+type RubberSegmentSize = "sm" | "md" | "lg";
+type RubberSegmentItem =
     | string
     | { value: string; label: ReactNode; icon?: ReactNode; ariaLabel?: string };
 
-export interface RubberSegmentProps {
+interface RubberSegmentProps {
     items: readonly RubberSegmentItem[];
     value?: string;
     defaultValue?: string;

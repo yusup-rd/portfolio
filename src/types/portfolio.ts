@@ -38,7 +38,7 @@ export interface Education {
     degree: string;
 }
 
-export type ProjectCategory = "back-end" | "full-stack" | "mobile";
+type ProjectCategory = "back-end" | "full-stack" | "mobile";
 
 export interface Project {
     screenshots?: string[];

@@ -1,0 +1,10 @@
+{
+    "$schema": "https://knip.dev/schema.json",
+    "entry": ["src/entry-server.tsx!", "src/workers/pdf.worker.ts!"],
+    "project": [
+        "*.ts",
+        "src/**/*.{ts,tsx,css}!",
+        "scripts/**/*.ts",
+        "tests/**/*.{ts,tsx}"
+    ]
+}
