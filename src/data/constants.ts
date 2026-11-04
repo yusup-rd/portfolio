@@ -415,7 +415,7 @@ export const projects: Project[] = [
         ],
         category: "full-stack",
         github: "https://github.com/yusup-rd/tangle",
-        webapp: "https://tangle-app.vercel.app/",
+        webapp: "https://tangle.yusuprd.com/",
     },
     {
         id: 13,

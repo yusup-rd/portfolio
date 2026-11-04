@@ -219,17 +219,21 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                     ? `${visible.length} projects shown. ${category === "all" ? "All categories" : category.replaceAll("-", " ")} selected. Sorted by ${sort === "title" ? "title" : "most recent"}.`
                     : "3 selected projects shown."}
             </p>
-            <div className="flex flex-wrap items-center justify-end gap-4 border-t border-border pt-7 sm:justify-between">
+            <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 border-t border-border pt-7 sm:flex sm:justify-between sm:gap-4">
                 <button
-                    className="button button-secondary"
+                    className="button button-secondary min-w-0 justify-start px-3 whitespace-nowrap sm:px-5"
                     type="button"
                     aria-expanded={expanded}
                     aria-controls="project-gallery"
                     onClick={(event) => toggleGallery(event.detail === 0)}
                 >
-                    {expanded ? "Show selected work" : "Explore all projects"}
+                    <span>
+                        {expanded
+                            ? "Show selected work"
+                            : "Explore all projects"}
+                    </span>
                     <FiArrowDown
-                        className={`${expanded ? "rotate-180" : "rotate-0"} transition-transform duration-200 ease-out motion-reduce:transition-none`}
+                        className={`${expanded ? "rotate-180" : "rotate-0"} shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none`}
                         style={{
                             transitionDuration: instant ? "0s" : undefined,
                         }}
@@ -237,12 +241,13 @@ const Projects = ({ setOpenModal }: ProjectsProps) => {
                     />
                 </button>
                 <a
-                    className="text-link"
+                    className="text-link min-w-0 justify-self-end text-sm sm:text-base"
                     href={Bio.github}
                     target="_blank"
                     rel="noreferrer"
                 >
-                    More on GitHub <FiArrowUpRight aria-hidden="true" />
+                    <span>More on GitHub</span>
+                    <FiArrowUpRight className="shrink-0" aria-hidden="true" />
                 </a>
             </div>
         </section>
