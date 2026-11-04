@@ -7,7 +7,6 @@ const ProjectCard = ({ project, setOpenModal }: ProjectCardProps) => {
     return (
         <button
             type="button"
-            aria-label={"View " + project.title + " project"}
             aria-haspopup="dialog"
             onClick={(event) => {
                 event.currentTarget.focus({ preventScroll: true });

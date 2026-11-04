@@ -34,6 +34,7 @@ export const useHeroCanvas = (
         const pointer: [number, number] = [0, 0],
             target: [number, number] = [0, 0];
         const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+        let touchScroll = false;
         let canvasWidth = 0,
             canvasHeight = 0,
             canvasRatio = 0;
@@ -103,6 +104,7 @@ export const useHeroCanvas = (
             wake();
         };
         const move = (event: PointerEvent) => {
+            if (event.pointerType === "mouse") touchScroll = false;
             if (
                 event.pointerType !== "mouse" ||
                 reduced ||
@@ -119,13 +121,18 @@ export const useHeroCanvas = (
             target[0] = 0;
             target[1] = 0;
         };
+        const input = (event: PointerEvent) => {
+            touchScroll = event.pointerType === "touch";
+        };
+        const wheel = () => {
+            touchScroll = false;
+        };
         const scroll = () => {
-            if (
-                !scrollResponse ||
-                finePointer.matches ||
-                !running() ||
-                document.documentElement.dataset.input === "keyboard"
-            )
+            if (document.documentElement.dataset.input === "keyboard") {
+                leave();
+                return;
+            }
+            if (!scrollResponse || (finePointer.matches && !touchScroll))
                 return;
             const rect = element.getBoundingClientRect();
             // Position drives the field, not event frequency or scroll velocity.
@@ -152,8 +159,11 @@ export const useHeroCanvas = (
         });
         document.addEventListener("visibilitychange", wake);
         window.addEventListener("resize", resize);
-        if (scrollResponse)
+        if (scrollResponse) {
+            window.addEventListener("pointerdown", input, { passive: true });
+            window.addEventListener("wheel", wheel, { passive: true });
             window.addEventListener("scroll", scroll, { passive: true });
+        }
         finePointer.addEventListener("change", leave);
         resize();
         return () => {
@@ -166,6 +176,8 @@ export const useHeroCanvas = (
             document.removeEventListener("visibilitychange", wake);
             window.removeEventListener("resize", resize);
             window.removeEventListener("scroll", scroll);
+            window.removeEventListener("pointerdown", input);
+            window.removeEventListener("wheel", wheel);
             finePointer.removeEventListener("change", leave);
             renderer.dispose();
         };

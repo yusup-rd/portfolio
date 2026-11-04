@@ -3160,6 +3160,7 @@ const Folder = ({
                             data-folder-item={index}
                             role={interactive ? "button" : undefined}
                             aria-hidden={!interactive}
+                            inert={!interactive}
                             tabIndex={interactive ? 0 : -1}
                             onClick={(event) => onItemActivate(event, index)}
                             onKeyDown={(event) => {
