@@ -1663,6 +1663,7 @@ const Folder = ({
             "(prefers-reduced-motion: reduce)",
         );
         let reduce = motionPreference.matches;
+        let active = true;
 
         const spring = (value: number): Spring => ({ value, velocity: 0 });
         const state: EngineState = {
@@ -2587,7 +2588,7 @@ const Folder = ({
         };
 
         const wake = () => {
-            if (!state.raf) state.raf = requestAnimationFrame(frame);
+            if (active && !state.raf) state.raf = requestAnimationFrame(frame);
         };
 
         const beginIntro = () => {
@@ -2922,6 +2923,7 @@ const Folder = ({
         wake();
 
         return () => {
+            active = false;
             cancelAnimationFrame(state.raf);
             root.removeEventListener("pointermove", onMove);
             root.removeEventListener("pointerleave", onLeave);
@@ -3015,6 +3017,9 @@ const Folder = ({
         "--folder-scale": scale,
         width: "var(--folder-w)",
         height: "calc(var(--folder-tab-h) + var(--folder-h))",
+        // Hide prerendered/unpositioned layers until the engine writes its first pose.
+        // This also covers reduced motion and intro={false}: their first pose is final.
+        opacity: 0,
         ...style,
     } as CSSProperties;
 
