@@ -77,12 +77,17 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
                         {...dialogProps}
                         aria-describedby={undefined}
                     >
-                        <section className="surface project-dialog flex max-h-[92dvh] w-full flex-col overflow-hidden">
+                        <section className="surface project-dialog flex max-h-[calc(100dvh-1.5rem)] w-full flex-col overflow-hidden sm:max-h-[calc(100dvh-3rem)]">
                             <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-6">
                                 <Dialog.Title asChild>
-                                    <h2 className="flex items-center gap-2 text-base font-semibold">
-                                        <FiFileText aria-hidden="true" />
-                                        {title}
+                                    <h2 className="flex min-w-0 items-center gap-2 text-base font-semibold">
+                                        <FiFileText
+                                            className="shrink-0"
+                                            aria-hidden="true"
+                                        />
+                                        <span className="wrap-anywhere">
+                                            {title}
+                                        </span>
                                     </h2>
                                 </Dialog.Title>
                                 <div className="ml-auto flex items-center gap-2">
@@ -193,7 +198,7 @@ const DocumentReader = ({ src, title, onClose }: DocumentReaderProps) => {
                             )}
                             <div
                                 ref={setBody}
-                                className="document-pages min-h-0 overflow-auto bg-bg-light p-4"
+                                className="document-pages min-h-0 overflow-auto overscroll-contain bg-bg-light p-4"
                             >
                                 <ErrorBoundary fallback={unavailable}>
                                     {failed ? (

@@ -13,5 +13,10 @@
         "skipLibCheck": true,
         "types": ["node"]
     },
-    "include": ["vite.config.ts", "eslint.config.ts", "cspell.config.ts"]
+    "include": [
+        "vite.config.ts",
+        "eslint.config.ts",
+        "cspell.config.ts",
+        "scripts/**/*.ts"
+    ]
 }

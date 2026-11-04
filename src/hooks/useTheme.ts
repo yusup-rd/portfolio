@@ -1,37 +1,56 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useSyncExternalStore } from "react";
 export type Theme = "light" | "dark";
+let memoryPreference: Theme | null = null;
 const savedTheme = (): Theme | null => {
+    if (memoryPreference) return memoryPreference;
     try {
         const value = localStorage.getItem("portfolio-theme");
         return value === "light" || value === "dark" ? value : null;
     } catch {
-        return null;
+        return memoryPreference;
     }
 };
+const getTheme = (): Theme =>
+    savedTheme() ??
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+const subscribe = (notify: () => void) => {
+    const media = matchMedia("(prefers-color-scheme: dark)");
+    const storage = (event: StorageEvent) => {
+        if (event.key !== null && event.key !== "portfolio-theme") return;
+        memoryPreference = null;
+        notify();
+    };
+    media.addEventListener("change", notify);
+    addEventListener("storage", storage);
+    addEventListener("portfolio-theme-change", notify);
+    return () => {
+        media.removeEventListener("change", notify);
+        removeEventListener("storage", storage);
+        removeEventListener("portfolio-theme-change", notify);
+    };
+};
 export const useTheme = () => {
-    const [preference, setPreference] = useState<Theme | null>(savedTheme);
-    const [system, setSystem] = useState<Theme>(() =>
-        matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+    // The server and first hydration pass agree; the head script paints the
+    // actual preference before React loads, without a light/dark flash.
+    const theme = useSyncExternalStore<Theme>(
+        subscribe,
+        getTheme,
+        () => "light",
     );
-    const theme = preference ?? system;
     useLayoutEffect(() => {
-        const media = matchMedia("(prefers-color-scheme: dark)");
-        const update = () => setSystem(media.matches ? "dark" : "light");
-        media.addEventListener("change", update);
-        return () => media.removeEventListener("change", update);
-    }, []);
-    useLayoutEffect(() => {
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.colorScheme = theme;
+        const current = getTheme();
+        document.documentElement.dataset.theme = current;
+        document.documentElement.style.colorScheme = current;
     }, [theme]);
     const toggleTheme = () => {
         const next = theme === "dark" ? "light" : "dark";
-        setPreference(next);
+        memoryPreference = next;
         try {
             localStorage.setItem("portfolio-theme", next);
         } catch {
             /* Storage is optional. */
         }
+        dispatchEvent(new Event("portfolio-theme-change"));
     };
     return { theme, toggleTheme };
 };

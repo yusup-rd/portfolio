@@ -2763,7 +2763,7 @@ const Folder = ({
         };
 
         const onDown = (event: PointerEvent) => {
-            if (event.button > 0) return;
+            if (event.button > 0 || !event.isPrimary || state.drag) return;
             state.suppressClick = false;
             const target = (event.target as Element | null)?.closest?.(
                 "[data-folder-item]",
@@ -2829,7 +2829,13 @@ const Folder = ({
                 return;
             }
             const s = settingsRef.current;
-            if (s.open && s.closeOnOutsideClick) setOpenRef.current(false);
+            if (s.open && s.closeOnOutsideClick) {
+                if (root.contains(document.activeElement))
+                    root.querySelector<HTMLButtonElement>(
+                        "[data-folder-toggle]",
+                    )?.focus({ preventScroll: true });
+                setOpenRef.current(false);
+            }
         };
         const onMotionPreference = () => {
             reduce = motionPreference.matches;
@@ -3013,19 +3019,21 @@ const Folder = ({
                     perspectiveOrigin:
                         "calc(var(--folder-w) / 2) calc(var(--folder-tab-h) + var(--folder-h) / 2)",
                 }}
-                role="button"
-                tabIndex={0}
-                aria-expanded={isOpen}
-                aria-label={label ? `${label} folder` : "Folder"}
+                role="group"
+                aria-label={label ? `${label} documents` : "Documents"}
                 onClick={toggle}
-                onKeyDown={(event) => {
-                    if (event.target !== event.currentTarget) return;
-                    if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        toggle();
-                    }
-                }}
             >
+                <button
+                    type="button"
+                    data-folder-toggle
+                    className="absolute inset-0 rounded-[var(--folder-r)]"
+                    aria-expanded={isOpen}
+                    aria-label={label ? `${label} folder` : "Folder"}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        toggle();
+                    }}
+                />
                 <span
                     ref={groundRef}
                     className={`${LAYER} pointer-events-none z-[1]`}
@@ -3099,7 +3107,7 @@ const Folder = ({
                         <path
                             d={shape}
                             fill="none"
-                            className="group-focus-visible/stage:[stroke:var(--folder-focus)] group-focus-visible/stage:[stroke-width:2px]"
+                            className="group-has-[:focus-visible]/stage:[stroke:var(--folder-focus)] group-has-[:focus-visible]/stage:[stroke-width:2px]"
                         />
                     </svg>
                     {label && (
@@ -3151,6 +3159,8 @@ const Folder = ({
                             }
                             data-folder-item={index}
                             role={interactive ? "button" : undefined}
+                            aria-hidden={!interactive}
+                            inert={!interactive}
                             tabIndex={interactive ? 0 : -1}
                             onClick={(event) => onItemActivate(event, index)}
                             onKeyDown={(event) => {

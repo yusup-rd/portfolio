@@ -8,6 +8,7 @@ const createGrid = (host: HTMLDivElement) => {
     if (!context) return null;
     let width = 1,
         height = 1;
+    let previousTime = 0;
     const dots: { x: number; y: number; dx: number; dy: number }[] = [];
     return {
         resize: (w: number, h: number, ratio: number) => {
@@ -23,12 +24,15 @@ const createGrid = (host: HTMLDivElement) => {
                     dots.push({ x, y, dx: 0, dy: 0 });
         },
         draw: (
-            _time: number,
+            time: number,
             intro: number,
             pointer: [number, number],
             presence: number,
         ) => {
             context.clearRect(0, 0, width, height);
+            const dt = Math.max(0, Math.min(0.05, time - previousTime));
+            previousTime = time;
+            const settle = 1 - Math.exp(-dt / 0.2);
             const px = ((pointer[0] + 1) * width) / 2,
                 py = ((1 - pointer[1]) * height) / 2;
             const color = getComputedStyle(document.documentElement)
@@ -38,8 +42,8 @@ const createGrid = (host: HTMLDivElement) => {
                 const distance = Math.hypot(dot.x - px, dot.y - py);
                 const proximity =
                     presence * Math.exp((-distance * distance) / (140 * 140));
-                dot.dx += ((dot.x - px) * proximity * 0.12 - dot.dx) * 0.15;
-                dot.dy += ((dot.y - py) * proximity * 0.12 - dot.dy) * 0.15;
+                dot.dx += ((dot.x - px) * proximity * 0.12 - dot.dx) * settle;
+                dot.dy += ((dot.y - py) * proximity * 0.12 - dot.dy) * settle;
                 const radial =
                     Math.hypot(dot.x - width / 2, dot.y - height / 2) /
                     Math.hypot(width / 2, height / 2);
@@ -65,7 +69,7 @@ const createGrid = (host: HTMLDivElement) => {
     };
 };
 const HeroDotGrid = () => {
-    const host = useHeroCanvas(createGrid, "light");
+    const host = useHeroCanvas(createGrid, "light", true);
     return (
         <div
             ref={host}

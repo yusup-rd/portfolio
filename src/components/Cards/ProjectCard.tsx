@@ -7,6 +7,7 @@ const ProjectCard = ({ project, setOpenModal }: ProjectCardProps) => {
     return (
         <button
             type="button"
+            aria-haspopup="dialog"
             onClick={(event) => {
                 event.currentTarget.focus({ preventScroll: true });
                 setOpenModal({ state: true, project });
@@ -19,6 +20,7 @@ const ProjectCard = ({ project, setOpenModal }: ProjectCardProps) => {
                         src={project.image}
                         alt={project.title + " application preview"}
                         loading="lazy"
+                        decoding="async"
                         className={
                             project.imageFit === "contain"
                                 ? "size-full object-contain p-3"

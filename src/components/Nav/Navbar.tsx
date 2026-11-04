@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiArrowUpRight, FiMenu, FiX } from "react-icons/fi";
 import type { Theme } from "../../hooks/useTheme";
 import AnimatedHeight from "../ui/AnimatedHeight";
@@ -17,15 +17,23 @@ const links = [
 const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     const [open, setOpen] = useState(false);
     const [instant, setInstant] = useState(false);
+    const [pushContent, setPushContent] = useState(true);
+    const menuButton = useRef<HTMLButtonElement>(null);
     useEffect(() => {
         const close = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
+                if (
+                    document
+                        .getElementById("mobile-navigation")
+                        ?.contains(document.activeElement)
+                )
+                    menuButton.current?.focus({ preventScroll: true });
                 setInstant(true);
                 setOpen(false);
             }
         };
         const resize = () => {
-            if (innerWidth >= 768) setOpen(false);
+            if (matchMedia("(min-width: 64rem)").matches) setOpen(false);
         };
         addEventListener("keydown", close);
         addEventListener("resize", resize);
@@ -40,7 +48,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 <a
                     href="#about"
                     aria-label="Yusup Rejebov, back to top"
-                    className="flex items-center gap-3 font-semibold tracking-tight"
+                    className="flex shrink-0 items-center gap-3 font-semibold tracking-tight"
                 >
                     <span className="monogram">
                         yr<span className="text-primary">.</span>
@@ -51,7 +59,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 </a>
                 <nav
                     aria-label="Main navigation"
-                    className="hidden items-center gap-7 md:flex"
+                    className="hidden items-center gap-7 lg:flex"
                 >
                     {links.map(([label, id]) => (
                         <a className="nav-link" key={id} href={"#" + id}>
@@ -62,14 +70,15 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 <div className="flex items-center gap-3">
                     <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
                     <a
-                        className="button button-primary hidden sm:inline-flex"
+                        className="button button-primary hidden whitespace-nowrap sm:inline-flex"
                         href="#contact"
                     >
                         Let’s talk <FiArrowUpRight aria-hidden="true" />
                     </a>
                     <button
+                        ref={menuButton}
                         type="button"
-                        className="icon-button md:hidden"
+                        className="icon-button lg:hidden"
                         aria-label={
                             open ? "Close navigation" : "Open navigation"
                         }
@@ -77,6 +86,20 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                         aria-controls="mobile-navigation"
                         onClick={(event) => {
                             setInstant(event.detail === 0);
+                            if (!open) {
+                                const hero = document.getElementById("about");
+                                const header =
+                                    event.currentTarget.closest("header");
+                                setPushContent(
+                                    Boolean(
+                                        hero &&
+                                        header &&
+                                        hero.getBoundingClientRect().bottom >
+                                            header.getBoundingClientRect()
+                                                .bottom,
+                                    ),
+                                );
+                            }
                             setOpen(!open);
                         }}
                     >
@@ -101,11 +124,15 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 open={open}
                 instant={instant}
                 id="mobile-navigation"
-                className="md:hidden"
+                className={
+                    pushContent
+                        ? "lg:hidden"
+                        : "absolute inset-x-0 top-full border-b border-border bg-bg shadow-lg lg:hidden"
+                }
             >
                 <nav
                     aria-label="Mobile navigation"
-                    className="mobile-menu page-shell md:hidden"
+                    className="mobile-menu page-shell max-h-[calc(100dvh-var(--header-height))] overflow-y-auto overscroll-contain lg:hidden"
                 >
                     {links.map(([label, id]) => (
                         <a

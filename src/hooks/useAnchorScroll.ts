@@ -34,6 +34,8 @@ export const useAnchorScroll = () => {
             if (!target) return;
             cancelAnimationFrame(frame);
             const perform = () => {
+                // Hero navigation pushes content; wait for that space to collapse.
+                // Overlay navigation elsewhere leaves the header height unchanged.
                 if (
                     waitForMenu &&
                     header.getBoundingClientRect().height > height() + 0.5

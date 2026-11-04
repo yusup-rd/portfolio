@@ -5,8 +5,14 @@ import App from "./App";
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element not found");
 
-ReactDOM.createRoot(root).render(
+const app = (
     <React.StrictMode>
         <App />
-    </React.StrictMode>,
+    </React.StrictMode>
 );
+
+if (root.children.length > 0) {
+    ReactDOM.hydrateRoot(root, app);
+} else {
+    ReactDOM.createRoot(root).render(app);
+}

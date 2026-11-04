@@ -14,6 +14,7 @@ interface HeroRenderer {
 export const useHeroCanvas = (
     create: (host: HTMLDivElement) => HeroRenderer | null,
     theme: Theme,
+    scrollResponse = false,
 ) => {
     const host = useRef<HTMLDivElement>(null);
     const reduced = useReducedMotion();
@@ -32,6 +33,12 @@ export const useHeroCanvas = (
         let active = document.documentElement.dataset.theme === theme;
         const pointer: [number, number] = [0, 0],
             target: [number, number] = [0, 0];
+        const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+        let touchScrollUntil = 0;
+        let keyboardScroll = false;
+        let canvasWidth = 0,
+            canvasHeight = 0,
+            canvasRatio = 0;
         const draw = () =>
             renderer.draw(
                 reduced ? 0 : elapsed,
@@ -43,7 +50,8 @@ export const useHeroCanvas = (
         const tick = (now: number) => {
             frame = 0;
             if (!running()) return;
-            if (!last || now - last >= 1000 / 30) {
+            // Keep the scroll-responsive grid in step with the display's refresh rate.
+            if (scrollResponse || !last || now - last >= 1000 / 30) {
                 const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 30;
                 presence +=
                     (targetPresence - presence) * (1 - Math.exp(-dt / 0.25));
@@ -69,11 +77,19 @@ export const useHeroCanvas = (
         };
         const resize = () => {
             const { width, height } = element.getBoundingClientRect();
-            renderer.resize(
-                width,
-                height,
-                Math.min(devicePixelRatio || 1, 1.5),
-            );
+            const ratio = Math.min(devicePixelRatio || 1, 1.5);
+            // Mobile browser chrome emits resize events without resizing this layer.
+            // Rebuilding the canvas would erase the dots' interpolated positions.
+            if (
+                width === canvasWidth &&
+                height === canvasHeight &&
+                ratio === canvasRatio
+            )
+                return;
+            canvasWidth = width;
+            canvasHeight = height;
+            canvasRatio = ratio;
+            renderer.resize(width, height, ratio);
             draw();
             wake();
         };
@@ -90,6 +106,8 @@ export const useHeroCanvas = (
         };
         const move = (event: PointerEvent) => {
             if (event.pointerType !== "mouse" || reduced) return;
+            touchScrollUntil = 0;
+            keyboardScroll = false;
             targetPresence = 1;
             const rect = element.getBoundingClientRect();
             target[0] = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -99,6 +117,58 @@ export const useHeroCanvas = (
             targetPresence = 0;
             target[0] = 0;
             target[1] = 0;
+        };
+        const input = () => {
+            touchScrollUntil = 0;
+            keyboardScroll = false;
+        };
+        const touch = () => {
+            keyboardScroll = false;
+            touchScrollUntil = performance.now() + 250;
+        };
+        const endScroll = () => {
+            touchScrollUntil = 0;
+        };
+        const keyboard = (event: KeyboardEvent) => {
+            if (
+                ![
+                    "ArrowUp",
+                    "ArrowDown",
+                    "ArrowLeft",
+                    "ArrowRight",
+                    "PageUp",
+                    "PageDown",
+                    "Home",
+                    "End",
+                    " ",
+                ].includes(event.key)
+            )
+                return;
+            // Include modified navigation keys, which useReveal leaves to the browser.
+            keyboardScroll = true;
+            touchScrollUntil = 0;
+            leave();
+        };
+        const scroll = () => {
+            if (
+                keyboardScroll ||
+                document.documentElement.dataset.input === "keyboard"
+            ) {
+                leave();
+                return;
+            }
+            const touchScroll = performance.now() < touchScrollUntil;
+            if (!scrollResponse || (finePointer.matches && !touchScroll))
+                return;
+            // Retain momentum, but expire the touch override after a pause or scrollend.
+            if (touchScroll) touchScrollUntil = performance.now() + 250;
+            const rect = element.getBoundingClientRect();
+            // Position drives the field, not event frequency or scroll velocity.
+            // A stable hero-relative path also avoids jumps as browser chrome moves.
+            const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
+            target[0] = 0;
+            target[1] = 0.6 - progress * 1.6;
+            targetPresence = 0.7;
         };
         const hero = element.closest("section");
         hero?.addEventListener("pointermove", move, { passive: true });
@@ -117,6 +187,15 @@ export const useHeroCanvas = (
         });
         document.addEventListener("visibilitychange", wake);
         window.addEventListener("resize", resize);
+        if (scrollResponse) {
+            window.addEventListener("pointerdown", input, { passive: true });
+            window.addEventListener("wheel", input, { passive: true });
+            window.addEventListener("touchmove", touch, { passive: true });
+            window.addEventListener("keydown", keyboard);
+            window.addEventListener("scrollend", endScroll);
+            window.addEventListener("scroll", scroll, { passive: true });
+        }
+        finePointer.addEventListener("change", leave);
         resize();
         return () => {
             cancelAnimationFrame(frame);
@@ -127,8 +206,15 @@ export const useHeroCanvas = (
             hero?.removeEventListener("pointerleave", leave);
             document.removeEventListener("visibilitychange", wake);
             window.removeEventListener("resize", resize);
+            window.removeEventListener("scroll", scroll);
+            window.removeEventListener("pointerdown", input);
+            window.removeEventListener("wheel", input);
+            window.removeEventListener("touchmove", touch);
+            window.removeEventListener("keydown", keyboard);
+            window.removeEventListener("scrollend", endScroll);
+            finePointer.removeEventListener("change", leave);
             renderer.dispose();
         };
-    }, [create, theme, reduced]);
+    }, [create, theme, reduced, scrollResponse]);
     return host;
 };
