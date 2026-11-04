@@ -95,6 +95,10 @@ pointer tilt, drag layering, free dragging, and viewport return on release.
 Free dragging is constrained only on release, returning papers to the document
 area. The section stays below the sticky header. Keyboard selection and reduced motion remain supported. Document selection
 opens the reusable reader instead of a second built-in zoom preview.
+The University documents heading also toggles an accessible list of the same four
+records, using the Read more disclosure's shared height and opacity animation.
+The folder's instructions crossfade between open and closed states without changing
+their reserved height. Keyboard and reduced-motion changes are immediate.
 
 ## Content maintenance
 
