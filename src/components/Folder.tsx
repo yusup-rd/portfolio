@@ -3017,7 +3017,7 @@ const Folder = ({
         "--folder-scale": scale,
         width: "var(--folder-w)",
         height: "calc(var(--folder-tab-h) + var(--folder-h))",
-        // Hide prerendered/unpositioned layers until the engine writes its first pose.
+        // Keep layers hidden until the engine positions them on its first frame.
         // This also covers reduced motion and intro={false}: their first pose is final.
         opacity: 0,
         ...style,

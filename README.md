@@ -46,11 +46,26 @@ npm run format
 npm run format:check
 npm run spellcheck
 npm run lint
+npm test
 npm run build
 ```
 
 The production build includes TypeScript checking and build-time React rendering. Husky runs lint-staged before
 commits. Contribution guidelines are in [AGENTS.md](AGENTS.md).
+
+## Tests
+
+Tests live in `tests/`, separate from application code, and use Vitest with
+React Testing Library and jsdom. Run `npm test` for a single run or
+`npm run test:watch` while developing. The build type-checks the tests too.
+
+The suite covers contact validation and delivery outcomes, project filtering
+and sorting, theme preferences, document-reader pagination and dismissal, and
+server rendering (including the folder's hidden state before hydration).
+EmailJS is mocked: tests never send real emails. PDF decoding is replaced with
+a test renderer; reader controls and Radix dialogs run normally. Layout measurements
+are simulated, so this suite does not establish visual correctness or animation
+smoothness; continue checking responsive layouts and motion in a real browser.
 
 ## Production
 
