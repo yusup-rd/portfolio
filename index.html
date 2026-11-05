@@ -11,33 +11,27 @@
         <meta name="author" content="Yusup Rejebov" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="color-scheme" content="light dark" />
-        <meta
-            name="theme-color"
-            content="#fafaf7"
-            media="(prefers-color-scheme: light)"
-        />
-        <meta
-            name="theme-color"
-            content="#0d0e11"
-            media="(prefers-color-scheme: dark)"
-        />
+        <meta name="theme-color" content="#fafaf7" />
         <link rel="canonical" href="https://yusuprd.com/" />
         <script>
+            let theme = matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
             try {
                 const saved = localStorage.getItem("portfolio-theme");
-                document.documentElement.dataset.theme =
-                    saved === "light" || saved === "dark"
-                        ? saved
-                        : matchMedia("(prefers-color-scheme: dark)").matches
-                          ? "dark"
-                          : "light";
-            } catch {
-                document.documentElement.dataset.theme = matchMedia(
-                    "(prefers-color-scheme: dark)",
-                ).matches
-                    ? "dark"
-                    : "light";
-            }
+                if (saved === "light" || saved === "dark") theme = saved;
+            } catch {}
+            document.documentElement.dataset.theme = theme;
+            document.documentElement.style.colorScheme = theme;
+            document
+                .querySelector('meta[name="color-scheme"]')
+                .setAttribute("content", theme);
+            document
+                .querySelector('meta[name="theme-color"]')
+                .setAttribute(
+                    "content",
+                    theme === "dark" ? "#0d0e11" : "#fafaf7",
+                );
         </script>
         <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
         <link
