@@ -41,6 +41,19 @@ export const useTheme = () => {
         const current = getTheme();
         document.documentElement.dataset.theme = current;
         document.documentElement.style.colorScheme = current;
+        document
+            .querySelector('meta[name="color-scheme"]')
+            ?.setAttribute("content", current);
+        // Browser chrome follows the selected page theme, independently of the OS.
+        // Read the token rather than duplicating the CSS palette at runtime.
+        document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute(
+                "content",
+                getComputedStyle(document.documentElement)
+                    .getPropertyValue("--page")
+                    .trim(),
+            );
     }, [theme]);
     const toggleTheme = () => {
         const next = theme === "dark" ? "light" : "dark";

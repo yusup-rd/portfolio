@@ -145,9 +145,18 @@
         top: 0;
         z-index: 30;
         background: var(--nav);
-        backdrop-filter: blur(18px) saturate(140%);
         border-bottom: 1px solid
             color-mix(in srgb, var(--line) 65%, transparent);
+    }
+    /* Safari samples the sticky header for browser chrome. Keep its background
+       readable as a color, with the visual blur on a separate layer. */
+    .site-nav::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        backdrop-filter: blur(18px) saturate(140%);
     }
     .nav-link {
         display: inline-flex;
@@ -614,8 +623,10 @@
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
     .site-nav {
         background: var(--page);
-        backdrop-filter: none;
         border-color: var(--ink);
+    }
+    .site-nav::before {
+        backdrop-filter: none;
     }
     .dialog-position {
         backdrop-filter: none;
