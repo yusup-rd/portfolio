@@ -9,7 +9,7 @@ import type {
 export const Bio: Biography = {
     github: "https://github.com/yusup-rd",
     resume: "/docs/cv/yusup-rejebov-cv.pdf",
-    image: "/images/profile/yusup-rejebov.jpg",
+    image: "/images/profile/yusup-rejebov.webp",
     linkedin: "https://www.linkedin.com/in/yusuprd/",
     telegram: "https://t.me/yusup_rejebov",
     instagram: "https://www.instagram.com/yusup_rejepov/",
