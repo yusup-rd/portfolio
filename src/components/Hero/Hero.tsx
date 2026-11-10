@@ -102,8 +102,8 @@ const Hero = () => {
                         <img
                             src={Bio.image}
                             alt="Yusup Rejebov"
-                            width={800}
-                            height={1000}
+                            width={1125}
+                            height={1473}
                             className="size-full object-cover"
                             fetchPriority="high"
                         />
