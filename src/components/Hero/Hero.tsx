@@ -98,13 +98,14 @@ const Hero = () => {
                         <span>THE PERSON BEHIND THE PIXELS</span>
                         <span>YR</span>
                     </div>
-                    <div className="portrait-frame">
+                    <div className="portrait-frame select-none [-webkit-touch-callout:none]">
                         <img
                             src={Bio.image}
                             alt="Yusup Rejebov"
                             width={1125}
                             height={1473}
-                            className="size-full object-cover"
+                            className="pointer-events-none absolute inset-0 size-full object-cover"
+                            draggable={false}
                             fetchPriority="high"
                         />
                         <span className="portrait-caption">
